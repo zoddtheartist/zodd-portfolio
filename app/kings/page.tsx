@@ -1,5 +1,6 @@
 import Image from "next/image"
 import { kings } from "@/lib/kings-data"
+import KingsVideo from "@/components/KingsVideo"
 
 export const metadata = {
   title: "The Kings — Zodd",
@@ -11,15 +12,7 @@ export default function KingsPage() {
     <div className="pt-16">
       {/* Video */}
       <section className="w-full bg-black">
-        <video
-          className="w-full aspect-video"
-          controls
-          playsInline
-          preload="metadata"
-          poster=""
-        >
-          <source src="/video/kings.mp4" type="video/mp4" />
-        </video>
+        <KingsVideo />
       </section>
 
       {/* Header */}
