@@ -73,10 +73,10 @@ export default function Home() {
         <h2 className="text-xs tracking-[0.3em] uppercase text-white/30 mb-8">About</h2>
         <p className="text-white/65 leading-8 text-lg">
           Zodd is an unschooled artist who trained with masters and has spent years studying the craft across
-          every medium he could touch — tattooing, murals, digital illustration, and character design.
+          every medium he could touch: tattooing, murals, digital illustration, and character design.
           His work has driven visual campaigns for major musical artists and mayoral races, and his original
           pieces have been auctioned at Christie&apos;s and Sotheby&apos;s. From the streets to the auction house,
-          Zodd&apos;s practice moves freely between the raw and the refined — always anchored by a relentless
+          Zodd&apos;s practice moves freely between the raw and the refined, always anchored by a relentless
           commitment to character.
         </p>
       </section>

@@ -31,7 +31,7 @@ export default function PortfolioPage() {
         <h1 className="text-xs tracking-[0.3em] uppercase text-white/30 mb-4">Works</h1>
         <p className="text-4xl font-light text-white">Portfolio</p>
         <p className="text-white/40 mt-4 text-sm leading-7">
-          Illustrations, character studies, and original works.
+          Commissions, studies, and original works.
         </p>
       </section>
 
