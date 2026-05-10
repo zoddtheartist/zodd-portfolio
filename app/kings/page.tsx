@@ -1,6 +1,5 @@
-import Image from "next/image"
-import { kings } from "@/lib/kings-data"
 import KingsVideo from "@/components/KingsVideo"
+import KingsGallery from "@/components/KingsGallery"
 
 export const metadata = {
   title: "The Kings — Zodd",
@@ -30,29 +29,7 @@ export default function KingsPage() {
 
       {/* Grid */}
       <section className="px-4 pb-24">
-        <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 gap-3 max-w-screen-2xl mx-auto">
-          {kings.map((king) => (
-            <div key={king.edition} className="group relative aspect-square overflow-hidden bg-[#111]">
-              <Image
-                src={`/kings/${king.file}`}
-                alt={king.name}
-                fill
-                className="object-cover transition-transform duration-500 group-hover:scale-105"
-                sizes="(max-width: 640px) 50vw, (max-width: 768px) 33vw, (max-width: 1024px) 25vw, (max-width: 1280px) 20vw, 16vw"
-              />
-              {/* Hover overlay */}
-              <div className="absolute inset-0 bg-black/0 group-hover:bg-black/75 transition-all duration-300 flex flex-col justify-end p-3">
-                <div className="translate-y-2 opacity-0 group-hover:translate-y-0 group-hover:opacity-100 transition-all duration-300">
-                  <p className="text-[10px] text-white/40 tracking-widest uppercase mb-0.5">
-                    #{king.edition}
-                  </p>
-                  <p className="text-white text-sm font-medium leading-tight">{king.name}</p>
-                  <p className="text-white/50 text-[11px] mt-1 leading-tight">{king.title}</p>
-                </div>
-              </div>
-            </div>
-          ))}
-        </div>
+        <KingsGallery />
       </section>
     </div>
   )
