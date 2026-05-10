@@ -1,0 +1,50 @@
+@import "tailwindcss";
+
+:root {
+  --background: #080808;
+  --foreground: #f0f0f0;
+}
+
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  background: var(--background);
+  color: var(--foreground);
+  font-family: Arial, Helvetica, sans-serif;
+  margin: 0;
+  padding: 0;
+}
+
+/* Masonry grid for portfolio */
+.masonry-grid {
+  columns: 4;
+  column-gap: 12px;
+}
+
+@media (max-width: 1200px) {
+  .masonry-grid { columns: 3; }
+}
+
+@media (max-width: 768px) {
+  .masonry-grid { columns: 2; }
+}
+
+@media (max-width: 480px) {
+  .masonry-grid { columns: 1; }
+}
+
+.masonry-item {
+  break-inside: avoid;
+  margin-bottom: 12px;
+}
