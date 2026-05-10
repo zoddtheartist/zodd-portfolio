@@ -1,8 +1,8 @@
-import Image from "next/image"
+import PortfolioGallery from "@/components/PortfolioGallery"
 
 export const metadata = {
   title: "Portfolio — Zodd",
-  description: "Illustrations and original works by Zodd.",
+  description: "Commissions, studies, and original works by Zodd.",
 }
 
 const images = [
@@ -26,7 +26,6 @@ const images = [
 export default function PortfolioPage() {
   return (
     <div className="pt-24 pb-24">
-      {/* Header */}
       <section className="max-w-4xl mx-auto px-6 py-12 text-center">
         <h1 className="text-xs tracking-[0.3em] uppercase text-white/30 mb-4">Works</h1>
         <p className="text-4xl font-light text-white">Portfolio</p>
@@ -35,22 +34,8 @@ export default function PortfolioPage() {
         </p>
       </section>
 
-      {/* Masonry grid */}
       <section className="px-4 max-w-screen-2xl mx-auto">
-        <div className="masonry-grid">
-          {images.map((file) => (
-            <div key={file} className="masonry-item group relative overflow-hidden bg-[#111]">
-              <Image
-                src={`/portfolio/${file}`}
-                alt=""
-                width={1000}
-                height={1000}
-                className="w-full h-auto block transition-transform duration-500 group-hover:scale-[1.02]"
-                sizes="(max-width: 480px) 100vw, (max-width: 768px) 50vw, (max-width: 1200px) 33vw, 25vw"
-              />
-            </div>
-          ))}
-        </div>
+        <PortfolioGallery images={images} />
       </section>
     </div>
   )

@@ -15,8 +15,8 @@ export default function Nav() {
       <div className="flex gap-8 text-sm tracking-widest uppercase">
         {[
           { href: "/", label: "Home" },
-          { href: "/kings", label: "The Kings" },
           { href: "/portfolio", label: "Portfolio" },
+          { href: "/kings", label: "The Kings" },
         ].map(({ href, label }) => (
           <Link
             key={href}
