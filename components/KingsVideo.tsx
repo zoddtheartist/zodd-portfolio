@@ -15,7 +15,7 @@ export default function KingsVideo() {
       <video
         ref={videoRef}
         className="w-full h-full"
-        controls
+        controls={playing}
         playsInline
         preload="metadata"
       >

@@ -42,6 +42,7 @@ export default function PortfolioGallery({ images }: { images: string[] }) {
               height={1000}
               className="w-full h-auto block transition-transform duration-500 group-hover:scale-[1.02]"
               sizes="(max-width: 480px) 100vw, (max-width: 768px) 50vw, (max-width: 1200px) 33vw, 25vw"
+              loading={images.indexOf(file) < 4 ? "eager" : "lazy"}
             />
           </div>
         ))}
