@@ -17,6 +17,7 @@ export default function Nav() {
           { href: "/", label: "Home" },
           { href: "/portfolio", label: "Portfolio" },
           { href: "/kings", label: "The Kings" },
+          { href: "/contact", label: "Contact" },
         ].map(({ href, label }) => (
           <Link
             key={href}
