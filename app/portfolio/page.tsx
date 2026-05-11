@@ -21,6 +21,14 @@ const images = [
   "IMG_1688.PNG",
   "IMG_1689.PNG",
   "IMG_1690.PNG",
+  "astroboy-sunglasses-1.png",
+  "astroboy-sunglasses-2.png",
+  "astroboy-sunglasses-3.png",
+  "astroboy-sunglasses-4.png",
+  "tyson-sunglasses-1.png",
+  "tyson-sunglasses-2.png",
+  "tyson-sunglasses-3.png",
+  "tyson-sunglasses-4.png",
 ]
 
 export default function PortfolioPage() {
