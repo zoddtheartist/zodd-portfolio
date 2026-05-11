@@ -11,7 +11,7 @@ const images = [
   "IMG_1676.PNG",
   "IMG_1677.PNG",
   "IMG_1678.PNG",
-  "IMG_1679.PNG",
+  "Frame 1.png",
   "IMG_1680.PNG",
   "IMG_1681.PNG",
   "IMG_1682.PNG",
