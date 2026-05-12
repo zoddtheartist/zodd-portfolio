@@ -5,24 +5,43 @@ export const metadata = {
   description: "Commissions, studies, and original works by Zodd.",
 }
 
-const images = [
-  "IMG_1674.PNG",
-  "IMG_1675.PNG",
-  "IMG_1676.PNG",
-  "IMG_1677.PNG",
-  "IMG_1678.PNG",
-  "Frame 1.png",
-  "IMG_1680.PNG",
-  "IMG_1681.PNG",
-  "IMG_1682.PNG",
-  "IMG_1683.PNG",
-  "IMG_1684.PNG",
-  "IMG_1685.PNG",
-  "IMG_1688.PNG",
-  "IMG_1689.PNG",
-  "IMG_1690.PNG",
-  "astroboy-sunglasses-1.png",
-  "tyson-sunglasses-1.png",
+export type PortfolioImage = {
+  file: string
+  title?: string
+}
+
+export const images: PortfolioImage[] = [
+  { file: "Amsterdam.PNG", title: "Amsterdam" },
+  { file: "Chisel Peak.jpeg", title: "Chisel Peak" },
+  { file: "Eagle Coloured.png", title: "Eagle" },
+  { file: "Fall.PNG", title: "Fall" },
+  { file: "Frame 3.png", title: "Frame 3" },
+  { file: "Gaucho.png", title: "Gaucho" },
+  { file: "IMG_0133.PNG" },
+  { file: "IMG_0141.PNG" },
+  { file: "IMG_1674.PNG" },
+  { file: "IMG_1675.PNG" },
+  { file: "IMG_1677.PNG" },
+  { file: "IMG_1678.PNG" },
+  { file: "IMG_1685.PNG" },
+  { file: "MFYC.PNG", title: "MFYC" },
+  { file: "Money Land.PNG", title: "Money Land" },
+  { file: "Mycellium Tech Render.png", title: "Mycelium Tech" },
+  { file: "New Year Grandma.png", title: "New Year Grandma" },
+  { file: "Night Market.PNG", title: "Night Market" },
+  { file: "Plane Sketch.png", title: "Plane Sketch" },
+  { file: "Self Portrait.png", title: "Self Portrait" },
+  { file: "Spooky Bois.PNG", title: "Spooky Bois" },
+  { file: "Spring.PNG", title: "Spring" },
+  { file: "The Aquariam.PNG", title: "The Aquarium" },
+  { file: "Third Eye IPA.png", title: "Third Eye IPA" },
+  { file: "Veritai Headquarters Render.png", title: "Veritai HQ" },
+  { file: "Wedding.PNG", title: "Wedding" },
+  { file: "Yule.PNG", title: "Yule" },
+  { file: "brain pattern.png", title: "Brain Pattern" },
+  { file: "tech_barn_bright_v2.png", title: "Tech Barn" },
+  { file: "astroboy-sunglasses-1.png", title: "Astro Boy Glasses" },
+  { file: "tyson-sunglasses-1.png", title: "Tyson Glasses" },
 ]
 
 export default function PortfolioPage() {
