@@ -1,5 +1,7 @@
 import Image from "next/image"
 import Link from "next/link"
+import ThreeGalleryClient from "@/components/ThreeGalleryClient"
+import MobileGallery from "@/components/MobileGallery"
 
 export default function Home() {
   return (
@@ -36,14 +38,16 @@ export default function Home() {
 
         {/* Centered content */}
         <div className="relative z-10 flex flex-col items-center gap-8 px-6 text-center">
-          <Image
-            src="/logo.png"
-            alt="Zodd"
-            width={520}
-            height={172}
-            className="w-[min(520px,78vw)] h-auto drop-shadow-2xl"
-            priority
-          />
+          <div className="logo-reveal">
+            <Image
+              src="/logo.png"
+              alt="Zodd"
+              width={520}
+              height={172}
+              className="w-[min(520px,78vw)] h-auto drop-shadow-2xl"
+              priority
+            />
+          </div>
           <p className="text-white/40 tracking-[0.3em] uppercase text-xs">Art &amp; Illustration</p>
           <div className="flex gap-5 mt-2">
             <Link
@@ -69,18 +73,24 @@ export default function Home() {
       </section>
 
       {/* Bio */}
-      <section className="max-w-2xl mx-auto px-6 py-28 text-center">
+      <section className="max-w-4xl mx-auto px-6 py-28 text-center">
         <h2 className="text-xs tracking-[0.3em] uppercase text-white/30 mb-8">About</h2>
         <p className="text-white/65 leading-8 text-lg">
-          ZODD is an artist of 1000 styles, a C-suite creative and a marketing strategist. Unschooled but
-          trained with masters, he has spent years studying the craft across every medium he could touch:
-          tattooing, murals, digital illustration, and character design. His work has driven visual campaigns
-          for major musical artists and mayoral races, and his original pieces have been auctioned at
-          Christie&apos;s and Sotheby&apos;s. What makes Zodd&apos;s practice eclectic is not restlessness
-          but rigour. A lifelong student of art history and technique, he draws on the masters as fluently as
-          he draws on the streets, committed not only to character but to the craft and lineage behind it.
+          ZODD is an artist of 1000 styles: a multidisciplinary artist, creative director, and visual strategist creating work across murals, illustration, character design, digital art, and brand/world development.
+        </p>
+        <p className="text-white/65 leading-8 text-lg mt-6">
+          Unschooled but trained with masters, he has spent years studying image-making through every medium he could reach: tattooing, graffiti, painting, murals, digital illustration, and commercial design. His work has supported visual campaigns for major musical artists, cultural projects, and mayoral races, with original pieces connected to his practice appearing through Christie&apos;s and Sotheby&apos;s.
+        </p>
+        <p className="text-white/65 leading-8 text-lg mt-6">
+          The range in ZODD&apos;s work is not random. It is built from discipline, study, and a deep respect for visual lineage. He draws from art history, street culture, design systems, and character-driven storytelling with equal fluency, moving between styles while keeping the work grounded in craft, atmosphere, and intent.
+        </p>
+        <p className="text-white/65 leading-8 text-lg mt-6">
+          His current practice focuses on creating custom visual environments for brands, communities, products, and cultural spaces, building imagery that can live on walls, packaging, campaigns, events, public spaces, and collectible worlds.
         </p>
       </section>
+
+      <div className="hidden xl:block"><ThreeGalleryClient /></div>
+      <div className="xl:hidden"><MobileGallery /></div>
 
       {/* Section links */}
       <section className="grid grid-cols-1 md:grid-cols-2 border-t border-white/5">

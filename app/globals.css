@@ -48,3 +48,27 @@ body {
   break-inside: avoid;
   margin-bottom: 12px;
 }
+
+/* Logo clip reveal on load */
+@keyframes logo-clip-reveal {
+  from { clip-path: inset(0 0 110% 0); }
+  to   { clip-path: inset(0 0 0% 0); }
+}
+
+.logo-reveal {
+  animation: logo-clip-reveal 1.1s cubic-bezier(0.16, 1, 0.3, 1) 0.3s both;
+}
+
+/* Mobile gallery horizontal scroll */
+.gallery-scroll {
+  overflow-x: auto;
+  overflow-y: hidden;
+  -webkit-overflow-scrolling: touch;
+  overscroll-behavior-x: contain;
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+
+.gallery-scroll::-webkit-scrollbar {
+  display: none;
+}

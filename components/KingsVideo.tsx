@@ -15,6 +15,8 @@ export default function KingsVideo() {
       <video
         ref={videoRef}
         className="w-full h-full"
+        style={{ objectFit: 'cover' }}
+        poster="/hashiro-poster.png"
         controls={playing}
         playsInline
         preload="metadata"
