@@ -1,3 +1,5 @@
+import TrackedLink from "@/components/TrackedLink"
+
 export const metadata = {
   title: "Contact — Zodd",
   description: "Get in touch with Zodd.",
@@ -19,13 +21,15 @@ export default function ContactPage() {
         </p>
 
         {/* Email button */}
-        <a
+        <TrackedLink
           href="mailto:contact@zodd.gallery"
+          event="contact_email_click"
+          external
           className="block w-full border border-white/20 px-8 py-5 text-white/80 hover:text-white hover:border-white/50 hover:bg-white/5 transition-all duration-300"
         >
           <span className="block text-[10px] tracking-[0.3em] uppercase text-white/30 mb-2">Email</span>
           <span className="text-base tracking-wide">contact@zodd.gallery</span>
-        </a>
+        </TrackedLink>
 
         {/* Bottom rule */}
         <div className="w-full h-px bg-white/10 mt-10" />
