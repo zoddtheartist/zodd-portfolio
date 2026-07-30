@@ -1,7 +1,7 @@
 import Image from "next/image"
-import Link from "next/link"
 import ThreeGalleryClient from "@/components/ThreeGalleryClient"
 import MobileGallery from "@/components/MobileGallery"
+import TrackedLink from "@/components/TrackedLink"
 
 export default function Home() {
   return (
@@ -50,18 +50,20 @@ export default function Home() {
           </div>
           <p className="text-white/40 tracking-[0.3em] uppercase text-xs">Art &amp; Illustration</p>
           <div className="flex gap-5 mt-2">
-            <Link
+            <TrackedLink
               href="/portfolio"
+              event="hero_portfolio_click"
               className="px-7 py-3 border border-white/25 text-white/75 text-xs tracking-widest uppercase hover:bg-white hover:text-black transition-all duration-300"
             >
               Portfolio
-            </Link>
-            <Link
+            </TrackedLink>
+            <TrackedLink
               href="/kings"
+              event="hero_kings_click"
               className="px-7 py-3 border border-white/25 text-white/75 text-xs tracking-widest uppercase hover:bg-white hover:text-black transition-all duration-300"
             >
               The Kings
-            </Link>
+            </TrackedLink>
           </div>
         </div>
 
@@ -94,8 +96,9 @@ export default function Home() {
 
       {/* Section links */}
       <section className="grid grid-cols-1 md:grid-cols-2 border-t border-white/5">
-        <Link
+        <TrackedLink
           href="/portfolio"
+          event="section_portfolio_click"
           className="group bg-[#080808] p-16 flex flex-col justify-end min-h-64 hover:bg-[#0e0e0e] transition-colors border-r border-white/5"
         >
           <span className="text-xs tracking-[0.3em] uppercase text-white/25 mb-3">Works</span>
@@ -104,9 +107,10 @@ export default function Home() {
           <span className="mt-6 text-xs tracking-widest uppercase text-white/25 group-hover:text-white/55 transition-colors">
             View Work →
           </span>
-        </Link>
-        <Link
+        </TrackedLink>
+        <TrackedLink
           href="/kings"
+          event="section_kings_click"
           className="group bg-[#080808] p-16 flex flex-col justify-end min-h-64 hover:bg-[#0e0e0e] transition-colors"
         >
           <span className="text-xs tracking-[0.3em] uppercase text-white/25 mb-3">Collection</span>
@@ -115,7 +119,7 @@ export default function Home() {
           <span className="mt-6 text-xs tracking-widest uppercase text-white/25 group-hover:text-white/55 transition-colors">
             View Collection →
           </span>
-        </Link>
+        </TrackedLink>
       </section>
     </>
   )
