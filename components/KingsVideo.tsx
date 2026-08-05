@@ -33,24 +33,21 @@ export default function KingsVideo() {
             background: "radial-gradient(ellipse at center, rgba(0,0,0,0.55) 0%, rgba(0,0,0,0.82) 100%)",
           }}
         >
-          {/* Play button circle */}
-          <div className="relative flex items-center justify-center w-24 h-24 rounded-full border-2 border-white/60 group-hover:border-white group-hover:scale-110 transition-all duration-300">
-            {/* Subtle glow ring */}
-            <div className="absolute inset-0 rounded-full bg-white/5 group-hover:bg-white/10 transition-colors duration-300" />
-            {/* Triangle */}
+          {/* Hard-edged, to match the rest of the system. No rounded corners. */}
+          <div className="relative flex items-center justify-center w-20 h-20 border-[1.5px] border-[var(--bone)]/60 bg-[var(--night)]/40 group-hover:border-[var(--oxblood)] group-hover:bg-[var(--night)]/70 transition-all duration-300">
             <div
-              className="relative ml-1.5"
+              className="relative ml-1"
               style={{
                 width: 0,
                 height: 0,
-                borderTop: "14px solid transparent",
-                borderBottom: "14px solid transparent",
-                borderLeft: "24px solid rgba(255,255,255,0.85)",
+                borderTop: "13px solid transparent",
+                borderBottom: "13px solid transparent",
+                borderLeft: "22px solid #EDE4D0",
               }}
             />
           </div>
-          <p className="mt-6 text-white/40 text-xs tracking-[0.3em] uppercase group-hover:text-white/70 transition-colors duration-300">
-            Play
+          <p className="mt-5 font-[family-name:var(--font-typewriter)] text-[10px] tracking-[0.3em] uppercase text-[var(--bone)]/50 group-hover:text-[var(--brass)] transition-colors duration-300">
+            Play the reel
           </p>
         </div>
       )}

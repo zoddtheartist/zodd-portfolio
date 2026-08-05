@@ -22,7 +22,7 @@ export default function Nav() {
   // under a light, mostly transparent bar stays legible and collides with the links.
   const scrim = paper
     ? "linear-gradient(to bottom, var(--paper) 0%, rgba(239,231,214,0.97) 55%, rgba(239,231,214,0.7) 80%, transparent 100%)"
-    : "linear-gradient(to bottom, rgba(8,8,8,0.95) 0%, transparent 100%)"
+    : "linear-gradient(to bottom, var(--night) 0%, rgba(13,12,10,0.97) 55%, rgba(13,12,10,0.7) 80%, transparent 100%)"
 
   // Colour only. The underline lives on the inner span so the enlarged tap
   // target does not drag it away from the text.
@@ -30,12 +30,14 @@ export default function Nav() {
     if (paper) {
       return active ? "text-[#2b2018]" : "text-[#2b2018]/55 hover:text-[#7a2018]"
     }
-    return active ? "text-white" : "text-white/50 hover:text-white"
+    return active ? "text-[var(--bone)]" : "text-[var(--bone)]/50 hover:text-[var(--bone)]"
   }
 
-  const underline = paper ? "border-b border-[#7a2018] pb-0.5" : "border-b border-white pb-0.5"
+  const underline = paper
+    ? "border-b border-[#7a2018] pb-0.5"
+    : "border-b border-[var(--brass)] pb-0.5"
 
-  const bar = paper ? "bg-[#2b2018]/70" : "bg-white/70"
+  const bar = paper ? "bg-[#2b2018]/70" : "bg-[var(--bone)]/70"
 
   return (
     <>
@@ -56,9 +58,7 @@ export default function Nav() {
 
         {/* Desktop nav */}
         <div
-          className={`hidden sm:flex gap-7 text-[13.5px] tracking-[0.18em] uppercase ${
-            paper ? "font-[family-name:var(--font-typewriter)]" : ""
-          }`}
+          className="hidden sm:flex gap-7 font-[family-name:var(--font-typewriter)] text-[13.5px] tracking-[0.18em] uppercase"
         >
           {links.map(({ href, label }) => (
             // Padding on the link makes a 44px tap target for tablets, which are
@@ -93,7 +93,7 @@ export default function Nav() {
       {open && (
         <div
           className={`fixed inset-0 z-40 flex flex-col items-center justify-center gap-10 sm:hidden ${
-            paper ? "bg-[#efe7d6]/98" : "bg-[#080808]/98"
+            paper ? "bg-[#efe7d6]/98" : "bg-[var(--night)]/98"
           }`}
         >
           {links.map(({ href, label }) => (
@@ -107,8 +107,8 @@ export default function Nav() {
                     ? "text-[#2b2018]"
                     : "text-[#2b2018]/45 hover:text-[#7a2018]"
                   : path === href
-                    ? "text-white"
-                    : "text-white/40 hover:text-white"
+                    ? "text-[var(--bone)]"
+                    : "text-[var(--bone)]/40 hover:text-[var(--bone)]"
               }`}
             >
               {label}

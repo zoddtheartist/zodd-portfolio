@@ -10,6 +10,12 @@
   --ink: #2b2018;
   --oxblood: #7a2018;
   --brass: #b5892f;
+
+  /* Frontier system — night side, as used by the poster engine and Viridian.
+     Same accents, inverted ground. */
+  --night: #0d0c0a;
+  --bone: #ede4d0;
+  --night-window: #1a1512;
 }
 
 @theme inline {
@@ -20,6 +26,8 @@
   --color-ink: var(--ink);
   --color-oxblood: var(--oxblood);
   --color-brass: var(--brass);
+  --color-night: var(--night);
+  --color-bone: var(--bone);
   --font-gothic: var(--font-gothic), "Arial Narrow", sans-serif;
   --font-stencil: var(--font-stencil), var(--font-gothic), sans-serif;
   --font-typewriter: var(--font-typewriter), "Courier New", monospace;
@@ -64,6 +72,19 @@ body {
   z-index: 40;
   pointer-events: none;
   opacity: 0.05;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='140' height='140'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2'/%3E%3C/filter%3E%3Crect width='140' height='140' filter='url(%23n)' opacity='0.5'/%3E%3C/svg%3E");
+}
+
+/* Same grain on the night ground. Overlay lifts the noise into view against
+   dark, where the paper version would disappear. */
+.night-grain::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  z-index: 40;
+  pointer-events: none;
+  opacity: 0.09;
+  mix-blend-mode: overlay;
   background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='140' height='140'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2'/%3E%3C/filter%3E%3Crect width='140' height='140' filter='url(%23n)' opacity='0.5'/%3E%3C/svg%3E");
 }
 
