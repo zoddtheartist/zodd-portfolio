@@ -32,6 +32,9 @@ const Parcel = forwardRef<HTMLDivElement, ParcelProps>(function Parcel(
   ref,
 ) {
   const category = CATEGORIES.find((c) => c.id === img.categories[0])
+  const status = img.status
+    ? [img.status, img.statusNote].filter(Boolean).join(" · ")
+    : null
 
   return (
     <div
@@ -93,13 +96,17 @@ const Parcel = forwardRef<HTMLDivElement, ParcelProps>(function Parcel(
             {img.title}
           </div>
 
-          {/* Triangulation readout — a surveyor reading the marker */}
-          <div
-            aria-hidden={!readout}
-            className="font-[family-name:var(--font-typewriter)] text-[9.5px] tracking-[0.16em] uppercase text-[var(--oxblood)] transition-opacity duration-200 min-h-[14px]"
-            style={{ opacity: readout ? 1 : 0 }}
-          >
-            {readout ?? ""}
+          {/* At rest this line carries what happened to the piece; on hover it
+              becomes the triangulation readout. One row, two jobs, no extra
+              height. Touch devices never hover, so the status always shows. */}
+          <div className="font-[family-name:var(--font-typewriter)] text-[9.5px] tracking-[0.16em] uppercase min-h-[14px] transition-colors duration-200">
+            {readout ? (
+              <span className="text-[var(--oxblood)]">{readout}</span>
+            ) : status ? (
+              <span className="text-[var(--ink)]/55">{status}</span>
+            ) : (
+              ""
+            )}
           </div>
         </div>
       </button>

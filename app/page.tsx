@@ -104,8 +104,7 @@ export default function Home() {
               He has spent years studying image-making through
               every medium he could reach: tattooing, graffiti, painting, murals, digital
               illustration, and commercial design. His work has supported visual campaigns for major
-              musical artists, cultural projects, and mayoral races, with original pieces connected
-              to his practice appearing through Christie&apos;s and Sotheby&apos;s.
+              musical artists, cultural projects, and mayoral races.
             </p>
             <p>
               His skills are broad and cover a diverse range of styles, but they are built from

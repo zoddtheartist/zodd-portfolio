@@ -25,6 +25,10 @@ export default function KingsPage() {
           cinematic, bound together by a shared world and Zodd&apos;s unmistakable line. Originally inscribed
           on Bitcoin as permanent, on-chain artefacts, each King belongs, in every sense, to its holder.
         </p>
+        <p className="text-white/45 leading-8 text-sm mt-6">
+          Original pieces connected to Zodd&apos;s practice have appeared through Christie&apos;s and
+          Sotheby&apos;s.
+        </p>
       </section>
 
       {/* Grid */}
