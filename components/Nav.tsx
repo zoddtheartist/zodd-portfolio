@@ -15,8 +15,8 @@ export default function Nav() {
   const path = usePathname()
   const [open, setOpen] = useState(false)
 
-  // The homepage sits on warm paper; every other route is still on the dark ground.
-  const paper = path === "/"
+  // Paper routes so far. Kings and Contact are still on the dark ground.
+  const paper = path === "/" || path === "/portfolio"
 
   // Paper needs a heavier scrim than the dark ground did: dark content scrolling
   // under a light, mostly transparent bar stays legible and collides with the links.
