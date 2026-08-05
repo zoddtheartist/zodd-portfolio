@@ -16,10 +16,13 @@ export default function KingsVideo() {
         ref={videoRef}
         className="w-full h-full"
         style={{ objectFit: 'cover' }}
-        poster="/hashiro-poster.png"
+        poster="/hashiro-poster.jpg"
         controls={playing}
         playsInline
-        preload="metadata"
+        // "metadata" made Chrome pull the entire 48MB file on page load even
+        // though the mp4 is already faststart. Nothing downloads now until the
+        // reel is actually asked for.
+        preload="none"
       >
         <source src="/video/kings.mp4" type="video/mp4" />
       </video>
