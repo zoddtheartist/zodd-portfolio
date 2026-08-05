@@ -245,7 +245,7 @@ export default function SurveyPlat() {
         >
           <button
             type="button"
-            className="absolute left-4 top-1/2 -translate-y-1/2 z-10 px-4 py-2 text-3xl text-[var(--paper)]/50 hover:text-[var(--paper)] transition-colors"
+            className="absolute left-1 sm:left-4 top-1/2 -translate-y-1/2 z-10 flex items-center justify-center w-12 h-12 text-3xl text-[var(--paper)]/60 hover:text-[var(--paper)] transition-colors"
             onClick={(e) => {
               e.stopPropagation()
               step(-1)
@@ -266,7 +266,9 @@ export default function SurveyPlat() {
               height={active.h}
               sizes="85vw"
               priority
-              className="max-h-[80vh] max-w-[86vw] w-auto h-auto object-contain border-[1.5px] border-[var(--paper)]/25"
+              // Narrower on phones so the prev/next controls sit beside the plate
+              // instead of on top of it.
+              className="max-h-[76vh] sm:max-h-[80vh] max-w-[72vw] sm:max-w-[86vw] w-auto h-auto object-contain border-[1.5px] border-[var(--paper)]/25"
             />
             <p className="font-[family-name:var(--font-typewriter)] text-[11px] tracking-[0.22em] uppercase text-[var(--paper)]/70">
               {active.title}
@@ -275,7 +277,7 @@ export default function SurveyPlat() {
 
           <button
             type="button"
-            className="absolute right-4 top-1/2 -translate-y-1/2 z-10 px-4 py-2 text-3xl text-[var(--paper)]/50 hover:text-[var(--paper)] transition-colors"
+            className="absolute right-1 sm:right-4 top-1/2 -translate-y-1/2 z-10 flex items-center justify-center w-12 h-12 text-3xl text-[var(--paper)]/60 hover:text-[var(--paper)] transition-colors"
             onClick={(e) => {
               e.stopPropagation()
               step(1)
@@ -287,7 +289,7 @@ export default function SurveyPlat() {
 
           <button
             type="button"
-            className="absolute top-5 right-6 z-10 text-2xl text-[var(--paper)]/50 hover:text-[var(--paper)] transition-colors"
+            className="absolute top-2 right-2 sm:top-4 sm:right-5 z-10 flex items-center justify-center w-12 h-12 text-2xl text-[var(--paper)]/60 hover:text-[var(--paper)] transition-colors"
             onClick={close}
             aria-label="Close"
           >

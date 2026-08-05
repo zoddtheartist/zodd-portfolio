@@ -24,14 +24,16 @@ export default function Nav() {
     ? "linear-gradient(to bottom, var(--paper) 0%, rgba(239,231,214,0.97) 55%, rgba(239,231,214,0.7) 80%, transparent 100%)"
     : "linear-gradient(to bottom, rgba(8,8,8,0.95) 0%, transparent 100%)"
 
+  // Colour only. The underline lives on the inner span so the enlarged tap
+  // target does not drag it away from the text.
   const linkClass = (active: boolean) => {
     if (paper) {
-      return active
-        ? "text-[#2b2018] border-b border-[#7a2018] pb-0.5"
-        : "text-[#2b2018]/55 hover:text-[#7a2018]"
+      return active ? "text-[#2b2018]" : "text-[#2b2018]/55 hover:text-[#7a2018]"
     }
-    return active ? "text-white border-b border-white pb-0.5" : "text-white/50 hover:text-white"
+    return active ? "text-white" : "text-white/50 hover:text-white"
   }
+
+  const underline = paper ? "border-b border-[#7a2018] pb-0.5" : "border-b border-white pb-0.5"
 
   const bar = paper ? "bg-[#2b2018]/70" : "bg-white/70"
 
@@ -41,7 +43,7 @@ export default function Nav() {
         className="fixed top-0 left-0 right-0 z-50 flex items-center justify-between px-5 py-4"
         style={{ background: scrim }}
       >
-        <Link href="/" onClick={() => setOpen(false)}>
+        <Link href="/" onClick={() => setOpen(false)} className="flex items-center py-1.5">
           <Image
             src={paper ? "/logo-ink.png" : "/logo.png"}
             alt="Zodd"
@@ -59,19 +61,24 @@ export default function Nav() {
           }`}
         >
           {links.map(({ href, label }) => (
+            // Padding on the link makes a 44px tap target for tablets, which are
+            // touch devices wide enough to get this desktop row. The underline
+            // stays on the inner span so it keeps hugging the text.
             <Link
               key={href}
               href={href}
-              className={`transition-colors duration-200 ${linkClass(path === href)}`}
+              className={`flex items-center py-2.5 transition-colors duration-200 ${linkClass(
+                path === href,
+              )}`}
             >
-              {label}
+              <span className={path === href ? underline : ""}>{label}</span>
             </Link>
           ))}
         </div>
 
         {/* Mobile hamburger */}
         <button
-          className="sm:hidden flex flex-col gap-1.5 p-1"
+          className="sm:hidden flex flex-col items-center justify-center gap-1.5 w-11 h-11 -mr-2"
           onClick={() => setOpen(!open)}
           aria-label="Menu"
           aria-expanded={open}
