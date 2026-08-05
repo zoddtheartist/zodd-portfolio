@@ -70,6 +70,7 @@ export default function PortfolioPlat() {
         x: r.left - gr.left + r.width / 2,
         y: r.top - gr.top + r.height / 2,
         category: item.categories[0],
+        affinity: item.affinity,
       })
     }
     setSize((prev) =>

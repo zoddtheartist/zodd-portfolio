@@ -15,6 +15,11 @@ export type PortfolioImage = {
   status?: PieceStatus
   /** Rides beside the status, e.g. an edition size or "resale". */
   statusNote?: string
+  /**
+   * Works that belong together regardless of where the grid puts them. Pieces
+   * sharing a key are chained to each other before geometry is considered.
+   */
+  affinity?: string
   /** Survey section number. Stable ID printed on the specimen tag. */
   sec: number
   categories: Category[]
@@ -33,6 +38,7 @@ export const CATEGORIES: { id: Category; label: string; abbr: string }[] = [
 ]
 
 export const images: PortfolioImage[] = [
+  { file: "jack-on-the-rockies.jpg", title: "Jack on the Rockies", sec: 51, status: "commissioned", categories: ["commercial"], showcase: ["commercial"], w: 2400, h: 1350 },
   { file: "amsterdam.png", title: "Amsterdam", sec: 1, status: "sold", statusNote: "resale", categories: ["painted"], showcase: ["all", "painted"], w: 1500, h: 2000 },
   { file: "chisel-peak.jpeg", title: "Chisel Peak", sec: 2, status: "study", categories: ["ink"], showcase: ["all", "ink"], w: 2464, h: 1856 },
   { file: "eagle-coloured.png", title: "Eagle", sec: 3, categories: ["digital"], showcase: ["all", "digital"], w: 1024, h: 1024 },
@@ -47,7 +53,7 @@ export const images: PortfolioImage[] = [
   { file: "sourboy.png", title: "Sourboy", sec: 12, categories: ["digital"], showcase: ["digital"], w: 2048, h: 2048 },
   { file: "soyer-and-daughter.png", title: "Soyer and Daughter", sec: 13, status: "commissioned", categories: ["digital"], showcase: ["all", "digital"], w: 1332, h: 2000 },
   { file: "twins.png", title: "Twins", sec: 14, status: "study", categories: ["ink"], showcase: ["ink"], w: 2048, h: 2048 },
-  { file: "mfyc.png", title: "MFYC", sec: 15, status: "commissioned", categories: ["commercial"], showcase: ["all", "commercial"], w: 2000, h: 1407 },
+  { file: "mfyc.png", title: "MFYC", sec: 15, affinity: "maps", status: "commissioned", categories: ["commercial"], showcase: ["all", "commercial"], w: 2000, h: 1407 },
   { file: "money-land.png", title: "Money Land", sec: 16, categories: ["digital"], w: 2000, h: 1333 },
   { file: "mycellium-tech-render.png", title: "Mycelium Tech", sec: 17, status: "commissioned", categories: ["commercial"], showcase: ["commercial"], w: 2000, h: 1121 },
   { file: "new-year-grandma.png", title: "New Year Grandma", sec: 18, categories: ["digital"], w: 7083, h: 4675 },
@@ -58,12 +64,12 @@ export const images: PortfolioImage[] = [
   { file: "the-aquarium.png", title: "The Aquarium", sec: 23, status: "sold", statusNote: "not available", categories: ["digital"], showcase: ["all", "digital"], w: 1500, h: 2000 },
   { file: "third-eye-ipa.png", title: "Third Eye IPA", sec: 24, status: "commissioned", categories: ["commercial"], showcase: ["all", "commercial"], w: 2000, h: 1111 },
   { file: "veritai-hq.png", title: "Veritai HQ", sec: 25, status: "commissioned", categories: ["commercial"], showcase: ["commercial"], w: 1024, h: 1024 },
-  { file: "wedding.png", title: "Wedding", sec: 26, status: "commissioned", categories: ["commercial"], showcase: ["all", "commercial"], w: 1333, h: 2000 },
+  { file: "wedding.png", title: "Wedding", sec: 26, affinity: "maps", status: "commissioned", categories: ["commercial"], showcase: ["all", "commercial"], w: 1333, h: 2000 },
   { file: "yule.png", title: "Yule", sec: 27, status: "study", categories: ["painted"], showcase: ["painted"], w: 2000, h: 2000 },
   { file: "brain-pattern.png", title: "Brain Pattern", sec: 28, status: "commissioned", categories: ["commercial"], showcase: ["commercial"], w: 1024, h: 1024 },
   { file: "tech-barn.png", title: "Tech Barn", sec: 29, status: "commissioned", categories: ["commercial"], showcase: ["commercial"], w: 1536, h: 1024 },
-  { file: "astroboy-sunglasses-1.png", title: "Astro Boy Glasses", sec: 30, status: "commissioned", categories: ["commercial"], showcase: ["commercial"], w: 1000, h: 1000 },
-  { file: "tyson-sunglasses-1.png", title: "Tyson Glasses", sec: 31, status: "commissioned", categories: ["commercial"], showcase: ["commercial"], w: 1000, h: 1000 },
+  { file: "astroboy-sunglasses-1.png", title: "Astro Boy Glasses", sec: 30, affinity: "eyewear", status: "commissioned", categories: ["commercial"], showcase: ["commercial"], w: 1000, h: 1000 },
+  { file: "tyson-sunglasses-1.png", title: "Tyson Glasses", sec: 31, affinity: "eyewear", status: "commissioned", categories: ["commercial"], showcase: ["commercial"], w: 1000, h: 1000 },
   { file: "goblin-and-cat.png", title: "Goblin and Cat", sec: 32, categories: ["digital"], showcase: ["digital"], w: 2000, h: 2000 },
   { file: "snowy-craque.png", title: "Snowy Craque", sec: 33, status: "study", categories: ["painted"], showcase: ["painted"], w: 1535, h: 1024 },
   { file: "big-cat.jpeg", title: "Big Cat", sec: 34, categories: ["digital"], showcase: ["all", "digital"], w: 1024, h: 1024 },
@@ -83,7 +89,6 @@ export const images: PortfolioImage[] = [
   { file: "turtle-town.png", title: "Turtle Town", sec: 48, status: "commissioned", categories: ["digital"], showcase: ["digital"], w: 1280, h: 720 },
   { file: "boston-on-the-bed.png", title: "Boston on the Bed", sec: 49, status: "commissioned", categories: ["painted"], showcase: ["painted"], w: 1232, h: 928 },
   { file: "whiskey-glass-study.png", title: "Whiskey Glass Study", sec: 50, status: "study", categories: ["painted"], showcase: ["all", "painted"], w: 2544, h: 1904 },
-  { file: "jack-on-the-rockies.jpg", title: "Jack on the Rockies", sec: 51, status: "commissioned", categories: ["commercial"], showcase: ["commercial"], w: 2400, h: 1350 },
 ]
 
 /** Pieces shown in a given homepage gallery view. */

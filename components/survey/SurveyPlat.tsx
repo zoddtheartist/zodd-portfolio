@@ -86,6 +86,7 @@ export default function SurveyPlat() {
         x: r.left - gr.left + r.width / 2,
         y: r.top - gr.top + (r.width * FRAME_RATIO) / 2,
         category: item.categories[0],
+        affinity: item.affinity,
       })
     }
 

@@ -5,6 +5,13 @@ export type SurveyPoint = {
   x: number
   y: number
   category: Category
+  /**
+   * Pieces sharing a key are chained to each other before geometry is
+   * considered. Without this the traverse is purely spatial, so works that
+   * obviously belong together (a pair of eyewear designs, two illustrated maps)
+   * only connect if they happen to land near each other in the grid.
+   */
+  affinity?: string
 }
 
 export type SurveyEdge = {
@@ -18,14 +25,55 @@ export type SurveyEdge = {
   category: Category
 }
 
+const edge = (a: SurveyPoint, b: SurveyPoint): SurveyEdge => ({
+  id: `${a.id}->${b.id}`,
+  from: a.id,
+  to: b.id,
+  x1: a.x,
+  y1: a.y,
+  x2: b.x,
+  y2: b.y,
+  category: a.category,
+})
+
+/** Reading order down the page. */
+const byPosition = (a: SurveyPoint, b: SurveyPoint) => a.y - b.y || a.x - b.x
+
+/** Greedy nearest-neighbour chain through a set of stations. */
+function chain(stations: SurveyPoint[]): SurveyEdge[] {
+  if (stations.length < 2) return []
+  const out: SurveyEdge[] = []
+  const remaining = [...stations].sort(byPosition)
+  let current = remaining.shift() as SurveyPoint
+
+  while (remaining.length) {
+    let best = 0
+    let bestDistance = Infinity
+    for (let i = 0; i < remaining.length; i++) {
+      const d = (remaining[i].x - current.x) ** 2 + (remaining[i].y - current.y) ** 2
+      if (d < bestDistance) {
+        bestDistance = d
+        best = i
+      }
+    }
+    const next = remaining.splice(best, 1)[0]
+    out.push(edge(current, next))
+    current = next
+  }
+  return out
+}
+
 /**
- * Connect parcels of the same category into a nearest-neighbour chain (a survey
- * traverse), NOT a complete graph.
+ * Connect parcels of the same category into a traverse, NOT a complete graph.
  *
  * A complete graph is O(n^2) and turns the plat into a spiderweb that buries the
- * artwork: 20 same-category pieces would draw 190 lines. A traverse draws n-1
- * per category, so the whole plat stays around one line per piece. It is also
- * what a real survey produces: a chain of stations, not an all-pairs mesh.
+ * artwork: 20 same-category pieces would draw 190 lines. A traverse draws about
+ * n-1 per category, which is also what a real survey produces, a chain of
+ * stations rather than an all-pairs mesh.
+ *
+ * Affinity clusters are chained internally first, then each cluster joins the
+ * wider category chain through its topmost member, so a deliberate pairing
+ * survives wherever the two pieces land in the grid.
  */
 export function buildTraverse(points: SurveyPoint[]): SurveyEdge[] {
   const byCategory = new Map<Category, SurveyPoint[]>()
@@ -37,36 +85,27 @@ export function buildTraverse(points: SurveyPoint[]): SurveyEdge[] {
 
   const edges: SurveyEdge[] = []
 
-  for (const [category, group] of byCategory) {
+  for (const group of byCategory.values()) {
     if (group.length < 2) continue
 
-    // Start at the top-left-most station so the chain reads down the page.
-    const remaining = [...group].sort((a, b) => a.y - b.y || a.x - b.x)
-    let current = remaining.shift() as SurveyPoint
-
-    while (remaining.length) {
-      let bestIndex = 0
-      let bestDistance = Infinity
-      for (let i = 0; i < remaining.length; i++) {
-        const d = (remaining[i].x - current.x) ** 2 + (remaining[i].y - current.y) ** 2
-        if (d < bestDistance) {
-          bestDistance = d
-          bestIndex = i
-        }
-      }
-      const next = remaining.splice(bestIndex, 1)[0]
-      edges.push({
-        id: `${current.id}->${next.id}`,
-        from: current.id,
-        to: next.id,
-        x1: current.x,
-        y1: current.y,
-        x2: next.x,
-        y2: next.y,
-        category,
-      })
-      current = next
+    const clusters = new Map<string, SurveyPoint[]>()
+    for (const p of group) {
+      const key = p.affinity ?? `solo:${p.id}`
+      const list = clusters.get(key)
+      if (list) list.push(p)
+      else clusters.set(key, [p])
     }
+
+    const representatives: SurveyPoint[] = []
+    for (const members of clusters.values()) {
+      const sorted = [...members].sort(byPosition)
+      if (sorted.length > 1) {
+        for (let i = 0; i < sorted.length - 1; i++) edges.push(edge(sorted[i], sorted[i + 1]))
+      }
+      representatives.push(sorted[0])
+    }
+
+    edges.push(...chain(representatives))
   }
 
   return edges
