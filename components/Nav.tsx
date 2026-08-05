@@ -15,8 +15,8 @@ export default function Nav() {
   const path = usePathname()
   const [open, setOpen] = useState(false)
 
-  // Paper routes so far. Kings and Contact are still on the dark ground.
-  const paper = path === "/" || path === "/portfolio"
+  // Kings is the one route deliberately left on the dark ground.
+  const paper = path !== "/kings"
 
   // Paper needs a heavier scrim than the dark ground did: dark content scrolling
   // under a light, mostly transparent bar stays legible and collides with the links.
