@@ -93,7 +93,7 @@ export const projects: Project[] = [
     ],
     callFacts: "Open call for artists · 1–3 concepts · limited entries · selected",
     note:
-      "I spent a long time in the colors of the sunset and pulled those ambers into the shape of the Rockies. Graphic, but with a sense of musicality running through it.",
+      "I've spent countless hours staring at the sun set over the Colorado Rockies. I knew that both the purple of the Rockies baseball team and the golden amber of Jack Daniel's were already reflected in those sunsets. The rivers and crowds act to balance and reflect each other, and to me, reflect the overall Colorado experience.",
     featured: true,
   },
 ]
