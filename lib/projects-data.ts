@@ -1,0 +1,101 @@
+export type ProjectPlate = {
+  file: string
+  label: string
+  kind: "artwork" | "in-situ" | "detail"
+  w: number
+  h: number
+}
+
+export type ProjectSwatch = {
+  hex: string
+  name: string
+}
+
+export type ProjectRow = {
+  key: string
+  value: string
+}
+
+export type Project = {
+  slug: string
+  /** Sequence number printed on the rail, e.g. "01". */
+  no: string
+  title: string
+  eyebrow: string
+  stamp: string
+  /** Headline figure for the project panel. */
+  figure: string
+  figureUnit: string
+  figureCaption: string
+  plates: ProjectPlate[]
+  palette: ProjectSwatch[]
+  rows: ProjectRow[]
+  /** Quoted from the client's own call for artists. Evidence, not claim. */
+  brief: string
+  briefSource: string
+  /** The artist's note, in his voice. */
+  note: string
+  featured?: boolean
+}
+
+export const projects: Project[] = [
+  {
+    slug: "jack-on-the-rockies",
+    no: "01",
+    title: "Jack on the Rockies",
+    eyebrow: "Brown-Forman × Colorado Rockies",
+    stamp: "Installed",
+    figure: "215",
+    figureUnit: "SQ FT",
+    figureCaption: "printed, panelled and hung — one wall",
+    plates: [
+      {
+        file: "jack-on-the-rockies.jpg",
+        label: "The artwork — as delivered",
+        kind: "artwork",
+        w: 2400,
+        h: 1350,
+      },
+      {
+        file: "jack-on-the-rockies-insitu.jpg",
+        label: "In situ — Jack Daniel's Terrace, Coors Field",
+        kind: "in-situ",
+        w: 1134,
+        h: 774,
+      },
+    ],
+    // Assayed from the delivered artwork by area.
+    palette: [
+      { hex: "#D5882E", name: "amber" },
+      { hex: "#AB4D1A", name: "ember" },
+      { hex: "#912B24", name: "oxblood" },
+      { hex: "#54241C", name: "rust" },
+      { hex: "#380F28", name: "dusk" },
+      { hex: "#0F0407", name: "ink" },
+    ],
+    rows: [
+      { key: "dimensions", value: "235 × 132 in" },
+      { key: "installed size", value: "19′ 7″ × 11′ 0″" },
+      { key: "aspect", value: "1.78 : 1" },
+      { key: "medium", value: "digital illustration" },
+      { key: "output", value: "3M vinyl, panoramic" },
+      { key: "venue", value: "Jack Daniel's Terrace, Coors Field" },
+      { key: "city", value: "Denver, Colorado" },
+      { key: "client", value: "Brown-Forman × Colorado Rockies" },
+      { key: "selection", value: "open call, limited entries" },
+      { key: "year", value: "2026" },
+    ],
+    brief:
+      "Artwork that feels elevated, creative, and immersive. Something that captures the atmosphere, emotion, and experience of a night at the ballpark. Colorado sunsets, stadium lights, music, movement, celebration. Think beyond literal or overly straightforward executions.",
+    briefSource:
+      "Brown-Forman, call for artists — 1–3 concepts, limited entries, selected.",
+    note:
+      "I spent a long time in the colors of the sunset and pulled those ambers into the shape of the Rockies. Graphic, but with a sense of musicality running through it.",
+    featured: true,
+  },
+]
+
+/** The single project shown on the homepage. Exactly one, by design. */
+export function featuredProject(): Project | undefined {
+  return projects.find((p) => p.featured)
+}
