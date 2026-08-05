@@ -22,6 +22,8 @@ export type Project = {
   no: string
   title: string
   eyebrow: string
+  /** Neutral one-liner beside the headline. Facts, not voice. */
+  descriptor: string
   stamp: string
   /** Headline figure for the project panel. */
   figure: string
@@ -30,10 +32,13 @@ export type Project = {
   plates: ProjectPlate[]
   palette: ProjectSwatch[]
   rows: ProjectRow[]
-  /** Quoted from the client's own call for artists. Evidence, not claim. */
-  brief: string
-  briefSource: string
-  /** The artist's note, in his voice. */
+  /**
+   * Neutral facts about how the commission was won. Deliberately NOT a quote
+   * from the client's brief: that came through internal comms and their
+   * creative language is not ours to publish. The facts carry the credential.
+   */
+  callFacts: string
+  /** The artist's own statement. His voice only, never written for him. */
   note: string
   featured?: boolean
 }
@@ -44,6 +49,7 @@ export const projects: Project[] = [
     no: "01",
     title: "Jack on the Rockies",
     eyebrow: "Brown-Forman × Colorado Rockies",
+    descriptor: "Panoramic mural · 3M vinyl · Jack Daniel's Terrace, Coors Field · Denver",
     stamp: "Installed",
     figure: "215",
     figureUnit: "SQ FT",
@@ -85,10 +91,7 @@ export const projects: Project[] = [
       { key: "selection", value: "open call, limited entries" },
       { key: "year", value: "2026" },
     ],
-    brief:
-      "Artwork that feels elevated, creative, and immersive. Something that captures the atmosphere, emotion, and experience of a night at the ballpark. Colorado sunsets, stadium lights, music, movement, celebration. Think beyond literal or overly straightforward executions.",
-    briefSource:
-      "Brown-Forman, call for artists — 1–3 concepts, limited entries, selected.",
+    callFacts: "Open call for artists · 1–3 concepts · limited entries · selected",
     note:
       "I spent a long time in the colors of the sunset and pulled those ambers into the shape of the Rockies. Graphic, but with a sense of musicality running through it.",
     featured: true,

@@ -64,8 +64,8 @@ export default function FieldSection() {
             {project.title}
           </h2>
         </div>
-        <p className="font-[family-name:var(--font-serif)] italic text-[16px] leading-relaxed text-[var(--ink)]/75 max-w-sm">
-          {project.note}
+        <p className="font-[family-name:var(--font-typewriter)] text-[10.5px] tracking-[0.2em] uppercase leading-relaxed text-[var(--ink)]/60 max-w-xs">
+          {project.descriptor}
         </p>
       </div>
 
@@ -187,16 +187,16 @@ export default function FieldSection() {
         </div>
       </div>
 
-      {/* The brief, quoted. The ask beside the answer. */}
+      {/* The artist's statement. The client's brief is deliberately not quoted. */}
       <div className="border-x-[1.5px] border-b-[1.5px] border-[var(--ink)] px-5 py-5">
         <p className="font-[family-name:var(--font-typewriter)] text-[10px] tracking-[0.24em] uppercase text-[var(--oxblood)] mb-3">
-          What was asked for
+          What I put into it
         </p>
         <blockquote className="font-[family-name:var(--font-serif)] text-[17px] leading-8 text-[var(--ink)]/85 max-w-3xl">
-          &ldquo;{project.brief}&rdquo;
+          {project.note}
         </blockquote>
-        <p className="mt-3 font-[family-name:var(--font-typewriter)] text-[9.5px] tracking-[0.14em] uppercase text-[var(--ink)]/45">
-          {project.briefSource}
+        <p className="mt-4 font-[family-name:var(--font-typewriter)] text-[9.5px] tracking-[0.14em] uppercase text-[var(--ink)]/45">
+          {project.callFacts}
         </p>
       </div>
 
