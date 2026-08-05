@@ -111,6 +111,7 @@ export const workMadeFor: string[] = [
   "Live Nation",
   "Foot Locker",
   "Universal Music Group Canada",
+  "Indigo",
 ]
 
 /** The single project shown on the homepage. Exactly one, by design. */

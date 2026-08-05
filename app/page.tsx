@@ -3,7 +3,7 @@ import TrackedLink from "@/components/TrackedLink"
 import StampedPlate from "@/components/StampedPlate"
 import FieldSection from "@/components/field/FieldSection"
 import SurveyPlat from "@/components/survey/SurveyPlat"
-import { workMadeFor } from "@/lib/projects-data"
+import WorkMadeFor from "@/components/WorkMadeFor"
 
 export default function Home() {
   return (
@@ -121,26 +121,6 @@ export default function Home() {
           </div>
         </section>
 
-        {/* Confirmed engagements. "Work made for" rather than "clients", which is
-            the framing Zodd uses throughout. */}
-        <section className="max-w-screen-xl mx-auto px-6 pb-14">
-          <div className="border-y-[1.5px] border-[var(--ink)] py-6">
-            <p className="font-[family-name:var(--font-typewriter)] text-[10px] tracking-[0.26em] uppercase text-[var(--oxblood)] mb-4">
-              Work made for
-            </p>
-            <ul className="flex flex-wrap items-baseline gap-x-7 gap-y-2">
-              {workMadeFor.map((name) => (
-                <li
-                  key={name}
-                  className="font-[family-name:var(--font-gothic)] text-[clamp(20px,2.6vw,32px)] font-extrabold uppercase leading-none tracking-wide text-[var(--ink)]"
-                >
-                  {name}
-                </li>
-              ))}
-            </ul>
-          </div>
-        </section>
-
         {/* The two plates, moved up directly under About */}
         <section className="max-w-screen-xl mx-auto px-6 pb-10">
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
@@ -167,6 +147,10 @@ export default function Home() {
 
         {/* Featured project — one at a time, never a second gallery */}
         <FieldSection />
+
+        {/* Sits below the field section: above it, the label read as a heading
+            for the project rather than a list in its own right. */}
+        <WorkMadeFor />
 
         {/* The plat */}
         <SurveyPlat />
