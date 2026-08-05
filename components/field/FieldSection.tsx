@@ -204,7 +204,7 @@ export default function FieldSection() {
       <TrackedLink
         href="/contact"
         event="field_enquiry_click"
-        className="group flex flex-wrap items-center justify-between gap-3 border-x-[1.5px] border-b-[1.5px] border-[var(--ink)] bg-[var(--ink)] px-5 py-4 text-[var(--paper)] transition-colors duration-300 hover:bg-[var(--oxblood)]"
+        className="group flex flex-wrap items-center justify-between gap-3 border-x-[1.5px] border-b-[1.5px] border-[var(--ink)] bg-[var(--ink)] px-5 py-4 text-[var(--paper)] transition-colors duration-300 hover:bg-[var(--oxblood)] active:bg-[var(--oxblood)]"
       >
         <span className="font-[family-name:var(--font-gothic)] text-[clamp(22px,3vw,30px)] font-extrabold uppercase leading-none tracking-wide">
           Public work &amp; commissions

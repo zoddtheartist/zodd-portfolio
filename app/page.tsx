@@ -20,7 +20,10 @@ export default function Home() {
             fill
             priority
             className="object-cover object-center ink-print"
-            sizes="100vw"
+            // A 1.78:1 photo covering a tall phone viewport needs roughly twice
+            // the viewport width. Plain 100vw was fetching a 390px file and
+            // stretching it over an 844px-tall box.
+            sizes="(max-width: 768px) 200vw, 100vw"
           />
 
           {/* Wash that lifts the print and fades it out into clean paper */}
@@ -58,14 +61,14 @@ export default function Home() {
               <TrackedLink
                 href="/portfolio"
                 event="hero_portfolio_click"
-                className="border-[1.5px] border-[var(--ink)] px-8 py-3.5 font-[family-name:var(--font-typewriter)] font-bold text-[13px] tracking-[0.2em] uppercase text-[var(--ink)] transition-colors duration-300 hover:bg-[var(--ink)] hover:text-[var(--paper)]"
+                className="border-[1.5px] border-[var(--ink)] px-8 py-3.5 font-[family-name:var(--font-typewriter)] font-bold text-[13px] tracking-[0.2em] uppercase text-[var(--ink)] transition-colors duration-300 hover:bg-[var(--ink)] hover:text-[var(--paper)] active:bg-[var(--ink)] active:text-[var(--paper)]"
               >
                 Portfolio
               </TrackedLink>
               <TrackedLink
                 href="/kings"
                 event="hero_kings_click"
-                className="border-[1.5px] border-[var(--ink)] px-8 py-3.5 font-[family-name:var(--font-typewriter)] font-bold text-[13px] tracking-[0.2em] uppercase text-[var(--ink)] transition-colors duration-300 hover:bg-[var(--ink)] hover:text-[var(--paper)]"
+                className="border-[1.5px] border-[var(--ink)] px-8 py-3.5 font-[family-name:var(--font-typewriter)] font-bold text-[13px] tracking-[0.2em] uppercase text-[var(--ink)] transition-colors duration-300 hover:bg-[var(--ink)] hover:text-[var(--paper)] active:bg-[var(--ink)] active:text-[var(--paper)]"
               >
                 The Kings
               </TrackedLink>

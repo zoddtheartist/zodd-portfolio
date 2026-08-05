@@ -29,7 +29,7 @@ export default function StampedPlate({
     <TrackedLink
       href={href}
       event={event}
-      className="group relative flex flex-col justify-between gap-8 border-[1.5px] border-[var(--ink)] bg-[var(--paper)] p-8 transition-colors duration-300 hover:bg-[var(--window)] min-h-56"
+      className="group relative flex flex-col justify-between gap-8 border-[1.5px] border-[var(--ink)] bg-[var(--paper)] p-8 transition-colors duration-300 hover:bg-[var(--window)] active:bg-[var(--ink)] active:text-[var(--paper)] min-h-56"
     >
       <div className="flex items-start justify-between gap-4">
         <span className="font-[family-name:var(--font-typewriter)] text-[10px] tracking-[0.26em] uppercase text-[var(--oxblood)]">

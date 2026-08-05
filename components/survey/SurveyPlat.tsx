@@ -42,11 +42,29 @@ export default function SurveyPlat() {
       setReduce(motionQuery.matches)
     }
     sync()
-    hoverQuery.addEventListener("change", sync)
-    motionQuery.addEventListener("change", sync)
+
+    // Safari before 14 has no addEventListener on MediaQueryList, only the
+    // deprecated addListener. Calling the modern one there throws, which killed
+    // this effect and left the whole plat mounted with no handlers: taps did
+    // nothing and the filter never changed state.
+    const attach = (q: MediaQueryList) => {
+      if (typeof q.addEventListener === "function") {
+        q.addEventListener("change", sync)
+        return () => q.removeEventListener("change", sync)
+      }
+      const legacy = q as MediaQueryList & {
+        addListener?: (cb: () => void) => void
+        removeListener?: (cb: () => void) => void
+      }
+      legacy.addListener?.(sync)
+      return () => legacy.removeListener?.(sync)
+    }
+
+    const detachHover = attach(hoverQuery)
+    const detachMotion = attach(motionQuery)
     return () => {
-      hoverQuery.removeEventListener("change", sync)
-      motionQuery.removeEventListener("change", sync)
+      detachHover()
+      detachMotion()
     }
   }, [])
 
@@ -71,7 +89,14 @@ export default function SurveyPlat() {
       })
     }
 
-    setSize({ w: gr.width, h: gr.height })
+    // Only push state when the numbers actually moved. Writing a fresh object on
+    // every observation can drive a ResizeObserver into a feedback loop, which
+    // pegs the main thread and makes the section feel frozen.
+    setSize((prev) =>
+      Math.abs(prev.w - gr.width) < 0.5 && Math.abs(prev.h - gr.height) < 0.5
+        ? prev
+        : { w: gr.width, h: gr.height },
+    )
     setEdges(buildTraverse(points))
     return rects
   }, [items])

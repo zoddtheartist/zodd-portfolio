@@ -51,7 +51,7 @@ export default function Register({ view, counts, onSelect }: RegisterProps) {
               className={`${last ? "col-span-2 md:col-span-1" : ""} flex items-baseline justify-between gap-2 px-3 py-3 text-left transition-colors duration-200 ${
                 active
                   ? "bg-[var(--ink)] text-[var(--paper)]"
-                  : "bg-[var(--paper)] text-[var(--ink)] hover:bg-[var(--window)]"
+                  : "bg-[var(--paper)] text-[var(--ink)] hover:bg-[var(--window)] active:bg-[var(--ink)] active:text-[var(--paper)]"
               }`}
             >
               <span className="min-w-0">
