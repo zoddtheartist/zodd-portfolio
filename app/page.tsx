@@ -3,6 +3,7 @@ import TrackedLink from "@/components/TrackedLink"
 import StampedPlate from "@/components/StampedPlate"
 import FieldSection from "@/components/field/FieldSection"
 import SurveyPlat from "@/components/survey/SurveyPlat"
+import { workMadeFor } from "@/lib/projects-data"
 
 export default function Home() {
   return (
@@ -117,6 +118,26 @@ export default function Home() {
               communities, products, and cultural spaces, building imagery that can live on walls,
               packaging, campaigns, events, public spaces, and collectible worlds.
             </p>
+          </div>
+        </section>
+
+        {/* Confirmed engagements. "Work made for" rather than "clients", which is
+            the framing Zodd uses throughout. */}
+        <section className="max-w-screen-xl mx-auto px-6 pb-14">
+          <div className="border-y-[1.5px] border-[var(--ink)] py-6">
+            <p className="font-[family-name:var(--font-typewriter)] text-[10px] tracking-[0.26em] uppercase text-[var(--oxblood)] mb-4">
+              Work made for
+            </p>
+            <ul className="flex flex-wrap items-baseline gap-x-7 gap-y-2">
+              {workMadeFor.map((name) => (
+                <li
+                  key={name}
+                  className="font-[family-name:var(--font-gothic)] text-[clamp(20px,2.6vw,32px)] font-extrabold uppercase leading-none tracking-wide text-[var(--ink)]"
+                >
+                  {name}
+                </li>
+              ))}
+            </ul>
           </div>
         </section>
 

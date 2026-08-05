@@ -99,6 +99,20 @@ export const projects: Project[] = [
   },
 ]
 
+/**
+ * Only names Zodd has confirmed as direct paid work. Deliberately short: four
+ * names that survive diligence beat eleven that invite questions. No dates,
+ * because credential lists do not carry them and the 2026 mural already anchors
+ * the list as current.
+ */
+export const workMadeFor: string[] = [
+  "Jack Daniel's",
+  "Colorado Rockies",
+  "Live Nation",
+  "Foot Locker",
+  "Universal Music Group Canada",
+]
+
 /** The single project shown on the homepage. Exactly one, by design. */
 export function featuredProject(): Project | undefined {
   return projects.find((p) => p.featured)
