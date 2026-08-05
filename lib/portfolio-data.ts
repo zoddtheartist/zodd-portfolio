@@ -74,6 +74,7 @@ export const images: PortfolioImage[] = [
   { file: "turtle-town.png", title: "Turtle Town", sec: 48, categories: ["digital"], showcase: ["digital"], w: 1280, h: 720 },
   { file: "boston-on-the-bed.png", title: "Boston on the Bed", sec: 49, categories: ["painted"], showcase: ["painted"], w: 1232, h: 928 },
   { file: "whiskey-glass-study.png", title: "Whiskey Glass Study", sec: 50, categories: ["painted"], showcase: ["all", "painted"], w: 2544, h: 1904 },
+  { file: "jack-on-the-rockies.jpg", title: "Jack on the Rockies", sec: 51, categories: ["commercial"], showcase: ["commercial"], w: 2400, h: 1350 },
 ]
 
 /** Pieces shown in a given homepage gallery view. */

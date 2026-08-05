@@ -101,15 +101,15 @@ export default function Home() {
               art, and brand/world development.
             </p>
             <p>
-              Unschooled but trained with masters, he has spent years studying image-making through
+              He has spent years studying image-making through
               every medium he could reach: tattooing, graffiti, painting, murals, digital
               illustration, and commercial design. His work has supported visual campaigns for major
               musical artists, cultural projects, and mayoral races, with original pieces connected
               to his practice appearing through Christie&apos;s and Sotheby&apos;s.
             </p>
             <p>
-              The range in ZODD&apos;s work is not random. It is built from discipline, study, and a
-              deep respect for visual lineage. He draws from art history, street culture, design
+              His skills are broad and cover a diverse range of styles, but they are built from
+              discipline, study, and a deep respect for visual lineage. He draws from art history, street culture, design
               systems, and character-driven storytelling with equal fluency, moving between styles
               while keeping the work grounded in craft, atmosphere, and intent.
             </p>

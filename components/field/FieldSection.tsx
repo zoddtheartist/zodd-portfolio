@@ -98,10 +98,10 @@ export default function FieldSection() {
       <div className="flex flex-wrap items-center justify-between gap-x-5 gap-y-2 px-4 py-2.5 bg-[var(--ink)] border-x-[1.5px] border-[var(--ink)]">
         <span className="flex flex-wrap gap-x-5 gap-y-1 font-[family-name:var(--font-typewriter)] text-[10px] tracking-[0.16em] uppercase text-[var(--paper)]">
           <span>
-            <span className="text-[var(--brass)] mr-1.5">client</span>Brown-Forman
+            <span className="text-[var(--brass)] mr-1.5">venue</span>Coors Field
           </span>
           <span>
-            <span className="text-[var(--brass)] mr-1.5">venue</span>Coors Field
+            <span className="text-[var(--brass)] mr-1.5">city</span>Denver, Colorado
           </span>
           <span>
             <span className="text-[var(--brass)] mr-1.5">state</span>installed 2026

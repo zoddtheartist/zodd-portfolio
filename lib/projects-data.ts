@@ -48,7 +48,7 @@ export const projects: Project[] = [
     slug: "jack-on-the-rockies",
     no: "01",
     title: "Jack on the Rockies",
-    eyebrow: "Brown-Forman × Colorado Rockies",
+    eyebrow: "Jack Daniel's × Colorado Rockies Baseball",
     descriptor: "Panoramic mural · 3M vinyl · Jack Daniel's Terrace, Coors Field · Denver",
     stamp: "Installed",
     figure: "215",
@@ -72,11 +72,12 @@ export const projects: Project[] = [
     ],
     // Assayed from the delivered artwork by area.
     palette: [
+      { hex: "#F6C240", name: "sun" },
       { hex: "#D5882E", name: "amber" },
       { hex: "#AB4D1A", name: "ember" },
       { hex: "#912B24", name: "oxblood" },
       { hex: "#54241C", name: "rust" },
-      { hex: "#380F28", name: "dusk" },
+      { hex: "#380F28", name: "purple" },
       { hex: "#0F0407", name: "ink" },
     ],
     rows: [
@@ -87,7 +88,7 @@ export const projects: Project[] = [
       { key: "output", value: "3M vinyl, panoramic" },
       { key: "venue", value: "Jack Daniel's Terrace, Coors Field" },
       { key: "city", value: "Denver, Colorado" },
-      { key: "client", value: "Brown-Forman × Colorado Rockies" },
+      { key: "owned by", value: "Jack Daniel's × Colorado Rockies Baseball" },
       { key: "selection", value: "open call, limited entries" },
       { key: "year", value: "2026" },
     ],
