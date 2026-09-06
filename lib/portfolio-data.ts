@@ -44,7 +44,6 @@ export const images: PortfolioImage[] = [
   { file: "ice-wolf.png", title: "Ice Wolf" },
   { file: "lords-shield.png", title: "Lords Shield" },
   { file: "supreme-savage.png", title: "Supreme Savage" },
-  { file: "gaucho-digital.png", title: "Gaucho Digital" },
   { file: "imagination-fish.png", title: "Imagination Fish" },
   { file: "moon-cat.png", title: "Moon Cat" },
   { file: "submerge.png", title: "Submerge" },
