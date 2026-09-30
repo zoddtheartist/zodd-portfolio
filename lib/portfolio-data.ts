@@ -86,7 +86,7 @@ export const images: PortfolioImage[] = [
   { file: "boston-on-the-bed.webp", title: "Boston on the Bed", sec: 49, status: "commissioned", categories: ["painted"], showcase: ["painted"], w: 1232, h: 928 },
   { file: "whiskey-glass-study.webp", title: "Whiskey Glass Study", sec: 50, status: "study", categories: ["painted"], showcase: ["all", "painted"], w: 2544, h: 1904 },
   { file: "oilers-commission.webp", title: "Oilers Commission", sec: 52, status: "commissioned", categories: ["commercial"], showcase: ["commercial"], w: 2799, h: 1820 },
-  { file: "cyclist-mural-amsterdam.webp", title: "Cyclist Mural", sec: 53, categories: ["painted"], showcase: ["painted"], w: 1345, h: 816 },
+  { file: "cyclist-mural-amsterdam.webp", title: "Cyclist Mural", sec: 53, status: "commissioned", categories: ["commercial"], showcase: ["commercial"], w: 1345, h: 816 },
 ]
 
 /** Pieces shown in a given homepage gallery view. */
