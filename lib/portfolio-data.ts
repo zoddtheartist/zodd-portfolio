@@ -55,7 +55,6 @@ export const images: PortfolioImage[] = [
   { file: "twins.webp", title: "Twins", sec: 14, status: "study", categories: ["ink"], showcase: ["ink"], w: 2048, h: 2048 },
   { file: "mfyc.webp", title: "MFYC", sec: 15, affinity: "maps", status: "commissioned", categories: ["commercial"], showcase: ["all", "commercial"], w: 2000, h: 1407 },
   { file: "money-land.webp", title: "Money Land", sec: 16, categories: ["digital"], w: 2000, h: 1333 },
-  { file: "mycellium-tech-render.webp", title: "Mycelium Tech", sec: 17, status: "commissioned", categories: ["commercial"], showcase: ["commercial"], w: 2000, h: 1121 },
   { file: "new-year-grandma.webp", title: "New Year Grandma", sec: 18, categories: ["digital"], w: 7083, h: 4675 },
   { file: "plane-sketch.webp", title: "Plane Sketch", sec: 19, status: "study", categories: ["ink"], showcase: ["ink"], w: 1024, h: 1024 },
   { file: "self-portrait.webp", title: "Self Portrait", sec: 20, categories: ["digital"], w: 928, h: 1232 },
@@ -63,11 +62,9 @@ export const images: PortfolioImage[] = [
   { file: "spring.webp", title: "Spring", sec: 22, status: "study", categories: ["painted"], showcase: ["painted"], w: 2000, h: 2000 },
   { file: "the-aquarium.webp", title: "The Aquarium", sec: 23, status: "sold", statusNote: "not available", categories: ["digital"], showcase: ["all", "digital"], w: 1500, h: 2000 },
   { file: "third-eye-ipa.webp", title: "Third Eye IPA", sec: 24, status: "commissioned", categories: ["commercial"], showcase: ["all", "commercial"], w: 2000, h: 1111 },
-  { file: "veritai-hq.webp", title: "Veritai HQ", sec: 25, status: "commissioned", categories: ["commercial"], showcase: ["commercial"], w: 1024, h: 1024 },
   { file: "wedding.webp", title: "Wedding", sec: 26, affinity: "maps", status: "commissioned", categories: ["commercial"], showcase: ["all", "commercial"], w: 1333, h: 2000 },
   { file: "yule.webp", title: "Yule", sec: 27, status: "study", categories: ["painted"], showcase: ["painted"], w: 2000, h: 2000 },
   { file: "brain-pattern.webp", title: "Brain Pattern", sec: 28, status: "commissioned", categories: ["commercial"], showcase: ["commercial"], w: 1024, h: 1024 },
-  { file: "tech-barn.webp", title: "Tech Barn", sec: 29, status: "commissioned", categories: ["commercial"], showcase: ["commercial"], w: 1536, h: 1024 },
   { file: "astroboy-sunglasses-1.webp", title: "Astro Boy Glasses", sec: 30, affinity: "eyewear", status: "commissioned", categories: ["commercial"], showcase: ["commercial"], w: 1000, h: 1000 },
   { file: "tyson-sunglasses-1.webp", title: "Tyson Glasses", sec: 31, affinity: "eyewear", status: "commissioned", categories: ["commercial"], showcase: ["commercial"], w: 1000, h: 1000 },
   { file: "goblin-and-cat.webp", title: "Goblin and Cat", sec: 32, categories: ["digital"], showcase: ["digital"], w: 2000, h: 2000 },
@@ -89,6 +86,8 @@ export const images: PortfolioImage[] = [
   { file: "turtle-town.webp", title: "Turtle Town", sec: 48, status: "commissioned", categories: ["digital"], showcase: ["digital"], w: 1280, h: 720 },
   { file: "boston-on-the-bed.webp", title: "Boston on the Bed", sec: 49, status: "commissioned", categories: ["painted"], showcase: ["painted"], w: 1232, h: 928 },
   { file: "whiskey-glass-study.webp", title: "Whiskey Glass Study", sec: 50, status: "study", categories: ["painted"], showcase: ["all", "painted"], w: 2544, h: 1904 },
+  { file: "oilers-commission.webp", title: "Oilers Commission", sec: 52, status: "commissioned", categories: ["commercial"], showcase: ["commercial"], w: 2799, h: 1820 },
+  { file: "cyclist-mural-amsterdam.webp", title: "Cyclist Mural", sec: 53, categories: ["painted"], showcase: ["painted"], w: 1345, h: 816 },
 ]
 
 /** Pieces shown in a given homepage gallery view. */
