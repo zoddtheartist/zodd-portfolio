@@ -76,7 +76,6 @@ export const images: PortfolioImage[] = [
   { file: "ice-wolf.webp", title: "Ice Wolf", sec: 38, status: "study", categories: ["painted"], showcase: ["painted"], w: 1344, h: 896 },
   { file: "lords-shield.webp", title: "Lords Shield", sec: 39, categories: ["digital"], w: 1920, h: 1080 },
   { file: "supreme-savage.webp", title: "Supreme Savage", sec: 40, status: "edition", statusNote: "sold out · 1000 prints", categories: ["digital"], showcase: ["digital"], w: 1000, h: 1299 },
-  { file: "gaucho-digital.webp", title: "Gaucho Digital", sec: 41, status: "study", categories: ["ink"], showcase: ["ink"], w: 1122, h: 1402 },
   { file: "imagination-fish.webp", title: "Imagination Fish", sec: 42, status: "study", categories: ["ink"], showcase: ["all", "ink"], w: 928, h: 1232 },
   { file: "moon-cat.webp", title: "Moon Cat", sec: 43, status: "study", categories: ["ink"], showcase: ["ink"], w: 2000, h: 2000 },
   { file: "submerge.webp", title: "Submerge", sec: 44, status: "study", categories: ["ink"], showcase: ["ink"], w: 1402, h: 2000 },

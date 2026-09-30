@@ -66,13 +66,6 @@ export default function Home() {
               >
                 Portfolio
               </TrackedLink>
-              <TrackedLink
-                href="/kings"
-                event="hero_kings_click"
-                className="border-[1.5px] border-[var(--ink)] px-8 py-3.5 font-[family-name:var(--font-typewriter)] font-bold text-[13px] tracking-[0.2em] uppercase text-[var(--ink)] transition-colors duration-300 hover:bg-[var(--ink)] hover:text-[var(--paper)] active:bg-[var(--ink)] active:text-[var(--paper)]"
-              >
-                The Kings
-              </TrackedLink>
             </div>
           </div>
 
@@ -123,7 +116,9 @@ export default function Home() {
 
         {/* The two plates, moved up directly under About */}
         <section className="max-w-screen-xl mx-auto px-6 pb-10">
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+          {/* One plate while Kings is pulled. Held to roughly the width it had as
+              half of the old two-up so the frame does not stretch across the page. */}
+          <div className="grid grid-cols-1 gap-6 md:max-w-xl md:mx-auto">
             <StampedPlate
               href="/portfolio"
               event="section_portfolio_click"
@@ -132,15 +127,6 @@ export default function Home() {
               blurb="Commissions and original works, filed in full."
               cta="View work"
               stamp="Filed"
-            />
-            <StampedPlate
-              href="/kings"
-              event="section_kings_click"
-              label="Collection"
-              title="The Kings"
-              blurb="One hundred characters. One realm."
-              cta="View collection"
-              stamp="Sealed"
             />
           </div>
         </section>

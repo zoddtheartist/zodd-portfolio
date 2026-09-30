@@ -6,7 +6,7 @@ import { gothic, stencil, typewriter } from "./fonts"
 
 export const metadata: Metadata = {
   title: "Zodd — Art Portfolio",
-  description: "The art of Zodd. Kings collection and portfolio.",
+  description: "The art of Zodd. Murals, commissions and original works.",
 }
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {

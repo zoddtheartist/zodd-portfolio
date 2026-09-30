@@ -2,9 +2,14 @@ import KingsVideo from "@/components/KingsVideo"
 import KingsGallery from "@/components/KingsGallery"
 import { kings } from "@/lib/kings-data"
 
+// Unlinked, not deleted. Nothing in the nav or on the homepage points here while
+// the video reads as crypto-first, so the page is reachable only by direct URL.
+// noindex keeps it out of search results in the meantime; drop the robots block
+// and restore the nav entry plus the homepage plate to bring it back.
 export const metadata = {
   title: "The Kings — Zodd",
   description: "100 hand-drawn kings of a decentralised realm.",
+  robots: { index: false, follow: false },
 }
 
 export default function KingsPage() {

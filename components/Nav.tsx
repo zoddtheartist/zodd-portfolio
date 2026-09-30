@@ -4,10 +4,12 @@ import Image from "next/image"
 import { usePathname } from "next/navigation"
 import { useState } from "react"
 
+// Kings is deliberately absent. The route still exists and still renders, but
+// nothing on the site links to it while the video reads as crypto-first. Put the
+// entry back here to restore it everywhere at once.
 const links = [
   { href: "/", label: "Home" },
   { href: "/portfolio", label: "Portfolio" },
-  { href: "/kings", label: "Kings" },
   { href: "/contact", label: "Contact" },
 ]
 
