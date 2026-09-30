@@ -16,11 +16,14 @@
     --site-bg: #0D0C0A;
     --site-ink: #EDE4D0;
     --ox: #7A2018;
+    --brass: #B5892F;
   }
   * { box-sizing: border-box; margin: 0; padding: 0; }
   body { background: var(--site-bg); color: var(--site-ink); font-family: var(--monoP); line-height: 1.5; }
   .rail { max-width: 1140px; margin: 0 auto; padding: 14px 22px 10px; display: flex; justify-content: space-between; gap: 12px; border-bottom: 1px solid rgba(237,228,208,0.25); }
   .mono-label { font-size: 11px; letter-spacing: 0.22em; text-transform: uppercase; }
+  .backlink { color: var(--brass); text-decoration: none; border-bottom: 1px solid transparent; }
+  .backlink:hover, .backlink:focus-visible { color: var(--site-ink); border-bottom-color: currentColor; outline: none; }
   header.head { max-width: 1140px; margin: 0 auto; padding: 30px 22px 26px; }
   header.head h1 { font-family: var(--gothic); font-weight: 900; text-transform: uppercase; font-size: clamp(40px, 7vw, 74px); line-height: 0.9; }
   header.head .stmt { font-family: var(--serifP); font-style: italic; font-size: 17px; margin-top: 12px; opacity: 0.9; }
@@ -114,7 +117,9 @@
 <body>
 
 <div class="rail">
-  <span class="mono-label">Zodd / lab — design tool</span>
+  <!-- These tools are standalone HTML, so they get no site nav. Without this a visitor
+       who clicks in from /labs has only the browser back button. -->
+  <a class="mono-label backlink" href="/labs">&larr;&nbsp; The Lab</a>
   <span class="mono-label">entry 002 / MMXXVI</span>
 </div>
 

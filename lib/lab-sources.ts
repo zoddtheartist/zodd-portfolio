@@ -90,9 +90,6 @@ const MONO_FILES = new Set([
   "gaucho.webp",
 ])
 
-/** Pieces whose aspect ratio makes them useless in a poster image slot. */
-const TOO_WIDE_FOR_POSTER = 2.2
-
 export function isMono(img: PortfolioImage): boolean {
   return MONO_FILES.has(img.file)
 }
@@ -106,13 +103,15 @@ function toSource(img: PortfolioImage): LabSource {
  *
  * The ink treatments (invert + screen for dark presets, multiply for paper ones)
  * assume line art on a light ground, which is why this is the monochrome set and
- * not the whole portfolio. Ultra-wide pieces are excluded because they render as a
- * thin strip in every grid mode; Frame 3 at 10012x3941 is the only one so far.
+ * not the whole portfolio.
+ *
+ * No aspect-ratio guard. Frame 3 is 10012x3941 and renders as a thin strip in most
+ * grid modes, which is Zodd's call rather than the code's; Specimen and Asymmetric
+ * suit it better than Stacked does.
  */
 export function posterSources(): LabSource[] {
   return images
     .filter(isMono)
-    .filter((i) => i.w / i.h < TOO_WIDE_FOR_POSTER)
     .map((i) => ({ ...toSource(i), treatment: TREATMENT[i.file] ?? DEFAULT_TREATMENT }))
     .sort((a, b) => a.title.localeCompare(b.title))
 }
