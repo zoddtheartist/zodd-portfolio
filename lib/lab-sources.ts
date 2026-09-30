@@ -18,7 +18,47 @@ export type LabSource = {
   /** Intrinsic size, so a tool can lay out before the image loads. */
   w: number
   h: number
+  /** Poster sources only. How the ink treatment has to be adjusted for this scan. */
+  treatment?: SketchTreatment
 }
+
+/**
+ * Per-sketch correction for the poster engine's ink logic.
+ *
+ * `b` and `c` are a levels stretch applied before the invert, mapping the ink point to
+ * black and the paper point to white, so a scan on grey paper stops inverting into a
+ * grey haze.
+ *
+ * `polarity` is which side the scan's ground sits on. Most pieces are ink on white
+ * ("light"); a few are already light-on-dark ("dark") and inverting those a second time
+ * floods the poster. The engine decides whether to invert from this plus the preset's
+ * mode, rather than assuming every source is ink on paper.
+ *
+ * Measured by scripts/measure-sketch-levels.py. Re-run it when sketches are added;
+ * it keeps identity values where a stretch would only lift paper grain.
+ */
+export type SketchTreatment = {
+  b: number
+  c: number
+  polarity: "light" | "dark"
+}
+
+const TREATMENT: Record<string, SketchTreatment> = {
+  "astroboy-sunglasses-1.webp": { b: 1.0, c: 1.0, polarity: "light" },
+  "chisel-peak.webp": { b: 0.85, c: 1.427, polarity: "light" },
+  "eagle.webp": { b: 0.924, c: 1.179, polarity: "light" },
+  "frame-3.webp": { b: 1.0, c: 1.0, polarity: "light" },
+  "gaucho.webp": { b: 1.024, c: 1.041, polarity: "light" },
+  "imagination-fish.webp": { b: 0.928, c: 1.169, polarity: "light" },
+  "moon-cat.webp": { b: 0.931, c: 1.16, polarity: "dark" },
+  "plane-sketch.webp": { b: 0.766, c: 2.066, polarity: "light" },
+  "submerge.webp": { b: 1.0, c: 1.0, polarity: "light" },
+  "the-valley.webp": { b: 0.625, c: 4.0, polarity: "light" },
+  "twins.webp": { b: 1.0, c: 1.0, polarity: "light" },
+  "tyson-sunglasses-1.webp": { b: 1.0, c: 1.0, polarity: "light" },
+}
+
+const DEFAULT_TREATMENT: SketchTreatment = { b: 1, c: 1, polarity: "light" }
 
 /**
  * The monochrome pieces, measured rather than inferred from the `ink` category.
@@ -73,7 +113,7 @@ export function posterSources(): LabSource[] {
   return images
     .filter(isMono)
     .filter((i) => i.w / i.h < TOO_WIDE_FOR_POSTER)
-    .map(toSource)
+    .map((i) => ({ ...toSource(i), treatment: TREATMENT[i.file] ?? DEFAULT_TREATMENT }))
     .sort((a, b) => a.title.localeCompare(b.title))
 }
 

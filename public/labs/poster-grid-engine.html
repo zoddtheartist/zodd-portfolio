@@ -45,8 +45,25 @@
   }
   .p-img { grid-area: img; display: flex; align-items: center; justify-content: center; min-height: 0; overflow: hidden; position: relative; }
   .p-img img { max-width: 100%; max-height: 100%; width: calc(100% * var(--iscale)); object-fit: contain; display: block; }
-  .poster[data-mode="negative"] .p-img img { filter: grayscale(1) invert(1) contrast(var(--pcon)); mix-blend-mode: screen; }
-  .poster[data-mode="positive"] .p-img img { filter: grayscale(1) sepia(0.18) contrast(var(--pcon)); mix-blend-mode: multiply; }
+  /* Ink logic, in order: flatten to grey, stretch levels so the scan's ink point is
+     black and its paper point white, then invert if the source is the wrong way round
+     for this preset, then the user's contrast on top.
+
+     --lvb / --lvc come from the sketch's measured treatment. data-invert is computed
+     from the scan's polarity against the preset mode, because a few pieces are already
+     light-on-dark and inverting those again floods the poster. */
+  .poster .p-img img {
+    filter: grayscale(1) brightness(var(--lvb, 1)) contrast(var(--lvc, 1)) contrast(var(--pcon));
+  }
+  .poster[data-invert="yes"] .p-img img {
+    filter: grayscale(1) brightness(var(--lvb, 1)) contrast(var(--lvc, 1)) invert(1) contrast(var(--pcon));
+  }
+  .poster[data-mode="negative"] .p-img img { mix-blend-mode: screen; }
+  .poster[data-mode="positive"] .p-img img {
+    mix-blend-mode: multiply;
+    filter: grayscale(1) brightness(var(--lvb, 1)) contrast(var(--lvc, 1)) sepia(0.18) contrast(var(--pcon));
+  }
+  .poster[data-mode="positive"][data-invert="yes"] .p-img img { filter: grayscale(1) brightness(var(--lvb, 1)) contrast(var(--lvc, 1)) invert(1) sepia(0.18) contrast(var(--pcon)); }
 
   .p-title { grid-area: title; font-family: var(--tfont); font-weight: var(--tweight); font-size: calc(11cqw * var(--tsize)); line-height: 0.92; overflow-wrap: anywhere; align-self: end; }
   .poster[data-tcase="upper"] .p-title { text-transform: uppercase; }
@@ -203,7 +220,7 @@
         if (!list.length) throw new Error('catalogue held no sketches');
         sel.innerHTML = '';
         list.forEach(function(item){
-          ART[item.src] = item.src;
+          ART[item.src] = item;
           var o = document.createElement('option');
           o.value = item.src; o.textContent = item.title;
           sel.appendChild(o);
@@ -255,6 +272,16 @@
     // state.art is already the path under public/. Read it directly and never through
     // /_next/image, which re-encodes and would shift the very tones the ink logic acts on.
     if (state.art && img.getAttribute('src') !== state.art) img.src = state.art;
+
+    // Apply this sketch's measured treatment.
+    var item = ART[state.art];
+    var t = (item && item.treatment) || { b: 1, c: 1, polarity: 'light' };
+    poster.style.setProperty('--lvb', t.b);
+    poster.style.setProperty('--lvc', t.c);
+    // Invert only when the scan's ground and the preset's target disagree:
+    //   negative wants light-on-dark, positive wants dark-on-light.
+    var wantsInvert = (mode === 'negative') === (t.polarity === 'light');
+    poster.setAttribute('data-invert', wantsInvert ? 'yes' : 'no');
   }
 
   [['fTitle','title'],['fSub','sub'],['fDate','date'],['fLoc','loc'],['fLine','line']].forEach(function(p){
