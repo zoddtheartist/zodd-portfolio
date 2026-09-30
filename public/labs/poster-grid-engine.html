@@ -1,0 +1,300 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Zodd / Lab — Poster Grid Engine</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Big+Shoulders+Display:wght@700;800;900&family=Big+Shoulders+Stencil+Display:wght@800&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --gothic: "Big Shoulders Display", "Arial Narrow", sans-serif;
+    --stencil: "Big Shoulders Stencil Display", "Big Shoulders Display", "Arial Narrow", sans-serif;
+    --serifP: "Iowan Old Style", "Palatino Linotype", Palatino, Georgia, serif;
+    --monoP: "Courier New", Courier, monospace;
+    --site-bg: #0D0C0A;
+    --site-ink: #EDE4D0;
+    --ox: #7A2018;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { background: var(--site-bg); color: var(--site-ink); font-family: var(--monoP); line-height: 1.5; }
+  .rail { max-width: 1140px; margin: 0 auto; padding: 14px 22px 10px; display: flex; justify-content: space-between; gap: 12px; border-bottom: 1px solid rgba(237,228,208,0.25); }
+  .mono-label { font-size: 11px; letter-spacing: 0.22em; text-transform: uppercase; }
+  header.head { max-width: 1140px; margin: 0 auto; padding: 30px 22px 26px; }
+  header.head h1 { font-family: var(--gothic); font-weight: 900; text-transform: uppercase; font-size: clamp(40px, 7vw, 74px); line-height: 0.9; }
+  header.head .stmt { font-family: var(--serifP); font-style: italic; font-size: 17px; margin-top: 12px; opacity: 0.9; }
+  header.head .tag { color: #B5892F; margin-top: 8px; }
+
+  .app { max-width: 1140px; margin: 0 auto; padding: 10px 22px 70px; display: grid; grid-template-columns: minmax(0, 1fr) 330px; gap: 38px; align-items: start; }
+
+  .pwrap { container-type: inline-size; width: min(100%, 540px); margin: 0 auto; }
+  .poster {
+    position: relative; aspect-ratio: 4 / 5; overflow: hidden;
+    background: var(--pbg); color: var(--pink);
+    display: grid; padding: calc(26px * var(--den)); gap: calc(12px * var(--den));
+    border: 1px solid rgba(237,228,208,0.2);
+  }
+  .p-tex {
+    position: absolute; inset: 0; pointer-events: none; z-index: 5;
+    mix-blend-mode: overlay; opacity: var(--texop, 0);
+    background-image:
+      url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='140' height='140'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2'/%3E%3C/filter%3E%3Crect width='140' height='140' filter='url(%23n)' opacity='0.55'/%3E%3C/svg%3E"),
+      radial-gradient(circle at 1px 1px, rgba(128,128,128,0.5) 0.7px, transparent 1.1px);
+    background-size: 140px 140px, 4px 4px;
+  }
+  .p-img { grid-area: img; display: flex; align-items: center; justify-content: center; min-height: 0; overflow: hidden; position: relative; }
+  .p-img img { max-width: 100%; max-height: 100%; width: calc(100% * var(--iscale)); object-fit: contain; display: block; }
+  .poster[data-mode="negative"] .p-img img { filter: grayscale(1) invert(1) contrast(var(--pcon)); mix-blend-mode: screen; }
+  .poster[data-mode="positive"] .p-img img { filter: grayscale(1) sepia(0.18) contrast(var(--pcon)); mix-blend-mode: multiply; }
+
+  .p-title { grid-area: title; font-family: var(--tfont); font-weight: var(--tweight); font-size: calc(11cqw * var(--tsize)); line-height: 0.92; overflow-wrap: anywhere; align-self: end; }
+  .poster[data-tcase="upper"] .p-title { text-transform: uppercase; }
+  .p-sub { grid-area: sub; font-family: var(--serifP); font-style: italic; font-size: calc(3.6cqw * var(--tsize)); opacity: 0.92; }
+  .p-line { grid-area: line; font-family: var(--monoP); font-size: 2.5cqw; letter-spacing: 0.24em; text-transform: uppercase; color: var(--pacc); align-self: end; }
+  .p-foot { grid-area: foot; display: flex; justify-content: space-between; align-items: flex-end; gap: 10px; font-family: var(--monoP); font-size: 2.4cqw; letter-spacing: 0.14em; text-transform: uppercase; }
+  .p-meta { line-height: 1.7; }
+  .p-mark svg { display: block; width: 8cqw; height: 8cqw; }
+
+  .poster[data-grid="stacked"] { grid-template-rows: minmax(0, 1.15fr) auto auto auto auto; grid-template-areas: "img" "title" "sub" "line" "foot"; }
+  .poster[data-grid="split"] { grid-template-columns: 1.05fr 1fr; grid-template-rows: auto auto minmax(0, 1fr) auto; grid-template-areas: "img title" "img sub" "img line" "img foot"; }
+  .poster[data-grid="split"] .p-title { align-self: start; }
+  .poster[data-grid="asym"] { grid-template-rows: minmax(0, 1fr) auto auto auto; grid-template-areas: "title" "sub" "line" "foot"; }
+  .poster[data-grid="asym"] .p-img { position: absolute; top: 5%; right: -7%; width: calc(74% * var(--iscale)); height: 62%; z-index: 0; }
+  .poster[data-grid="asym"] .p-img img { width: 100%; }
+  .poster[data-grid="asym"] .p-title, .poster[data-grid="asym"] .p-sub, .poster[data-grid="asym"] .p-line, .poster[data-grid="asym"] .p-foot { position: relative; z-index: 1; }
+  .poster[data-grid="ledger"] { gap: 0; grid-template-rows: auto minmax(0, 1fr) auto auto auto; grid-template-areas: "title" "img" "sub" "line" "foot"; }
+  .poster[data-grid="ledger"] > .p-el { border-top: 1.5px solid currentColor; padding-top: calc(9px * var(--den)); padding-bottom: calc(9px * var(--den)); }
+  .poster[data-grid="ledger"] > .p-title { border-top: none; align-self: start; }
+  .poster[data-grid="specimen"] { grid-template-rows: auto minmax(0, 1fr) auto auto auto; grid-template-areas: "line" "img" "title" "sub" "foot"; }
+  .poster[data-grid="specimen"] .p-img { border: 1.5px solid currentColor; padding: calc(12px * var(--den)); }
+  .poster[data-grid="specimen"] .p-line { align-self: start; }
+  .poster[data-grid="specimen"] .p-foot { border-top: 1.5px solid currentColor; padding-top: calc(8px * var(--den)); }
+
+  .panel label { display: block; font-size: 10px; letter-spacing: 0.2em; text-transform: uppercase; color: rgba(237,228,208,0.6); margin: 15px 0 5px; }
+  .panel input[type="text"], .panel select {
+    width: 100%; background: #161310; border: 1px solid rgba(237,228,208,0.28);
+    color: var(--site-ink); padding: 8px 10px; font-family: var(--monoP); font-size: 13px; border-radius: 0;
+  }
+  .panel input[type="range"] { width: 100%; accent-color: var(--ox); }
+  .rangerow { display: flex; align-items: center; gap: 10px; }
+  .rangerow output { font-size: 11px; min-width: 38px; text-align: right; }
+  .btnrow { display: flex; gap: 8px; margin-top: 22px; flex-wrap: wrap; }
+  .btn {
+    flex: 1 1 auto; background: var(--site-ink); color: #171310; border: 1px solid var(--site-ink);
+    padding: 10px 12px; font-family: var(--monoP); letter-spacing: 0.14em; text-transform: uppercase;
+    font-size: 11px; cursor: pointer; transition: background 0.15s, color 0.15s;
+  }
+  .btn.ghost { background: transparent; color: var(--site-ink); }
+  .btn:hover { background: var(--ox); color: var(--site-ink); border-color: var(--ox); }
+  :focus-visible { outline: 2px solid var(--ox); outline-offset: 2px; }
+  .hint { margin-top: 16px; font-size: 11px; letter-spacing: 0.06em; opacity: 0.55; line-height: 1.7; }
+
+  @media (max-width: 900px) { .app { grid-template-columns: 1fr; } .pwrap { width: 100%; } }
+  @media (prefers-reduced-motion: reduce) { .btn { transition: none; } }
+</style>
+</head>
+<body>
+
+<div class="rail">
+  <span class="mono-label">Zodd / lab — design tool</span>
+  <span class="mono-label">entry 002 / MMXXVI</span>
+</div>
+
+<header class="head">
+  <h1>Poster Grid Engine</h1>
+  <p class="stmt">&ldquo;A poster is hierarchy under pressure.&rdquo;</p>
+  <div class="mono-label tag">grid &middot; scale &middot; density &middot; original sketch material</div>
+</header>
+
+<div class="app">
+
+  <div class="pwrap">
+    <div class="poster" id="poster" data-grid="stacked" data-mode="negative" data-tcase="upper" aria-label="Poster preview">
+      <div class="p-img p-el"><img id="pArt" src="" alt="Selected sketch artwork"></div>
+      <div class="p-title p-el" id="pTitle"></div>
+      <div class="p-sub p-el" id="pSub"></div>
+      <div class="p-line p-el" id="pLine"></div>
+      <div class="p-foot p-el">
+        <div class="p-meta"><span id="pDate"></span><br><span id="pLoc"></span></div>
+        <div class="p-mark" aria-hidden="true">
+          <svg viewBox="0 0 100 100"><g stroke="currentColor" fill="none" stroke-width="7" stroke-linecap="round"><text x="50" y="46" text-anchor="middle" dominant-baseline="central" font-family="Georgia, serif" font-size="54" font-weight="700" fill="currentColor" stroke="none" transform="rotate(90 50 50)">Z</text><line x1="26" y1="82" x2="74" y2="82"/></g></svg>
+        </div>
+      </div>
+      <div class="p-tex" aria-hidden="true"></div>
+    </div>
+  </div>
+
+  <div class="panel">
+    <label for="fTitle">Title</label>
+    <input type="text" id="fTitle" value="The Territory" maxlength="60">
+    <label for="fSub">Subtitle</label>
+    <input type="text" id="fSub" value="documents of a made-up frontier" maxlength="90">
+    <label for="fDate">Date</label>
+    <input type="text" id="fDate" value="12 JUL 2026" maxlength="40">
+    <label for="fLoc">Location</label>
+    <input type="text" id="fLoc" value="TWP 4 NW — high country" maxlength="60">
+    <label for="fLine">Metadata line</label>
+    <input type="text" id="fLine" value="one night only — doors at dusk" maxlength="70">
+
+    <label for="fPreset">Style preset</label>
+    <select id="fPreset">
+      <option value="frontier">Frontier Brutal</option>
+      <option value="field">Field Guide</option>
+      <option value="showbill">Showbill</option>
+      <option value="northern">Northern Gothic</option>
+      <option value="gallery">Gallery Wall</option>
+    </select>
+
+    <label for="fGrid">Grid mode</label>
+    <select id="fGrid">
+      <option value="stacked">Stacked</option>
+      <option value="split">Split</option>
+      <option value="asym">Asymmetric</option>
+      <option value="ledger">Ledger</option>
+      <option value="specimen">Specimen</option>
+    </select>
+
+    <label for="fArt">Artwork</label>
+    <select id="fArt"><option value="">loading sketches&hellip;</option></select>
+
+    <label for="fInk">Ink</label>
+    <select id="fInk">
+      <option value="auto">Auto (preset default)</option>
+      <option value="negative">Negative — bone ink on dark</option>
+      <option value="positive">Positive — dark ink on paper</option>
+    </select>
+
+    <label for="fDen">Density</label>
+    <div class="rangerow"><input type="range" id="fDen" min="0.6" max="1.5" step="0.05" value="1"><output id="oDen">1.00</output></div>
+    <label for="fCon">Contrast</label>
+    <div class="rangerow"><input type="range" id="fCon" min="0.9" max="1.8" step="0.05" value="1.15"><output id="oCon">1.15</output></div>
+    <label for="fIsc">Image scale</label>
+    <div class="rangerow"><input type="range" id="fIsc" min="0.5" max="1.4" step="0.05" value="1"><output id="oIsc">1.00</output></div>
+    <label for="fTsc">Type scale</label>
+    <div class="rangerow"><input type="range" id="fTsc" min="0.6" max="1.5" step="0.05" value="1"><output id="oTsc">1.00</output></div>
+
+    <div class="btnrow">
+      <button class="btn" id="bCss" type="button">Copy CSS</button>
+      <button class="btn ghost" id="bCfg" type="button">Copy Config</button>
+    </div>
+    <p class="hint">Presets carry the ink logic: dark presets knock your sketch to bone with invert + screen; paper presets print it down with multiply. Drop new scans in and they inherit the treatment.</p>
+  </div>
+
+</div>
+
+<script>
+(function(){
+  // Sketches come from the shared catalogue (/labs/catalogue), which is derived from
+  // lib/portfolio-data.ts. This file used to embed four base64 JPEGs, which meant the
+  // poster engine and the Claim Office each carried their own copy of the same art and
+  // could disagree about what the sketch set was.
+  //
+  // The list is the monochrome pieces only: the ink treatments below assume line art on
+  // a light ground, so colour work comes out muddy.
+  var ART = {};
+
+  function loadCatalogue(){
+    var sel = document.getElementById('fArt');
+    return fetch('/labs/catalogue')
+      .then(function(r){ if(!r.ok) throw new Error('catalogue ' + r.status); return r.json(); })
+      .then(function(cat){
+        var list = cat.poster || [];
+        if (!list.length) throw new Error('catalogue held no sketches');
+        sel.innerHTML = '';
+        list.forEach(function(item){
+          ART[item.src] = item.src;
+          var o = document.createElement('option');
+          o.value = item.src; o.textContent = item.title;
+          sel.appendChild(o);
+        });
+        state.art = list[0].src;
+        sel.value = state.art;
+      })
+      .catch(function(err){
+        // Fail loudly in the UI rather than sitting on an empty dropdown.
+        sel.innerHTML = '<option value="">could not load sketches</option>';
+        console.error('[poster grid engine]', err);
+      });
+  }
+  var FONT = { gothic: 'var(--gothic)', stencil: 'var(--stencil)', serif: 'var(--serifP)' };
+  var PRESETS = {
+    frontier: { label:'Frontier Brutal', bg:'#0E0C0A', ink:'#EDE4D0', acc:'#7A2018', tfont:'gothic', tweight:900, tcase:'upper', mode:'negative', tex:0.14, ts:1 },
+    field:    { label:'Field Guide',     bg:'#EFE7D6', ink:'#2B2018', acc:'#7A2018', tfont:'serif',  tweight:600, tcase:'none',  mode:'positive', tex:0.10, ts:0.8 },
+    showbill: { label:'Showbill',        bg:'#E8DCC2', ink:'#241B12', acc:'#B5892F', tfont:'stencil',tweight:800, tcase:'upper', mode:'positive', tex:0.16, ts:0.95 },
+    northern: { label:'Northern Gothic', bg:'#10140F', ink:'#E3DECB', acc:'#B5892F', tfont:'gothic', tweight:700, tcase:'upper', mode:'negative', tex:0.12, ts:0.9 },
+    gallery:  { label:'Gallery Wall',    bg:'#111110', ink:'#F2EFE6', acc:'#8A8674', tfont:'gothic', tweight:700, tcase:'upper', mode:'negative', tex:0,    ts:0.55 }
+  };
+  var state = { title:'The Territory', sub:'documents of a made-up frontier', date:'12 JUL 2026', loc:'TWP 4 NW \u2014 high country', line:'one night only \u2014 doors at dusk', preset:'frontier', grid:'stacked', art:'', ink:'auto', den:1, con:1.15, isc:1, tsc:1 };
+
+  var poster = document.getElementById('poster');
+  var img = document.getElementById('pArt');
+  function $(id){ return document.getElementById(id); }
+
+  function apply(){
+    var P = PRESETS[state.preset];
+    var mode = state.ink === 'auto' ? P.mode : state.ink;
+    poster.style.setProperty('--pbg', P.bg);
+    poster.style.setProperty('--pink', P.ink);
+    poster.style.setProperty('--pacc', P.acc);
+    poster.style.setProperty('--tfont', FONT[P.tfont]);
+    poster.style.setProperty('--tweight', P.tweight);
+    poster.style.setProperty('--tsize', (P.ts * state.tsc).toFixed(3));
+    poster.style.setProperty('--den', state.den);
+    poster.style.setProperty('--pcon', state.con);
+    poster.style.setProperty('--iscale', state.isc);
+    poster.style.setProperty('--texop', P.tex);
+    poster.dataset.grid = state.grid;
+    poster.dataset.mode = mode;
+    poster.dataset.tcase = P.tcase;
+    $('pTitle').textContent = state.title;
+    $('pSub').textContent = state.sub;
+    $('pDate').textContent = state.date;
+    $('pLoc').textContent = state.loc;
+    $('pLine').textContent = state.line;
+    // state.art is already the path under public/. Read it directly and never through
+    // /_next/image, which re-encodes and would shift the very tones the ink logic acts on.
+    if (state.art && img.getAttribute('src') !== state.art) img.src = state.art;
+  }
+
+  [['fTitle','title'],['fSub','sub'],['fDate','date'],['fLoc','loc'],['fLine','line']].forEach(function(p){
+    $(p[0]).addEventListener('input', function(e){ state[p[1]] = e.target.value; apply(); });
+  });
+  [['fPreset','preset'],['fGrid','grid'],['fArt','art'],['fInk','ink']].forEach(function(p){
+    $(p[0]).addEventListener('change', function(e){ state[p[1]] = e.target.value; apply(); });
+  });
+  [['fDen','den','oDen'],['fCon','con','oCon'],['fIsc','isc','oIsc'],['fTsc','tsc','oTsc']].forEach(function(p){
+    $(p[0]).addEventListener('input', function(e){
+      state[p[1]] = parseFloat(e.target.value);
+      $(p[2]).textContent = parseFloat(e.target.value).toFixed(2);
+      apply();
+    });
+  });
+
+  function copyText(txt, btn, done){
+    function ok(){ var t = btn.textContent; btn.textContent = done; setTimeout(function(){ btn.textContent = t; }, 1400); }
+    if (navigator.clipboard && navigator.clipboard.writeText) { navigator.clipboard.writeText(txt).then(ok); }
+    else { var ta = document.createElement('textarea'); ta.value = txt; document.body.appendChild(ta); ta.select(); document.execCommand('copy'); document.body.removeChild(ta); ok(); }
+  }
+
+  $('bCss').addEventListener('click', function(){
+    var P = PRESETS[state.preset];
+    var mode = state.ink === 'auto' ? P.mode : state.ink;
+    var blend = mode === 'negative'
+      ? '.poster img { filter: grayscale(1) invert(1) contrast(' + state.con + '); mix-blend-mode: screen; }'
+      : '.poster img { filter: grayscale(1) sepia(0.18) contrast(' + state.con + '); mix-blend-mode: multiply; }';
+    var css = '.poster {\n  --pbg: ' + P.bg + ';\n  --pink: ' + P.ink + ';\n  --pacc: ' + P.acc + ';\n  --den: ' + state.den + ';\n  --iscale: ' + state.isc + ';\n  --tsize: ' + (P.ts * state.tsc).toFixed(3) + ';\n  background: var(--pbg);\n  color: var(--pink);\n  aspect-ratio: 4 / 5;\n  display: grid;\n  padding: calc(26px * var(--den));\n  gap: calc(12px * var(--den));\n}\n' + blend;
+    copyText(css, this, 'Copied');
+  });
+  $('bCfg').addEventListener('click', function(){
+    copyText(JSON.stringify(state, null, 2), this, 'Copied');
+  });
+
+  // Paint straight away so the poster frame, type and preset are all visible while the
+  // catalogue is still in flight, then paint again once a sketch has been chosen.
+  apply();
+  loadCatalogue().then(apply);
+})();
+</script>
+</body>
+</html>

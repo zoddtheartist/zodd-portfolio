@@ -48,11 +48,12 @@ export const items: LabItem[] = [
     no: 1,
     title: "Poster Grid Engine",
     kind: "tool",
-    status: "draft",
-    date: "2026-08-03",
+    status: "live",
+    date: "2026-09-30",
     blurb:
-      "Five grid modes and five presets for laying out a poster, with the ink logic exposed and the resulting CSS copyable. Built as asset infrastructure rather than a page.",
-    tags: ["layout", "typography", "css"],
+      "Builds a poster from any of the black and white sketches. Five presets and five grid modes, with dark presets knocking the line art to bone and paper presets printing it down, and the resulting CSS copyable.",
+    tags: ["layout", "typography", "posters"],
+    href: "/labs/poster-grid-engine.html",
   },
   {
     slug: "viridian-field-study",

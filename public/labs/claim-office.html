@@ -92,6 +92,19 @@
   .sect-label { margin-bottom: 10px; }
 
   @media (max-width: 880px) { .wrap { grid-template-columns: 1fr; } }
+
+  /* Portfolio picker. A plain overlay rather than <dialog>, to match the rest of
+     this file's vanilla approach and keep the styling under our control. */
+  .modal { position: fixed; inset: 0; z-index: 60; background: rgba(13,12,10,0.86); display: flex; align-items: flex-start; justify-content: center; padding: 4vh 16px; overflow: auto; }
+  .modal[hidden] { display: none; }
+  .modal-panel { width: 100%; max-width: 1040px; border: 1.5px solid var(--ink); background: var(--bg); }
+  .modal-head { display: flex; align-items: center; justify-content: space-between; gap: 12px; padding: 10px 14px; border-bottom: 1.5px solid var(--line); position: sticky; top: 0; background: var(--bg); }
+  .modal-note { padding: 10px 14px; border-bottom: 1px solid var(--line); opacity: 0.8; }
+  .pickgrid { display: grid; grid-template-columns: repeat(auto-fill, minmax(150px,1fr)); gap: 0; }
+  .pick { border-right: 1px solid var(--line); border-bottom: 1px solid var(--line); padding: 10px; text-align: left; background: transparent; color: var(--ink); cursor: pointer; font-family: var(--monoP); }
+  .pick:hover, .pick:focus-visible { background: #161310; outline: none; border-color: var(--brass); }
+  .pick img { display: block; width: 100%; height: 118px; object-fit: cover; border: 1px solid var(--line); background: #161310; }
+  .pick .pt { font-family: var(--serifP); font-size: 14px; margin-top: 7px; }
 </style>
 </head>
 <body>
@@ -113,14 +126,10 @@
     <div class="src">
       <div class="src-head"><span class="mono">source</span><span class="mono" id="srcName">the fox</span></div>
       <div class="src-body">
-        <select id="picker">
-          <option value="fox">The fox</option>
-          <option value="eagle">The eagle</option>
-          <option value="gaucho">The horseman</option>
-          <option value="fish">The rise</option>
-          <option value="plane">Over the range</option>
-          <option value="upload">Upload your own&hellip;</option>
-        </select>
+        <div class="uprow">
+          <button class="btn" id="bPick" type="button">Choose a piece</button>
+          <button class="btn ghost" id="bUpload" type="button">Upload an image</button>
+        </div>
         <input type="file" id="fileInput" accept="image/*" style="display:none;">
         <div class="imgbox" id="imgbox">
           <img id="srcImg" src="" alt="Source image for color extraction">
@@ -184,19 +193,30 @@
   </div>
 </div>
 
+<div class="modal" id="pickModal" hidden>
+  <div class="modal-panel" role="dialog" aria-modal="true" aria-labelledby="pickTitle">
+    <div class="modal-head">
+      <span class="mono" id="pickTitle">Choose a piece</span>
+      <button class="btn ghost" id="bClose" type="button">Close</button>
+    </div>
+    <div class="modal-note mono" id="pickNote">loading&hellip;</div>
+    <div class="pickgrid" id="pickGrid"></div>
+  </div>
+</div>
+
 <canvas id="cv" style="display:none;"></canvas>
 <canvas id="cvFull" style="display:none;"></canvas>
 
 <script>
 (function(){
-  var SRC = {
-    fox: '/labs/sources/fox.jpg',
-    eagle: '/labs/sources/eagle.jpg',
-    gaucho: '/labs/sources/gaucho.jpg',
-    fish: '/labs/sources/fish.jpg',
-    plane: '/labs/sources/plane.jpg'
-  };
-  var NAMES = { fox:'the fox', eagle:'the eagle', gaucho:'the horseman', fish:'the rise', plane:'over the range', upload:'uploaded image' };
+  // Sources come from the shared catalogue (/labs/catalogue), derived from
+  // lib/portfolio-data.ts, so this tool and the poster engine cannot disagree about
+  // what the library holds. It used to embed five base64 JPEGs of its own.
+  //
+  // The list is the colour work: a palette pulled from a black and white sketch is
+  // just a row of greys, so the monochrome pieces are filtered out server-side.
+  var CATALOGUE = [];
+  var current = { label: '', src: '' };
 
   var LEX = [
     // warm neutrals — light
@@ -258,7 +278,15 @@
     }
     return [Math.round(r*255),Math.round(g*255),Math.round(b*255)];
   }
-  function toHex(r,g,b){ return '#'+[r,g,b].map(function(v){ return v.toString(16).padStart(2,'0'); }).join('').toUpperCase(); }
+  /** Quantise to a 16-step grid, clamped to a real byte. */
+  function q16(v){ return Math.min(255, Math.round(v/16)*16); }
+  /** Belt and braces: never emit anything but 7 characters of valid hex. */
+  function toHex(r,g,b){
+    return '#'+[r,g,b].map(function(v){
+      v = Math.max(0, Math.min(255, Math.round(v)));
+      return v.toString(16).padStart(2,'0');
+    }).join('').toUpperCase();
+  }
   function dist(a,b){ return Math.sqrt(Math.pow(a[0]-b[0],2)+Math.pow(a[1]-b[1],2)+Math.pow(a[2]-b[2],2)); }
   function luminance(r,g,b){
     var a=[r,g,b].map(function(v){ v/=255; return v<=0.03928? v/12.92: Math.pow((v+0.055)/1.055,2.4); });
@@ -296,8 +324,8 @@
   var img = document.getElementById('srcImg');
   var cv = document.getElementById('cv');       // 120px downscale, for frequency mining
   var cvFull = document.getElementById('cvFull'); // native size, for manual pixel picks
-  var picker = document.getElementById('picker');
   var fileInput = document.getElementById('fileInput');
+  var modal = document.getElementById('pickModal');
 
   function loadImage(src, done){
     img.crossOrigin = 'anonymous';
@@ -334,7 +362,9 @@
     excludeList = excludeList || [];
     var freq = {};
     state.pixels.forEach(function(p){
-      var key = [Math.round(p[0]/16)*16, Math.round(p[1]/16)*16, Math.round(p[2]/16)*16].join(',');
+      // Clamp: Math.round(250/16)*16 is 256, which is not a valid channel. Unclamped it
+      // produced hex like #10010010 and saturation over 100% for any bright pixel.
+      var key = [q16(p[0]), q16(p[1]), q16(p[2])].join(',');
       freq[key] = (freq[key]||0) + 1;
     });
     var all = Object.keys(freq).map(function(k){ return {c:k.split(',').map(Number), n:freq[k]}; });
@@ -451,7 +481,7 @@
       purEl.innerHTML = '<div class="prow"><span class="mono" style="opacity:.6">assign paper / ink / accent roles above to run the purity test</span></div>';
     }
 
-    document.getElementById('deedSrc').textContent = 'source: ' + (NAMES[picker.value] || 'uploaded image');
+    document.getElementById('deedSrc').textContent = 'source: ' + (current.label || 'no source');
     document.getElementById('deedDate').textContent = new Date().toLocaleDateString('en-US',{day:'2-digit',month:'short',year:'numeric'}).toUpperCase();
     var dg = document.getElementById('deedGrid');
     dg.innerHTML = '';
@@ -500,18 +530,71 @@
     document.getElementById('oCount').textContent = e.target.value;
   });
 
-  picker.addEventListener('change', function(){
-    if (picker.value === 'upload'){ fileInput.click(); return; }
-    document.getElementById('srcName').textContent = NAMES[picker.value];
-    loadImage(SRC[picker.value], doMine);
-  });
+  function setSource(label, src){
+    current = { label: label, src: src };
+    document.getElementById('srcName').textContent = label;
+    loadImage(src, doMine);
+  }
+
+  function openModal(){
+    modal.hidden = false;
+    document.getElementById('bClose').focus();
+  }
+  function closeModal(){
+    modal.hidden = true;
+    document.getElementById('bPick').focus();
+  }
+
+  document.getElementById('bPick').addEventListener('click', openModal);
+  document.getElementById('bClose').addEventListener('click', closeModal);
+  document.getElementById('bUpload').addEventListener('click', function(){ fileInput.click(); });
+  // Click the backdrop or press Escape to dismiss.
+  modal.addEventListener('click', function(e){ if (e.target === modal) closeModal(); });
+  document.addEventListener('keydown', function(e){ if (e.key === 'Escape' && !modal.hidden) closeModal(); });
+
+  function buildGrid(list){
+    var grid = document.getElementById('pickGrid');
+    grid.innerHTML = '';
+    list.forEach(function(item){
+      var b = document.createElement('button');
+      b.type = 'button'; b.className = 'pick';
+      // Read the original asset, never /_next/image: that re-encodes and shifts the
+      // colours this tool exists to measure.
+      b.innerHTML = '<img loading="lazy" alt="" src="' + item.src + '"><div class="pt"></div>';
+      b.querySelector('.pt').textContent = item.title;
+      b.addEventListener('click', function(){
+        setSource(item.title, item.src);
+        closeModal();
+      });
+      grid.appendChild(b);
+    });
+  }
+
+  function loadCatalogue(){
+    var note = document.getElementById('pickNote');
+    return fetch('/labs/catalogue')
+      .then(function(r){ if(!r.ok) throw new Error('catalogue ' + r.status); return r.json(); })
+      .then(function(cat){
+        CATALOGUE = cat.palette || [];
+        if (!CATALOGUE.length) throw new Error('catalogue held no colour pieces');
+        buildGrid(CATALOGUE);
+        note.textContent = CATALOGUE.length + ' pieces — pick one, or upload your own instead';
+        setSource(CATALOGUE[0].title, CATALOGUE[0].src);
+      })
+      .catch(function(err){
+        // Say so in the UI. An empty grid behind a button looks like a broken page.
+        note.textContent = 'could not load the catalogue — upload an image instead';
+        document.getElementById('srcName').textContent = 'no source';
+        console.error('[claim office]', err);
+      });
+  }
   fileInput.addEventListener('change', function(e){
     var f = e.target.files[0];
     if (!f) return;
     var reader = new FileReader();
     reader.onload = function(ev){
-      document.getElementById('srcName').textContent = f.name;
-      loadImage(ev.target.result, doMine);
+      // Stays in the browser. FileReader never sends the file anywhere.
+      setSource(f.name, ev.target.result);
     };
     reader.readAsDataURL(f);
   });
@@ -565,10 +648,10 @@
     var lines = state.claims.map(function(c,i){
       return state.names[i] + '  ' + toHex(c[0],c[1],c[2]) + (state.roles[i]!=='none' ? '  ['+state.roles[i]+']' : '');
     });
-    copyText('THE CLAIM OFFICE — DEED OF REGISTRY\nsource: ' + (NAMES[picker.value]||'uploaded') + '\n\n' + lines.join('\n') + '\n\nregistered to Zodd — Lazy Z Bar', this);
+    copyText('THE CLAIM OFFICE — DEED OF REGISTRY\nsource: ' + (current.label || 'unknown') + '\n\n' + lines.join('\n') + '\n\nregistered to Zodd — Lazy Z Bar', this);
   });
 
-  loadImage(SRC.fox, doMine);
+  loadCatalogue();
 })();
 </script>
 </body>
