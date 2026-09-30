@@ -39,3 +39,7 @@ yarn-error.log*
 # typescript
 *.tsbuildinfo
 next-env.d.ts
+
+# lab scratch — comps live in ~/Downloads/Frontier Brutalism;
+# the served copy is public/labs/
+/Labs
