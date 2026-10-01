@@ -207,8 +207,19 @@
     <label for="fTsc">Type scale</label>
     <div class="rangerow"><input type="range" id="fTsc" min="0.6" max="1.5" step="0.05" value="1"><output id="oTsc">1.00</output></div>
 
+    <label for="fSize">Export size</label>
+    <select id="fSize">
+      <option value="1080">1080 px wide — screen</option>
+      <option value="1620" selected>1620 px wide — 2x</option>
+      <option value="2400">2400 px wide — print-ish</option>
+      <option value="3240">3240 px wide — 4x</option>
+    </select>
+
     <div class="btnrow">
-      <button class="btn" id="bCss" type="button">Copy CSS</button>
+      <button class="btn" id="bPng" type="button">Save PNG</button>
+    </div>
+    <div class="btnrow" style="margin-top:8px;">
+      <button class="btn ghost" id="bCss" type="button">Copy CSS</button>
       <button class="btn ghost" id="bCfg" type="button">Copy Config</button>
     </div>
     <p class="hint">Presets carry the ink logic: dark presets knock your sketch to bone with invert + screen; paper presets print it down with multiply. Drop new scans in and they inherit the treatment.</p>
@@ -363,6 +374,193 @@
       $(p[2]).textContent = parseFloat(e.target.value).toFixed(2);
       apply();
     });
+  });
+
+  /* ---------------------------------------------------------------------------
+     PNG export.
+
+     The poster is redrawn into a canvas rather than screenshotted. A DOM-to-image
+     grab is the obvious route and the wrong one here: html2canvas and its relatives
+     do not implement mix-blend-mode, so every poster would come out with the sketch
+     laid flatly over the ground instead of screened or multiplied into it. That is
+     the same class of silent mismatch the CSS exporter just had.
+
+     Layout is measured off the live elements rather than recomputed. Canvas has no
+     idea what grid-template-areas means, and reimplementing the five grids here would
+     be a second source of truth that drifts. Measuring means the export follows
+     whatever the browser actually laid out.
+     --------------------------------------------------------------------------- */
+
+  /** Rect of an element in poster-space, scaled by k. */
+  function box(el, base, k){
+    var r = el.getBoundingClientRect();
+    return {
+      x: (r.left - base.left) * k,
+      y: (r.top - base.top) * k,
+      w: r.width * k,
+      h: r.height * k
+    };
+  }
+
+  /** object-fit: contain, worked out by hand because canvas has no such thing. */
+  function containRect(nw, nh, x, y, w, h){
+    if (!nw || !nh) return { x: x, y: y, w: w, h: h };
+    var s = Math.min(w / nw, h / nh);
+    var dw = nw * s, dh = nh * s;
+    return { x: x + (w - dw) / 2, y: y + (h - dh) / 2, w: dw, h: dh };
+  }
+
+  /** Canvas font shorthand from an element's computed style, scaled. */
+  function fontOf(cs, k){
+    var size = parseFloat(cs.fontSize) * k;
+    return [cs.fontStyle, cs.fontWeight, size + 'px', cs.fontFamily].join(' ');
+  }
+
+  function drawText(ctx, el, base, k){
+    var cs = getComputedStyle(el);
+    var text = (el.textContent || '').trim();
+    if (!text) return;
+    if (cs.textTransform === 'uppercase') text = text.toUpperCase();
+    var b = box(el, base, k);
+    ctx.font = fontOf(cs, k);
+    ctx.fillStyle = cs.color;
+    ctx.textBaseline = 'top';
+    var ls = parseFloat(cs.letterSpacing);
+    // letterSpacing is supported in current Chrome, Safari and Firefox. Where it is
+    // not, the glyphs still draw, just tracked tighter than the preview.
+    if (!isNaN(ls) && 'letterSpacing' in ctx) ctx.letterSpacing = (ls * k) + 'px';
+
+    var lh = parseFloat(cs.lineHeight);
+    if (isNaN(lh)) lh = parseFloat(cs.fontSize) * 1.2;
+    lh *= k;
+
+    // Re-wrap at the element's measured width so a long title breaks where the
+    // browser broke it.
+    var words = text.split(/\s+/), line = '', lines = [];
+    for (var i = 0; i < words.length; i++){
+      var test = line ? line + ' ' + words[i] : words[i];
+      if (ctx.measureText(test).width > b.w && line){ lines.push(line); line = words[i]; }
+      else line = test;
+    }
+    if (line) lines.push(line);
+
+    // Elements aligned to the end of their row sit on the last line, so the block is
+    // drawn upward from the bottom of the measured box.
+    var total = lines.length * lh;
+    var top = cs.alignSelf === 'start' ? b.y : b.y + Math.max(0, b.h - total);
+    for (var j = 0; j < lines.length; j++){
+      var tx = b.x;
+      if (ctx.textAlign === 'left' && cs.textAlign === 'right') tx = b.x + b.w - ctx.measureText(lines[j]).width;
+      ctx.fillText(lines[j], tx, top + j * lh);
+    }
+    if ('letterSpacing' in ctx) ctx.letterSpacing = '0px';
+  }
+
+  function svgToImage(svgEl, color){
+    return new Promise(function(resolve, reject){
+      // The mark is drawn in currentColor. Serialised on its own it has nothing to
+      // inherit from, so currentColor would resolve to black and the mark would
+      // disappear on every dark poster. Pin the colour on the clone first.
+      var clone = svgEl.cloneNode(true);
+      clone.setAttribute('xmlns', 'http://www.w3.org/2000/svg');
+      clone.style.color = color;
+      var r = svgEl.getBoundingClientRect();
+      if (r.width && r.height) {
+        clone.setAttribute('width', r.width);
+        clone.setAttribute('height', r.height);
+      }
+      var xml = new XMLSerializer().serializeToString(clone);
+      var i = new Image();
+      i.onload = function(){ resolve(i); };
+      i.onerror = function(){ reject(new Error('mark failed to rasterise')); };
+      i.src = 'data:image/svg+xml;charset=utf-8,' + encodeURIComponent(xml);
+    });
+  }
+
+  function exportPNG(){
+    var width = parseInt($('fSize').value, 10) || 1620;
+    var base = poster.getBoundingClientRect();
+    if (!base.width) return Promise.reject(new Error('poster has no size'));
+    var k = width / base.width;
+    var height = Math.round(base.height * k);
+
+    var cv = document.createElement('canvas');
+    cv.width = Math.round(width);
+    cv.height = height;
+    var ctx = cv.getContext('2d');
+
+    var pcs = getComputedStyle(poster);
+    ctx.fillStyle = pcs.backgroundColor;
+    ctx.fillRect(0, 0, cv.width, cv.height);
+
+    // The sketch, carrying the exact filter and blend the preview resolved to.
+    var ics = getComputedStyle(img);
+    var ib = box(img, base, k);
+    var r = containRect(img.naturalWidth, img.naturalHeight, ib.x, ib.y, ib.w, ib.h);
+    ctx.save();
+    if (ics.filter && ics.filter !== 'none') ctx.filter = ics.filter;
+    var blend = ics.mixBlendMode;
+    if (blend === 'screen' || blend === 'multiply') ctx.globalCompositeOperation = blend;
+    // The image overflows its cell at image scales above 1, and .p-img clips it.
+    ctx.beginPath();
+    ctx.rect(ib.x, ib.y, ib.w, ib.h);
+    ctx.clip();
+    ctx.drawImage(img, r.x, r.y, r.w, r.h);
+    ctx.restore();
+
+    ['pTitle', 'pSub', 'pLine', 'pDate', 'pLoc'].forEach(function(id){
+      var el = $(id);
+      if (el) drawText(ctx, el, base, k);
+    });
+
+    var mark = poster.querySelector('.p-mark svg');
+    var markBox = mark ? box(mark, base, k) : null;
+    var p = mark ? svgToImage(mark, pcs.color) : Promise.resolve(null);
+
+    return p.then(function(markImg){
+      if (markImg && markBox) {
+        ctx.drawImage(markImg, markBox.x, markBox.y, markBox.w, markBox.h);
+      }
+      return new Promise(function(resolve, reject){
+        cv.toBlob(function(blob){
+          if (!blob) { reject(new Error('canvas produced no blob')); return; }
+          var item = ART[state.art];
+          var name = [
+            'zodd-poster',
+            (item && item.title ? item.title : 'sketch').toLowerCase().replace(/[^a-z0-9]+/g, '-'),
+            state.preset,
+            state.grid,
+            cv.width + 'px'
+          ].join('_') + '.png';
+          var url = URL.createObjectURL(blob);
+          var a = document.createElement('a');
+          a.href = url; a.download = name;
+          document.body.appendChild(a); a.click(); a.remove();
+          // Revoke on the next frame: revoking immediately races the download in
+          // Safari and the file arrives empty.
+          setTimeout(function(){ URL.revokeObjectURL(url); }, 4000);
+          resolve(name);
+        }, 'image/png');
+      });
+    });
+  }
+
+  $('bPng').addEventListener('click', function(){
+    var btn = this, label = btn.textContent;
+    btn.disabled = true;
+    btn.textContent = 'Rendering';
+    // Fonts have to be resolved before anything is measured or drawn, or the canvas
+    // falls back to a system face and the export does not match the preview.
+    (document.fonts && document.fonts.ready ? document.fonts.ready : Promise.resolve())
+      .then(exportPNG)
+      .then(function(){ btn.textContent = 'Saved'; })
+      .catch(function(err){
+        console.error('[poster grid engine]', err);
+        btn.textContent = 'Export failed';
+      })
+      .then(function(){
+        setTimeout(function(){ btn.disabled = false; btn.textContent = label; }, 1500);
+      });
   });
 
   function copyText(txt, btn, done){
