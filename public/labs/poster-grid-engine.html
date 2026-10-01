@@ -456,6 +456,44 @@
     if ('letterSpacing' in ctx) ctx.letterSpacing = '0px';
   }
 
+  /**
+   * Borders, read off whatever the element computed.
+   *
+   * Ledger rules its rows and Specimen frames the image and the footer. None of that
+   * was reaching the PNG, because the export drew background, image, text and mark
+   * and nothing else.
+   *
+   * Deliberately generic rather than special-casing those two grids: every poster
+   * child is asked for its own borders, so a grid added later is covered without
+   * anyone remembering to come back here. currentColor is already resolved by
+   * getComputedStyle, so the rules inherit the preset's ink for free.
+   *
+   * Drawn as filled rectangles. Canvas strokes straddle the path, which would put
+   * half a rule outside the measured box and leave Specimen's frame a hair large.
+   */
+  function drawBorders(ctx, el, base, k){
+    var cs = getComputedStyle(el);
+    var b = box(el, base, k);
+    var sides = [
+      { w: cs.borderTopWidth, c: cs.borderTopColor, edge: 'top' },
+      { w: cs.borderBottomWidth, c: cs.borderBottomColor, edge: 'bottom' },
+      { w: cs.borderLeftWidth, c: cs.borderLeftColor, edge: 'left' },
+      { w: cs.borderRightWidth, c: cs.borderRightColor, edge: 'right' }
+    ];
+    for (var i = 0; i < sides.length; i++){
+      var side = sides[i];
+      var w = parseFloat(side.w) * k;
+      if (!w || !side.c) continue;
+      // A fully transparent border still reports a width, so skip those too.
+      if (side.c === 'transparent' || /,\s*0\)$/.test(side.c)) continue;
+      ctx.fillStyle = side.c;
+      if (side.edge === 'top') ctx.fillRect(b.x, b.y, b.w, w);
+      else if (side.edge === 'bottom') ctx.fillRect(b.x, b.y + b.h - w, b.w, w);
+      else if (side.edge === 'left') ctx.fillRect(b.x, b.y, w, b.h);
+      else ctx.fillRect(b.x + b.w - w, b.y, w, b.h);
+    }
+  }
+
   function svgToImage(svgEl, color){
     return new Promise(function(resolve, reject){
       // The mark is drawn in currentColor. Serialised on its own it has nothing to
@@ -507,6 +545,11 @@
     ctx.clip();
     ctx.drawImage(img, r.x, r.y, r.w, r.h);
     ctx.restore();
+
+    // Borders before text: a rule belongs under the row it separates, and the
+    // footer's top rule would otherwise sit over the date.
+    var els = poster.querySelectorAll('.p-el');
+    for (var i = 0; i < els.length; i++) drawBorders(ctx, els[i], base, k);
 
     ['pTitle', 'pSub', 'pLine', 'pDate', 'pLoc'].forEach(function(id){
       var el = $(id);
