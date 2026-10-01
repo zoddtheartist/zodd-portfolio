@@ -84,7 +84,10 @@
   .p-line { grid-area: line; font-family: var(--monoP); font-size: 2.5cqw; letter-spacing: 0.24em; text-transform: uppercase; color: var(--pacc); align-self: end; }
   .p-foot { grid-area: foot; display: flex; justify-content: space-between; align-items: flex-end; gap: 10px; font-family: var(--monoP); font-size: 2.4cqw; letter-spacing: 0.14em; text-transform: uppercase; }
   .p-meta { line-height: 1.7; }
-  .p-mark svg { display: block; width: 8cqw; height: 8cqw; }
+  /* A signature, not a logo. At 8cqw the glyph measured 4.3% of the poster width,
+     which crowded the footer; halving the box puts it near 2.4%. The artwork is the
+     poster and the mark should not compete with it. */
+  .p-mark svg { display: block; width: 4.5cqw; height: 4.5cqw; }
 
   .poster[data-grid="stacked"] { grid-template-rows: minmax(0, 1.15fr) auto auto auto auto; grid-template-areas: "img" "title" "sub" "line" "foot"; }
   .poster[data-grid="split"] { grid-template-columns: 1.05fr 1fr; grid-template-rows: auto auto minmax(0, 1fr) auto; grid-template-areas: "img title" "img sub" "img line" "img foot"; }
@@ -172,8 +175,8 @@
 
     <label for="fPreset">Style preset</label>
     <select id="fPreset">
-      <option value="frontier">Frontier Brutal</option>
       <option value="field">Field Guide</option>
+      <option value="frontier">Frontier Brutal</option>
       <option value="showbill">Showbill</option>
       <option value="northern">Northern Gothic</option>
       <option value="gallery">Gallery Wall</option>
@@ -252,7 +255,8 @@
           o.value = item.src; o.textContent = item.title;
           sel.appendChild(o);
         });
-        state.art = list[0].src;
+        var preferred = list.filter(function(i){ return i.src === DEFAULT_ART; })[0];
+        state.art = (preferred || list[0]).src;
         sel.value = state.art;
       })
       .catch(function(err){
@@ -320,7 +324,13 @@
     northern: { label:'Northern Gothic', bg:'#10140F', ink:'#E3DECB', acc:'#B5892F', tfont:'gothic', tweight:700, tcase:'upper', mode:'negative', tex:0.12, ts:0.9 },
     gallery:  { label:'Gallery Wall',    bg:'#111110', ink:'#F2EFE6', acc:'#8A8674', tfont:'gothic', tweight:700, tcase:'upper', mode:'negative', tex:0,    ts:0.55 }
   };
-  var state = { title:'The Territory', sub:'documents of a made-up frontier', date:'12 JUL 2026', loc:'TWP 4 NW \u2014 high country', line:'one night only \u2014 doors at dusk', preset:'frontier', grid:'stacked', art:'', ink:'auto', den:1, con:1.15, isc:1, tsc:1 };
+  // Opens on Field Guide rather than Frontier Brutal: paper ground, serif title,
+  // printed down with multiply. That is the composition Zodd exported and kept, so it
+  // is what the tool should hand you before you touch anything.
+  var state = { title:'The Territory', sub:'documents of a made-up frontier', date:'12 JUL 2026', loc:'TWP 4 NW \u2014 high country', line:'one night only \u2014 doors at dusk', preset:'field', grid:'stacked', art:'', ink:'auto', den:1, con:1.15, isc:1, tsc:1 };
+
+  /** The sketch the default composition was built around. */
+  var DEFAULT_ART = '/portfolio/plane-sketch.webp';
 
   var poster = document.getElementById('poster');
   var img = document.getElementById('pArt');
@@ -471,6 +481,60 @@
    * Drawn as filled rectangles. Canvas strokes straddle the path, which would put
    * half a rule outside the measured box and leave Specimen's frame a hair large.
    */
+  /**
+   * The paper texture, which .p-tex lays over everything at the preset's opacity.
+   *
+   * Two layers, matching the CSS: a turbulence tile and a fine dot grid, composited
+   * with `overlay`. Without them the export came out cleaner than the preview, most
+   * visibly on Showbill, which runs the texture hardest at 0.16.
+   *
+   * The dot grid is built as a 4px pattern tile rather than translated from the CSS
+   * radial-gradient, because canvas has no repeating gradient and a per-dot loop over
+   * a 3240px poster is hundreds of thousands of draws.
+   */
+  function drawTexture(ctx, w, h, k){
+    var op = parseFloat(getComputedStyle(poster).getPropertyValue('--texop'));
+    if (!op || isNaN(op)) return Promise.resolve();
+
+    var dots = document.createElement('canvas');
+    dots.width = dots.height = Math.max(2, Math.round(4 * k));
+    var dctx = dots.getContext('2d');
+    dctx.fillStyle = 'rgba(128,128,128,0.5)';
+    var r = Math.max(0.7 * k, 0.35);
+    dctx.beginPath();
+    dctx.arc(r, r, r, 0, Math.PI * 2);
+    dctx.fill();
+
+    // Plain '#n' here. encodeURIComponent turns it into %23 on its own; pre-encoding
+    // it and patching the double-encode afterwards was a trap waiting to be edited.
+    var noiseSvg =
+      "<svg xmlns='http://www.w3.org/2000/svg' width='140' height='140'>" +
+      "<filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2'/></filter>" +
+      "<rect width='140' height='140' filter='url(#n)' opacity='0.55'/></svg>";
+
+    return new Promise(function(resolve){
+      var ni = new Image();
+      ni.onload = function(){ resolve(ni); };
+      // A texture is not worth failing an export over; carry on with the dots alone.
+      ni.onerror = function(){ resolve(null); };
+      ni.src = 'data:image/svg+xml;charset=utf-8,' + encodeURIComponent(noiseSvg);
+    }).then(function(noiseImg){
+      ctx.save();
+      ctx.globalCompositeOperation = 'overlay';
+      ctx.globalAlpha = op;
+      if (noiseImg) {
+        var np = ctx.createPattern(noiseImg, 'repeat');
+        if (np && np.setTransform && typeof DOMMatrix === 'function') {
+          np.setTransform(new DOMMatrix([k, 0, 0, k, 0, 0]));
+        }
+        if (np) { ctx.fillStyle = np; ctx.fillRect(0, 0, w, h); }
+      }
+      var dp = ctx.createPattern(dots, 'repeat');
+      if (dp) { ctx.fillStyle = dp; ctx.fillRect(0, 0, w, h); }
+      ctx.restore();
+    });
+  }
+
   function drawBorders(ctx, el, base, k){
     var cs = getComputedStyle(el);
     var b = box(el, base, k);
@@ -564,6 +628,9 @@
       if (markImg && markBox) {
         ctx.drawImage(markImg, markBox.x, markBox.y, markBox.w, markBox.h);
       }
+      // Last, because .p-tex sits above everything at z-index 5.
+      return drawTexture(ctx, cv.width, cv.height, k);
+    }).then(function(){
       return new Promise(function(resolve, reject){
         cv.toBlob(function(blob){
           if (!blob) { reject(new Error('canvas produced no blob')); return; }
