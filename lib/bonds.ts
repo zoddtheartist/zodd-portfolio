@@ -20,11 +20,14 @@ export type BondKind =
   /** Tied to one place, whatever the medium. */
   | "place"
   /**
-   * Connected in Zodd's own account of the work, where the tie is not a shared
-   * subject, place or series. These exist because he says they do, so the note has
-   * to be his reason rather than one inferred from the pieces.
+   * One piece led to another being commissioned.
+   *
+   * The strongest claim on this list and the only one a client cannot infer by
+   * looking. It is evidence the work generates work, which is the whole argument a
+   * commissions portfolio is making, so the note must be the actual chain of events
+   * and never a guess.
    */
-  | "thread"
+  | "lineage"
 
 export type Bond = {
   id: string
@@ -42,6 +45,20 @@ export type Bond = {
 }
 
 export const BONDS: Bond[] = [
+  // Declared first on purpose. primaryBond takes the earliest match, and
+  // buildTraverse only chains pieces that agree on it — with the place bond ahead of
+  // this one the mural and the Oilers commission picked different primaries and never
+  // drew a line, losing the one claim here a client cannot infer by looking.
+  {
+    id: "amsterdam-to-edmonton",
+    kind: "lineage",
+    label: "Led to work",
+    // Zodd, 2026-09-30, in his own words: "the client liked my amsterdam mural and
+    // commisioned me in edmonton". Members run in that order so the chain reads as
+    // the sequence of events rather than as a grouping.
+    note: "A client saw the Amsterdam mural and commissioned the Oilers piece in Edmonton.",
+    members: ["amsterdam.webp", "cyclist-mural-amsterdam.webp", "oilers-commission.webp"],
+  },
   {
     id: "tall-city",
     kind: "series",
@@ -63,21 +80,6 @@ export const BONDS: Bond[] = [
     label: "Amsterdam",
     note: "The same city, painted once and then put on a wall there.",
     members: ["amsterdam.webp", "cyclist-mural-amsterdam.webp"],
-  },
-  {
-    id: "the-skater-thread",
-    kind: "thread",
-    // Zodd, 2026-09-30: "the amsterdam mural and the amsterdam painting and the
-    // hockey skater image all actually connect", and he confirmed the skater is the
-    // Oilers commission.
-    //
-    // PLACEHOLDER LABEL AND NOTE. The Amsterdam bond above cannot absorb the Oilers
-    // piece — it is Edmonton, not Amsterdam — and this one must not restate the city
-    // either. He has not yet said what the three share, so the note claims only what
-    // is certain. Replace both with his own words before this goes to production.
-    label: "Zodd's thread",
-    note: "Three pieces the artist ties together.",
-    members: ["amsterdam.webp", "cyclist-mural-amsterdam.webp", "oilers-commission.webp"],
   },
   {
     id: "eyewear",
@@ -184,7 +186,7 @@ export function offRegister(
 ): OffRegister[] {
   const out: OffRegister[] = []
   // One lead per target piece. Two pieces can share more than one bond — the
-  // Amsterdam pair are tied both by the city and by the thread that reaches the
+  // Amsterdam pair are tied both by the city and by the lineage that reaches the
   // Oilers commission — and offering the same crossing twice is noise. First bond
   // wins, which is the order BONDS declares.
   const seen = new Set<string>()
