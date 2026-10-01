@@ -3,7 +3,7 @@ import { itemsOfKind, serial, filedOn, type LabItem } from "@/lib/lab-data"
 export const metadata = {
   title: "The Lab — Zodd",
   description:
-    "Working notes, process and small tools. Sketches, studies and experiments that sit outside the main portfolio.",
+    "Things I'm working on, and a couple of tools I built because I needed them. Sketches, studies and experiments that sit outside the main portfolio.",
 }
 
 /**
@@ -153,7 +153,7 @@ export default function LabPage() {
         <section className="max-w-screen-xl mx-auto px-6">
           <div className="flex flex-wrap items-baseline justify-between gap-x-4 gap-y-1 border-b-[1.5px] border-[var(--ink)] pb-2">
             <Meta>
-              <span className="text-[var(--oxblood)]">The lab — working notes</span>
+              <span className="text-[var(--oxblood)]">The lab</span>
             </Meta>
             <Meta>
               <span className="text-[var(--ink)]/50">
@@ -166,9 +166,9 @@ export default function LabPage() {
             The Lab
           </h1>
           <p className="font-[family-name:var(--font-serif)] text-[17px] leading-8 text-[var(--ink)]/85 max-w-2xl mt-5">
-            Process, studies and small tools. Work that is worth keeping and worth
-            looking at, without having to carry a finished portfolio piece&rsquo;s
-            weight.
+            Things I&rsquo;m working on, and a couple of tools I built because I needed
+            them and they didn&rsquo;t exist. Sketches, studies, work in progress. None of
+            it has to be finished to go here.
           </p>
         </section>
 
@@ -179,9 +179,7 @@ export default function LabPage() {
                 <span className="text-[var(--ink)]">Tools</span>
               </Meta>
               <Meta>
-                <span className="text-[var(--ink)]/45">
-                  things you can use, not read
-                </span>
+                <span className="text-[var(--ink)]/45">things you can use</span>
               </Meta>
             </div>
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">

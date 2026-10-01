@@ -51,7 +51,7 @@ export const items: LabItem[] = [
     status: "live",
     date: "2026-09-30",
     blurb:
-      "Builds a poster from any of the black and white sketches. Five presets and five grid modes, with dark presets knocking the line art to bone and paper presets printing it down, and the resulting CSS copyable.",
+      "Builds a poster out of any of my black and white sketches. Five looks, five layouts, and it hands you back a PNG or the CSS.",
     tags: ["layout", "typography", "posters"],
     href: "/labs/poster-grid-engine.html",
   },
@@ -63,7 +63,7 @@ export const items: LabItem[] = [
     status: "live",
     date: "2026-10-01",
     blurb:
-      "Two hummingbirds, observed in Colorado and filed against the published science: a calliope's yaw turn and a broad-tailed male's courtship dive. The colour is assayed from the photographs; the aerodynamics are cited, not claimed.",
+      "I watched hummingbirds in Colorado for days and kept two photographs out of a few hundred. A study in colour, with the flight science cited underneath it.",
     tags: ["colour", "research", "ornithology"],
     href: "/labs/viridian-field-study.html",
   },
@@ -75,7 +75,7 @@ export const items: LabItem[] = [
     status: "live",
     date: "2026-09-29",
     blurb:
-      "Pulls a palette out of any image, names each colour, builds tint and shade ladders, checks contrast, and exports CSS, Tailwind, or JSON. Reserves slots for saturated colour so an accent is not buried by a dominant paper tone.",
+      "Pulls a palette out of any image, names the colours, and hands them back as CSS, Tailwind or JSON. It keeps room for the saturated colours so an accent doesn't get buried under a big flat background.",
     tags: ["colour", "palette", "accessibility"],
     href: "/labs/claim-office.html",
   },
