@@ -1,9 +1,10 @@
 "use client"
 import { useCallback, useEffect, useLayoutEffect, useMemo, useRef, useState } from "react"
 import Image from "next/image"
-import { CATEGORIES, viewImages } from "@/lib/portfolio-data"
+import { CATEGORIES, viewImages, images as allImages } from "@/lib/portfolio-data"
 import type { PortfolioImage, ShowcaseView } from "@/lib/portfolio-data"
 import { bearing, buildTraverse, chains } from "@/lib/survey"
+import { primaryBond, bondById, offRegister } from "@/lib/bonds"
 import type { SurveyEdge, SurveyPoint } from "@/lib/survey"
 import Parcel from "./Parcel"
 import SurveyLines from "./SurveyLines"
@@ -86,7 +87,10 @@ export default function SurveyPlat() {
         x: r.left - gr.left + r.width / 2,
         y: r.top - gr.top + (r.width * FRAME_RATIO) / 2,
         category: item.categories[0],
-        affinity: item.affinity,
+        // The bond drives the chain now. item.affinity stays as the fallback so a
+        // piece can still be tied by hand without declaring a whole bond.
+        affinity: primaryBond(item.file)?.id ?? item.affinity,
+        bondOrder: primaryBond(item.file)?.members.indexOf(item.file),
       })
     }
 
@@ -169,8 +173,47 @@ export default function SurveyPlat() {
     const [x1, y1] = forward ? [edge.x1, edge.y1] : [edge.x2, edge.y2]
     const [x2, y2] = forward ? [edge.x2, edge.y2] : [edge.x1, edge.y1]
     const unit = (gridRef.current?.getBoundingClientRect().width ?? 1) / 4
-    return `brg ${bearing(x1, y1, x2, y2)} · ${chains(x1, y1, x2, y2, unit)}`
+    const geo = `brg ${bearing(x1, y1, x2, y2)} · ${chains(x1, y1, x2, y2, unit)}`
+    // The bearing alone describes the grid, which is arbitrary. Naming the bond is
+    // what makes the line an assertion about the work rather than about the layout.
+    const bond = edge.bondId ? bondById(edge.bondId) : undefined
+    return bond ? `${geo} · ${bond.label}` : geo
   }, [edges, hovered])
+
+  // Bonds that leave the current register. A viewer filtered to ink cannot see that
+  // a drawing is tied to a painting, so each parcel offers the crossing itself.
+  const visibleFiles = useMemo(() => new Set(items.map((i) => i.file)), [items])
+  const describe = useCallback((file: string) => {
+    const img = allImages.find((i) => i.file === file)
+    if (!img) return undefined
+    return {
+      title: img.title,
+      abbr: CATEGORIES.find((c) => c.id === img.categories[0])?.abbr,
+    }
+  }, [])
+  const leadsByFile = useMemo(() => {
+    const m = new Map<string, ReturnType<typeof offRegister>>()
+    for (const item of items) {
+      const out = offRegister(item.file, visibleFiles, describe)
+      if (out.length) m.set(item.file, out)
+    }
+    return m
+  }, [items, visibleFiles, describe])
+
+  /**
+   * Follow a bond out of the current register.
+   *
+   * Switches to a view the target actually appears in, then lights it so the eye
+   * lands on the right parcel rather than on a freshly re-surveyed grid.
+   */
+  const journey = useCallback((file: string) => {
+    const target = allImages.find((i) => i.file === file)
+    if (!target) return
+    const next: ShowcaseView =
+      target.showcase?.includes("all") ? "all" : (target.showcase?.[0] ?? target.categories[0])
+    setView(next)
+    setHovered(file)
+  }, [])
 
   // Lightbox
   const close = useCallback(() => setActive(null), [])
@@ -224,7 +267,8 @@ export default function SurveyPlat() {
           </h2>
         </div>
         <p className="font-[family-name:var(--font-typewriter)] text-[10px] tracking-[0.22em] uppercase text-[var(--ink)]/55 max-w-xs">
-          Parcels of the same hand are chained together. Hover a parcel to read its marker.
+          Lines are claims, not decoration: a shared series, a recurring subject, one
+          place returned to. Arrows lead to bonded work filed in another register.
         </p>
       </div>
 
@@ -253,6 +297,8 @@ export default function SurveyPlat() {
               hovered !== null && hovered !== item.file && !connectedIds.has(item.file)
             }
             readout={hovered === item.file ? readout : null}
+            leads={leadsByFile.get(item.file)}
+            onJourney={journey}
             canHover={canHover}
             onOpen={() => setActive(item)}
             onHover={setHovered}

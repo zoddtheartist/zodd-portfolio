@@ -3,6 +3,7 @@ import Image from "next/image"
 import { forwardRef } from "react"
 import type { PortfolioImage } from "@/lib/portfolio-data"
 import { CATEGORIES, sectionLabel } from "@/lib/portfolio-data"
+import type { OffRegister } from "@/lib/bonds"
 
 type ParcelProps = {
   img: PortfolioImage
@@ -15,6 +16,14 @@ type ParcelProps = {
   canHover: boolean
   onOpen: () => void
   onHover: (file: string | null) => void
+  /**
+   * Bonds from this piece to work that is not in the current register. Shown at rest
+   * rather than on hover: the whole point is that a viewer who has filtered down to
+   * one medium has no way to suspect the rest exists, and a marker they have to
+   * discover by hovering does not solve that.
+   */
+  leads?: OffRegister[]
+  onJourney?: (file: string) => void
 }
 
 /** Small brass survey marker sat on the frame corners. */
@@ -34,7 +43,7 @@ function Node({ className, lit }: { className: string; lit?: boolean }) {
 }
 
 const Parcel = forwardRef<HTMLDivElement, ParcelProps>(function Parcel(
-  { img, index, lit, connected, dimmed, readout, canHover, onOpen, onHover },
+  { img, index, lit, connected, dimmed, readout, canHover, onOpen, onHover, leads, onJourney },
   ref,
 ) {
   const category = CATEGORIES.find((c) => c.id === img.categories[0])
@@ -129,6 +138,26 @@ const Parcel = forwardRef<HTMLDivElement, ParcelProps>(function Parcel(
           </div>
         </div>
       </button>
+
+      {/* Outside the button on purpose: a button inside a button is invalid markup
+          and the nested one would not reliably receive its own clicks. */}
+      {leads?.length && onJourney ? (
+        <button
+          type="button"
+          onClick={() => onJourney(leads[0].file)}
+          className="mt-1 flex items-baseline gap-1.5 font-[family-name:var(--font-typewriter)] text-[9.5px] tracking-[0.16em] uppercase text-[var(--ink)]/45 transition-colors duration-200 hover:text-[var(--oxblood)]"
+          title={leads[0].bond.note}
+        >
+          <span aria-hidden="true" className="text-[var(--brass)]">
+            &#8599;
+          </span>
+          <span className="text-left">
+            {leads[0].bond.label} &middot; {leads[0].title}
+            {leads[0].abbr ? ` (${leads[0].abbr})` : ""}
+            {leads.length > 1 ? ` +${leads.length - 1}` : ""}
+          </span>
+        </button>
+      ) : null}
     </div>
   )
 })

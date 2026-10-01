@@ -10,8 +10,16 @@ export type SurveyPoint = {
    * considered. Without this the traverse is purely spatial, so works that
    * obviously belong together (a pair of eyewear designs, two illustrated maps)
    * only connect if they happen to land near each other in the grid.
+   *
+   * Now fed from lib/bonds.ts, so the key is a bond id and the resulting edge can
+   * say what it asserts rather than only where it points.
    */
   affinity?: string
+  /**
+   * Index of this piece within its bond's declared member list. The caller supplies
+   * it so this module stays free of the bond data and remains pure geometry.
+   */
+  bondOrder?: number
 }
 
 export type SurveyEdge = {
@@ -23,9 +31,16 @@ export type SurveyEdge = {
   x2: number
   y2: number
   category: Category
+  /**
+   * Set when the edge exists because the two pieces are bonded, rather than because
+   * they happen to be the nearest unvisited station. A bonded edge means something
+   * and can be drawn and described differently; a spatial one is just the thread
+   * that keeps the register readable.
+   */
+  bondId?: string
 }
 
-const edge = (a: SurveyPoint, b: SurveyPoint): SurveyEdge => ({
+const edge = (a: SurveyPoint, b: SurveyPoint, bondId?: string): SurveyEdge => ({
   id: `${a.id}->${b.id}`,
   from: a.id,
   to: b.id,
@@ -34,6 +49,7 @@ const edge = (a: SurveyPoint, b: SurveyPoint): SurveyEdge => ({
   x2: b.x,
   y2: b.y,
   category: a.category,
+  bondId,
 })
 
 /** Reading order down the page. */
@@ -98,9 +114,17 @@ export function buildTraverse(points: SurveyPoint[]): SurveyEdge[] {
 
     const representatives: SurveyPoint[] = []
     for (const members of clusters.values()) {
-      const sorted = [...members].sort(byPosition)
+      // Bonded members chain in the order the bond declares, not in reading order,
+      // so a piece placed last in a bond sits at the end of the thread. Unbonded
+      // clusters are a single station and never reach this branch.
+      const bondId = members[0]?.affinity
+      const sorted = bondId
+        ? [...members].sort((a, b) => (a.bondOrder ?? 0) - (b.bondOrder ?? 0))
+        : [...members].sort(byPosition)
       if (sorted.length > 1) {
-        for (let i = 0; i < sorted.length - 1; i++) edges.push(edge(sorted[i], sorted[i + 1]))
+        for (let i = 0; i < sorted.length - 1; i++) {
+          edges.push(edge(sorted[i], sorted[i + 1], bondId))
+        }
       }
       representatives.push(sorted[0])
     }
