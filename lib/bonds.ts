@@ -19,6 +19,12 @@ export type BondKind =
   | "subject"
   /** Tied to one place, whatever the medium. */
   | "place"
+  /**
+   * Connected in Zodd's own account of the work, where the tie is not a shared
+   * subject, place or series. These exist because he says they do, so the note has
+   * to be his reason rather than one inferred from the pieces.
+   */
+  | "thread"
 
 export type Bond = {
   id: string
@@ -55,11 +61,23 @@ export const BONDS: Bond[] = [
     id: "amsterdam",
     kind: "place",
     label: "Amsterdam",
-    note: "The same city, painted twice and then put on a wall there.",
-    // Zodd: "the amsterdam mural and the amsterdam painting and the hockey skater
-    // image all actually connect." The third piece is not identified yet — see the
-    // note in the session; add it here once he names it.
+    note: "The same city, painted once and then put on a wall there.",
     members: ["amsterdam.webp", "cyclist-mural-amsterdam.webp"],
+  },
+  {
+    id: "the-skater-thread",
+    kind: "thread",
+    // Zodd, 2026-09-30: "the amsterdam mural and the amsterdam painting and the
+    // hockey skater image all actually connect", and he confirmed the skater is the
+    // Oilers commission.
+    //
+    // PLACEHOLDER LABEL AND NOTE. The Amsterdam bond above cannot absorb the Oilers
+    // piece — it is Edmonton, not Amsterdam — and this one must not restate the city
+    // either. He has not yet said what the three share, so the note claims only what
+    // is certain. Replace both with his own words before this goes to production.
+    label: "Zodd's thread",
+    note: "Three pieces the artist ties together.",
+    members: ["amsterdam.webp", "cyclist-mural-amsterdam.webp", "oilers-commission.webp"],
   },
   {
     id: "eyewear",
@@ -165,9 +183,15 @@ export function offRegister(
   describe: (file: string) => { title?: string; abbr?: string } | undefined,
 ): OffRegister[] {
   const out: OffRegister[] = []
+  // One lead per target piece. Two pieces can share more than one bond — the
+  // Amsterdam pair are tied both by the city and by the thread that reaches the
+  // Oilers commission — and offering the same crossing twice is noise. First bond
+  // wins, which is the order BONDS declares.
+  const seen = new Set<string>()
   for (const bond of bondsFor(file)) {
     for (const member of bond.members) {
-      if (member === file || visibleFiles.has(member)) continue
+      if (member === file || visibleFiles.has(member) || seen.has(member)) continue
+      seen.add(member)
       const d = describe(member)
       out.push({ bond, file: member, title: d?.title ?? member, abbr: d?.abbr })
     }
