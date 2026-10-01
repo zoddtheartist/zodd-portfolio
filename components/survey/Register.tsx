@@ -32,7 +32,7 @@ export default function Register({ view, counts, onSelect }: RegisterProps) {
       {/* The gap is the rule: one pixel of ink showing between cells, which
           survives any wrap without per-cell border bookkeeping. */}
       <div
-        className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-5 gap-px bg-[var(--ink)]/45"
+        className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-5 gap-px bg-[var(--rule)]"
         role="group"
         aria-label="Filter the plat by category"
       >
@@ -50,7 +50,7 @@ export default function Register({ view, counts, onSelect }: RegisterProps) {
               // container's rule colour would show through.
               className={`${last ? "col-span-2 md:col-span-1" : ""} flex items-baseline justify-between gap-2 px-3 py-3 text-left transition-colors duration-200 ${
                 active
-                  ? "bg-[var(--ink)] text-[var(--paper)]"
+                  ? "plate"
                   : "bg-[var(--paper)] text-[var(--ink)] hover:bg-[var(--window)] active:bg-[var(--ink)] active:text-[var(--paper)]"
               }`}
             >
@@ -68,7 +68,7 @@ export default function Register({ view, counts, onSelect }: RegisterProps) {
               </span>
               <span
                 className={`font-[family-name:var(--font-typewriter)] text-[11px] tabular-nums ${
-                  active ? "text-[var(--paper)]/80" : "text-[var(--ink)]/50"
+                  active ? "opacity-80" : "text-[var(--ink)]/50"
                 }`}
               >
                 {String(counts[row.id] ?? 0).padStart(2, "0")}

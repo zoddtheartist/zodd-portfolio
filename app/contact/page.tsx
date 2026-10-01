@@ -76,7 +76,7 @@ export default function ContactPage() {
             href="mailto:contact@zodd.gallery"
             event="contact_email_click"
             external
-            className="group mt-6 flex flex-wrap items-center justify-between gap-4 border-[1.5px] border-[var(--ink)] bg-[var(--ink)] px-6 py-6 text-[var(--paper)] transition-colors duration-300 hover:bg-[var(--oxblood)] active:bg-[var(--oxblood)]"
+            className="plate plate-action group mt-6 flex flex-wrap items-center justify-between gap-4 px-6 py-6 transition-colors duration-300"
           >
             <span>
               <span className="block font-[family-name:var(--font-typewriter)] text-[10px] tracking-[0.3em] uppercase text-[var(--brass)] mb-2">
@@ -88,7 +88,7 @@ export default function ContactPage() {
             </span>
             <span
               aria-hidden="true"
-              className="font-[family-name:var(--font-stencil)] text-[14px] font-extrabold uppercase tracking-[0.2em] border-2 border-[var(--paper)]/70 px-3 py-1 -rotate-6 text-[var(--paper)]/80"
+              className="font-[family-name:var(--font-stencil)] text-[14px] font-extrabold uppercase tracking-[0.2em] border-2 border-current/70 px-3 py-1 -rotate-6 opacity-80"
             >
               Open
             </span>

@@ -95,8 +95,8 @@ export default function FieldSection() {
       {/* EXIF strip. Sits below the plate rather than over it: the artwork carries
           its own lockup and legal line along the bottom, and covering those would
           both damage the composition and hide required copy. */}
-      <div className="flex flex-wrap items-center justify-between gap-x-5 gap-y-2 px-4 py-2.5 bg-[var(--ink)] border-x-[1.5px] border-[var(--ink)]">
-        <span className="flex flex-wrap gap-x-5 gap-y-1 font-[family-name:var(--font-typewriter)] text-[10px] tracking-[0.16em] uppercase text-[var(--paper)]">
+      <div className="plate flex flex-wrap items-center justify-between gap-x-5 gap-y-2 px-4 py-2.5 border-x-[1.5px]">
+        <span className="flex flex-wrap gap-x-5 gap-y-1 font-[family-name:var(--font-typewriter)] text-[10px] tracking-[0.16em] uppercase">
           <span>
             <span className="text-[var(--brass)] mr-1.5">venue</span>Coors Field
           </span>
@@ -204,12 +204,12 @@ export default function FieldSection() {
       <TrackedLink
         href="/contact"
         event="field_enquiry_click"
-        className="group flex flex-wrap items-center justify-between gap-3 border-x-[1.5px] border-b-[1.5px] border-[var(--ink)] bg-[var(--ink)] px-5 py-4 text-[var(--paper)] transition-colors duration-300 hover:bg-[var(--oxblood)] active:bg-[var(--oxblood)]"
+        className="plate plate-action group flex flex-wrap items-center justify-between gap-3 border-x-[1.5px] border-b-[1.5px] px-5 py-4 transition-colors duration-300"
       >
         <span className="font-[family-name:var(--font-gothic)] text-[clamp(22px,3vw,30px)] font-extrabold uppercase leading-none tracking-wide">
           Public work &amp; commissions
         </span>
-        <span className="font-[family-name:var(--font-typewriter)] text-[10px] tracking-[0.26em] uppercase text-[var(--paper)]/75 group-hover:text-[var(--paper)]">
+        <span className="font-[family-name:var(--font-typewriter)] text-[10px] tracking-[0.26em] uppercase opacity-75 group-hover:opacity-100">
           Enquire &#8594;
         </span>
       </TrackedLink>

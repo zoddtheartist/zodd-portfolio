@@ -18,11 +18,17 @@ type ParcelProps = {
 }
 
 /** Small brass survey marker sat on the frame corners. */
-function Node({ className }: { className: string }) {
+/** Small survey marker sat on the frame corners. Brass is the lit state, not the
+  * resting one: twelve parcels of full brass at rest is the lit grid Zodd flagged. */
+function Node({ className, lit }: { className: string; lit?: boolean }) {
   return (
     <span
       aria-hidden="true"
-      className={`absolute w-[5px] h-[5px] bg-[var(--brass)] border border-[var(--ink)] ${className}`}
+      className={`absolute w-[5px] h-[5px] border transition-colors duration-300 ${className}`}
+      style={{
+        background: lit ? "var(--brass)" : "var(--rule)",
+        borderColor: lit ? "var(--brass)" : "var(--rule)",
+      }}
     />
   )
 }
@@ -66,7 +72,9 @@ const Parcel = forwardRef<HTMLDivElement, ParcelProps>(function Parcel(
             className="relative w-full aspect-[4/5] overflow-hidden border-[1.5px] transition-all duration-300"
             style={{
               background: "var(--window)",
-              borderColor: lit ? "var(--oxblood)" : "var(--ink)",
+              // Rest on the dim rule, glow up to oxblood when lit. On paper --rule
+              // is the ink, so day is unchanged.
+              borderColor: lit ? "var(--oxblood)" : "var(--rule)",
               boxShadow: connected ? "0 0 0 2px var(--brass)" : undefined,
             }}
           >
@@ -81,13 +89,13 @@ const Parcel = forwardRef<HTMLDivElement, ParcelProps>(function Parcel(
             />
           </div>
 
-          <Node className="-top-[3px] -left-[3px]" />
-          <Node className="-top-[3px] -right-[3px]" />
-          <Node className="-bottom-[3px] -left-[3px] " />
-          <Node className="-bottom-[3px] -right-[3px]" />
+          <Node lit={lit} className="-top-[3px] -left-[3px]" />
+          <Node lit={lit} className="-top-[3px] -right-[3px]" />
+          <Node lit={lit} className="-bottom-[3px] -left-[3px] " />
+          <Node lit={lit} className="-bottom-[3px] -right-[3px]" />
 
           {/* Specimen tag */}
-          <div className="mt-2 flex items-baseline justify-between gap-2 border-t border-[var(--ink)]/35 pt-1.5">
+          <div className="mt-2 flex items-baseline justify-between gap-2 border-t border-[var(--rule)] pt-1.5">
             <span className="font-[family-name:var(--font-typewriter)] text-[10px] tracking-[0.18em] uppercase text-[var(--oxblood)]">
               {sectionLabel(img)}
             </span>
