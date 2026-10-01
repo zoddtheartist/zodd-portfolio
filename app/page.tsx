@@ -32,7 +32,7 @@ export default function Home() {
             className="absolute inset-0"
             style={{
               background:
-                "linear-gradient(to bottom, rgba(239,231,214,0.7) 0%, rgba(239,231,214,0.18) 32%, rgba(239,231,214,0.35) 62%, var(--paper) 100%)",
+                "linear-gradient(to bottom, rgb(var(--ground-rgb) / 0.7) 0%, rgb(var(--ground-rgb) / 0.18) 32%, rgb(var(--ground-rgb) / 0.35) 62%, var(--paper) 100%)",
             }}
           />
           {/* Soft edge vignette in paper, not black */}
@@ -40,7 +40,7 @@ export default function Home() {
             className="absolute inset-0"
             style={{
               background:
-                "radial-gradient(ellipse at center, rgba(239,231,214,0) 45%, rgba(239,231,214,0.55) 100%)",
+                "radial-gradient(ellipse at center, rgb(var(--ground-rgb) / 0) 45%, rgb(var(--ground-rgb) / 0.55) 100%)",
             }}
           />
 
@@ -51,7 +51,16 @@ export default function Home() {
                 alt="Zodd"
                 width={520}
                 height={172}
-                className="w-[min(520px,78vw)] h-auto"
+                className="logo-on-paper w-[min(520px,78vw)] h-auto"
+                priority
+              />
+              <Image
+                src="/logo.png"
+                alt=""
+                aria-hidden="true"
+                width={520}
+                height={172}
+                className="logo-on-night w-[min(520px,78vw)] h-auto"
                 priority
               />
             </div>

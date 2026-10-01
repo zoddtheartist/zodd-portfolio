@@ -16,6 +16,37 @@
   --night: #0d0c0a;
   --bone: #ede4d0;
   --night-window: #1a1512;
+
+  /* Ground and mark as raw channels, for the gradients that fade into the page.
+     An rgba() literal cannot follow a theme swap; these can. */
+  --ground-rgb: 239 231 214;
+}
+
+/* ---------------------------------------------------------------
+   Night mode.
+
+   These tokens name roles, not literal colours: --paper is the ground the page
+   sits on and --ink is the mark made on it. Swapping their values here means every
+   existing var(--paper) and var(--ink) follows the theme with no component change.
+   The names are historical; read them as ground and mark.
+
+   --night and --bone are deliberately NOT swapped. They are the fixed dark side of
+   the system, which is what keeps /kings dark in both themes and lets the lab's
+   tool cards stay dark on a light page.
+   --------------------------------------------------------------- */
+
+:root[data-theme="dark"] {
+  --paper: #0d0c0a;
+  --window: #1a1512;
+  --ink: #ede4d0;
+
+  /* Oxblood has to lighten or it disappears. #7a2018 on this ground is 1.91:1,
+     which fails badly, and it carries 10px uppercase micro-labels that need AA.
+     #cc6950 is 5.31:1. Brass is already 6.13:1 here and needs no change. */
+  --oxblood: #cc6950;
+  --brass: #c9a227;
+
+  --ground-rgb: 13 12 10;
 }
 
 @theme inline {
@@ -88,11 +119,34 @@ body {
   background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='140' height='140'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2'/%3E%3C/filter%3E%3Crect width='140' height='140' filter='url(%23n)' opacity='0.5'/%3E%3C/svg%3E");
 }
 
+/* Grain on the paper ground disappears against dark, so under night mode the
+   paper grain borrows the night version's weight and overlay blend. */
+:root[data-theme="dark"] .paper-grain::before {
+  opacity: 0.09;
+  mix-blend-mode: overlay;
+}
+
+/* The wordmark exists as two files: logo-ink.png is dark, for the paper ground, and
+   logo.png is white, for the night ground. Both are rendered and CSS picks one, so
+   the swap needs no client state and cannot mismatch during hydration. */
+.logo-on-paper { display: block; }
+.logo-on-night { display: none; }
+:root[data-theme="dark"] .logo-on-paper { display: none; }
+:root[data-theme="dark"] .logo-on-night { display: block; }
+
 /* Hero photograph printed onto the paper rather than laid on top of it.
    Same recipe as the poster engine's "positive — dark ink on paper" mode. */
 .ink-print {
   filter: grayscale(1) sepia(0.3) contrast(0.95) brightness(1.3);
   mix-blend-mode: multiply;
+}
+
+/* The night counterpart, which is the poster engine's "negative — bone ink on
+   dark" recipe: knock the photograph to bone with invert and screen rather than
+   printing it down with multiply. Multiply on a dark ground would erase it. */
+:root[data-theme="dark"] .ink-print {
+  filter: grayscale(1) invert(1) contrast(1.05) brightness(1.08);
+  mix-blend-mode: screen;
 }
 
 /* ---------------------------------------------------------------
