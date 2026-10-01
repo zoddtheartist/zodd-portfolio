@@ -24,8 +24,15 @@
   }
   * { box-sizing: border-box; margin: 0; padding: 0; }
   body { background: #14110C; color: var(--bone); font-family: var(--mono); }
-  .opening { font-family: var(--serif); font-size: 17px; line-height: 1.65; max-width: 62ch; margin-top: 14px; color: rgba(237,228,208,0.88); }
-  .opening + .opening { margin-top: 11px; }
+  /* Set as a two-column block with a rule over it. At 17px and capped to 62ch the
+     text used barely half its column and left a dead field to the right of it; the
+     page is meant to read as a document, so it gets a document's measure. */
+  .openblock { margin-top: 20px; padding-top: 12px; border-top: 1px solid rgba(237,228,208,0.22); }
+  .olabel { font-family: var(--mono); font-size: 10px; letter-spacing: 0.26em; text-transform: uppercase; color: var(--glacier); margin-bottom: 11px; }
+  .opencols { columns: 2; column-gap: 38px; }
+  .opening { font-family: var(--serif); font-size: 14.5px; line-height: 1.58; color: rgba(237,228,208,0.86); margin: 0 0 10px; break-inside: avoid; }
+  .opening:last-child { margin-bottom: 0; }
+  @media (max-width: 780px) { .opencols { columns: 1; } }
   .mono { font-size: 11px; letter-spacing: 0.22em; text-transform: uppercase; }
   .rail { max-width: 1160px; margin: 0 auto; padding: 16px 22px 12px; display: flex; justify-content: space-between; gap: 12px; border-bottom: 1px solid rgba(237,228,208,0.22); }
   .backlink { color: var(--brass); text-decoration: none; border-bottom: 1px solid transparent; }
@@ -33,7 +40,7 @@
   .wrap { max-width: 1160px; margin: 0 auto; padding: 26px 22px 70px; }
 
   .ambient { display: flex; justify-content: space-between; align-items: flex-end; gap: 24px; padding: 8px 2px 18px; }
-  .ambient .brandcol { display: flex; flex-direction: column; justify-content: flex-end; padding-bottom: 18px; min-width: 0; }
+  .ambient .brandcol { display: flex; flex-direction: column; justify-content: flex-end; padding-bottom: 18px; min-width: 0; flex: 1 1 auto; }
   .ambient .alabel { font-size: 10px; letter-spacing: 0.26em; text-transform: uppercase; color: var(--glacier); margin-bottom: 8px; }
   .wordmark {
     font-family: var(--serif); font-weight: 800; line-height: 0.95;
@@ -202,7 +209,10 @@
     <div class="brandcol">
       <div class="alabel">two hummingbirds, Colorado &#8212; a colour study</div>
       <h1 class="wordmark">VIRIDIAN</h1>
-      <p class="opening">I watched these birds for days. I came home with a few hundred
+      <div class="openblock">
+        <div class="olabel">the study</div>
+        <div class="opencols">
+<p class="opening">I watched these birds for days. I came home with a few hundred
       photographs and kept two.</p>
       <p class="opening">It started as a colour study. The green on her back and the red
       on his throat aren&rsquo;t pigment &mdash; there is no red in that feather. It is
@@ -210,7 +220,9 @@
       turns. That is the thing I was trying to photograph, and it is why the palettes
       below are pulled out of the photographs rather than picked by me.</p>
       <p class="opening">The flight numbers further down are not mine. They are cited.</p>
-    </div>
+        </div>
+      </div>
+</div>
     <div class="abird">
       <canvas id="hum" width="280" height="212" role="img" aria-label="Small hand-drawn line animation of a hummingbird beating its wings"></canvas>
       <div class="tag">specimen &#8212; &#8776;50 beats/sec &#183; <button class="windkey" id="wind" type="button">rest</button></div>

@@ -93,7 +93,12 @@
   .poster[data-grid="split"] { grid-template-columns: 1.05fr 1fr; grid-template-rows: auto auto minmax(0, 1fr) auto; grid-template-areas: "img title" "img sub" "img line" "img foot"; }
   .poster[data-grid="split"] .p-title { align-self: start; }
   .poster[data-grid="asym"] { grid-template-rows: minmax(0, 1fr) auto auto auto; grid-template-areas: "title" "sub" "line" "foot"; }
-  .poster[data-grid="asym"] .p-img { position: absolute; top: 5%; right: -7%; width: calc(74% * var(--iscale)); height: 62%; z-index: 0; }
+  /* No z-index here on purpose. A positioned element with a z-index other than auto
+     creates a stacking context, and mix-blend-mode only blends against the backdrop
+     inside its own context — so the sketch was multiplying against this empty box
+     instead of the poster's paper, and its white ground stayed opaque white. The
+     text below still sits on top because it carries z-index: 1. */
+  .poster[data-grid="asym"] .p-img { position: absolute; top: 5%; right: -7%; width: calc(74% * var(--iscale)); height: 62%; }
   /* Asymmetric scales its container instead, so the image must not scale again. */
   .poster[data-grid="asym"] .p-img img { width: 100%; height: 100%; }
   .poster[data-grid="asym"] .p-title, .poster[data-grid="asym"] .p-sub, .poster[data-grid="asym"] .p-line, .poster[data-grid="asym"] .p-foot { position: relative; z-index: 1; }
@@ -296,7 +301,9 @@
       rows: 'minmax(0, 1fr) auto auto auto',
       areas: '"title" "sub" "line" "foot"',
       extra:
-        '.poster .p-img { position: absolute; top: 5%; right: -7%; width: calc(74% * var(--iscale)); height: 62%; z-index: 0; }\n' +
+        // No z-index: it would create a stacking context and stop mix-blend-mode
+        // reaching the poster ground. See the stylesheet rule for the long version.
+        '.poster .p-img { position: absolute; top: 5%; right: -7%; width: calc(74% * var(--iscale)); height: 62%; }\n' +
         '.poster .p-img img { width: 100%; height: 100%; }\n' +
         '.poster .p-title, .poster .p-sub, .poster .p-line, .poster .p-foot { position: relative; z-index: 1; }'
     },
