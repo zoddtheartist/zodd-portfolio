@@ -209,7 +209,9 @@ export default function PortfolioPlat() {
                       className="relative overflow-hidden border-[1.5px] transition-all duration-300"
                       style={{
                         background: "var(--window)",
-                        borderColor: lit ? "var(--oxblood)" : "var(--ink)",
+                        // Matches the homepage plat: rest on the dim rule, glow up to
+                        // oxblood when lit. --rule is --ink on paper, so day is unchanged.
+                        borderColor: lit ? "var(--oxblood)" : "var(--rule)",
                         boxShadow: connected ? "0 0 0 2px var(--brass)" : undefined,
                       }}
                     >
@@ -235,11 +237,15 @@ export default function PortfolioPlat() {
                       <span
                         key={pos}
                         aria-hidden="true"
-                        className={`absolute w-[5px] h-[5px] bg-[var(--brass)] border border-[var(--ink)] ${pos}`}
+                        className={`absolute w-[5px] h-[5px] border transition-colors duration-300 ${pos}`}
+                        style={{
+                          background: lit ? "var(--brass)" : "var(--rule)",
+                          borderColor: lit ? "var(--brass)" : "var(--rule)",
+                        }}
                       />
                     ))}
 
-                    <div className="mt-2 flex items-baseline justify-between gap-2 border-t border-[var(--ink)]/35 pt-1.5">
+                    <div className="mt-2 flex items-baseline justify-between gap-2 border-t border-[var(--rule)] pt-1.5">
                       <span className="font-[family-name:var(--font-typewriter)] text-[10px] tracking-[0.18em] uppercase text-[var(--oxblood)]">
                         {sectionLabel(item)}
                       </span>
@@ -284,7 +290,7 @@ export default function PortfolioPlat() {
         >
           <button
             type="button"
-            className="absolute left-1 sm:left-4 top-1/2 -translate-y-1/2 z-10 flex items-center justify-center w-12 h-12 text-3xl text-[var(--paper)]/60 hover:text-[var(--paper)] transition-colors"
+            className="absolute left-1 sm:left-4 top-1/2 -translate-y-1/2 z-10 flex items-center justify-center w-12 h-12 text-3xl text-[var(--bone)]/60 hover:text-[var(--bone)] transition-colors"
             onClick={(e) => {
               e.stopPropagation()
               step(-1)
@@ -311,25 +317,25 @@ export default function PortfolioPlat() {
               onClick={() => setZoomed((z) => !z)}
               className={
                 zoomed
-                  ? "max-w-none w-auto h-auto cursor-zoom-out border-[1.5px] border-[var(--paper)]/25"
-                  : "max-h-[80vh] max-w-[72vw] sm:max-w-[86vw] w-auto h-auto object-contain cursor-zoom-in border-[1.5px] border-[var(--paper)]/25"
+                  ? "max-w-none w-auto h-auto cursor-zoom-out border-[1.5px] border-[var(--bone)]/25"
+                  : "max-h-[80vh] max-w-[72vw] sm:max-w-[86vw] w-auto h-auto object-contain cursor-zoom-in border-[1.5px] border-[var(--bone)]/25"
               }
               style={zoomed ? { width: Math.min(active.w, 2400) } : undefined}
             />
           </div>
 
           <div className="absolute bottom-5 left-0 right-0 flex flex-col items-center gap-1 pointer-events-none">
-            <p className="font-[family-name:var(--font-typewriter)] text-[11px] tracking-[0.22em] uppercase text-[var(--paper)]/75">
+            <p className="font-[family-name:var(--font-typewriter)] text-[11px] tracking-[0.22em] uppercase text-[var(--bone)]/75">
               {sectionLabel(active)} · {active.title}
             </p>
-            <p className="font-[family-name:var(--font-typewriter)] text-[9.5px] tracking-[0.18em] uppercase text-[var(--paper)]/40">
+            <p className="font-[family-name:var(--font-typewriter)] text-[9.5px] tracking-[0.18em] uppercase text-[var(--bone)]/40">
               {zoomed ? "tap to fit" : "tap image to zoom · pinch to magnify"}
             </p>
           </div>
 
           <button
             type="button"
-            className="absolute right-1 sm:right-4 top-1/2 -translate-y-1/2 z-10 flex items-center justify-center w-12 h-12 text-3xl text-[var(--paper)]/60 hover:text-[var(--paper)] transition-colors"
+            className="absolute right-1 sm:right-4 top-1/2 -translate-y-1/2 z-10 flex items-center justify-center w-12 h-12 text-3xl text-[var(--bone)]/60 hover:text-[var(--bone)] transition-colors"
             onClick={(e) => {
               e.stopPropagation()
               step(1)
@@ -341,7 +347,7 @@ export default function PortfolioPlat() {
 
           <button
             type="button"
-            className="absolute top-2 right-2 sm:top-4 sm:right-5 z-10 flex items-center justify-center w-12 h-12 text-2xl text-[var(--paper)]/60 hover:text-[var(--paper)] transition-colors"
+            className="absolute top-2 right-2 sm:top-4 sm:right-5 z-10 flex items-center justify-center w-12 h-12 text-2xl text-[var(--bone)]/60 hover:text-[var(--bone)] transition-colors"
             onClick={close}
             aria-label="Close"
           >

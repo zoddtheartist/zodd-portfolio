@@ -3,7 +3,7 @@ import Link from "next/link"
 import Image from "next/image"
 import { usePathname } from "next/navigation"
 import { useState } from "react"
-import ThemeToggle from "./ThemeToggle"
+import ThemeClock from "./ThemeClock"
 
 // Kings is deliberately absent. The route still exists and still renders, but
 // nothing on the site links to it while the video reads as crypto-first. Put the
@@ -108,7 +108,7 @@ export default function Nav() {
           ))}
           {/* Only on the paper side. Kings is pinned dark in both themes, so a day
               switch there would claim to do something it does not. */}
-          {paper ? <ThemeToggle /> : null}
+          {paper ? <ThemeClock /> : null}
         </div>
 
         {/* Mobile hamburger */}
@@ -150,8 +150,8 @@ export default function Nav() {
             </Link>
           ))}
           {paper ? (
-            <div onClick={() => setOpen(false)} className="text-2xl">
-              <ThemeToggle />
+            <div onClick={() => setOpen(false)}>
+              <ThemeClock />
             </div>
           ) : null}
         </div>

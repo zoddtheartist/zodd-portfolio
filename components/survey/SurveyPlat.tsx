@@ -271,7 +271,7 @@ export default function SurveyPlat() {
         >
           <button
             type="button"
-            className="absolute left-1 sm:left-4 top-1/2 -translate-y-1/2 z-10 flex items-center justify-center w-12 h-12 text-3xl text-[var(--paper)]/60 hover:text-[var(--paper)] transition-colors"
+            className="absolute left-1 sm:left-4 top-1/2 -translate-y-1/2 z-10 flex items-center justify-center w-12 h-12 text-3xl text-[var(--bone)]/60 hover:text-[var(--bone)] transition-colors"
             onClick={(e) => {
               e.stopPropagation()
               step(-1)
@@ -294,16 +294,16 @@ export default function SurveyPlat() {
               priority
               // Narrower on phones so the prev/next controls sit beside the plate
               // instead of on top of it.
-              className="max-h-[76vh] sm:max-h-[80vh] max-w-[72vw] sm:max-w-[86vw] w-auto h-auto object-contain border-[1.5px] border-[var(--paper)]/25"
+              className="max-h-[76vh] sm:max-h-[80vh] max-w-[72vw] sm:max-w-[86vw] w-auto h-auto object-contain border-[1.5px] border-[var(--bone)]/25"
             />
-            <p className="font-[family-name:var(--font-typewriter)] text-[11px] tracking-[0.22em] uppercase text-[var(--paper)]/70">
+            <p className="font-[family-name:var(--font-typewriter)] text-[11px] tracking-[0.22em] uppercase text-[var(--bone)]/70">
               {active.title}
             </p>
           </div>
 
           <button
             type="button"
-            className="absolute right-1 sm:right-4 top-1/2 -translate-y-1/2 z-10 flex items-center justify-center w-12 h-12 text-3xl text-[var(--paper)]/60 hover:text-[var(--paper)] transition-colors"
+            className="absolute right-1 sm:right-4 top-1/2 -translate-y-1/2 z-10 flex items-center justify-center w-12 h-12 text-3xl text-[var(--bone)]/60 hover:text-[var(--bone)] transition-colors"
             onClick={(e) => {
               e.stopPropagation()
               step(1)
@@ -315,7 +315,7 @@ export default function SurveyPlat() {
 
           <button
             type="button"
-            className="absolute top-2 right-2 sm:top-4 sm:right-5 z-10 flex items-center justify-center w-12 h-12 text-2xl text-[var(--paper)]/60 hover:text-[var(--paper)] transition-colors"
+            className="absolute top-2 right-2 sm:top-4 sm:right-5 z-10 flex items-center justify-center w-12 h-12 text-2xl text-[var(--bone)]/60 hover:text-[var(--bone)] transition-colors"
             onClick={close}
             aria-label="Close"
           >

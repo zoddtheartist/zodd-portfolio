@@ -21,14 +21,17 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
           frame of the wrong ground. It has to be inline and blocking: a React effect
           runs after the first paint, so a night viewer would get a flash of paper.
 
-          Reads the stored choice, falls back to the system preference, and wraps the
-          storage access because private mode throws on it.
+          Reads the pinned choice; with none, it falls back to the viewer's own clock,
+          the same rule ThemeClock follows. Storage access is wrapped because private
+          mode throws on it.
         */}
         <script
           dangerouslySetInnerHTML={{
             __html:
+              // Mirrors themeForHour() in lib/daylight.ts. If those boundary hours
+              // change, change them here too: this runs before any module loads.
               "(function(){try{var t=localStorage.getItem('theme');" +
-              "if(!t)t=window.matchMedia&&window.matchMedia('(prefers-color-scheme: dark)').matches?'dark':'light';" +
+              "if(t!=='light'&&t!=='dark'){var h=new Date().getHours();t=(h>=7&&h<19)?'light':'dark';}" +
               "if(t==='dark')document.documentElement.setAttribute('data-theme','dark');}catch(e){}})()",
           }}
         />

@@ -3,6 +3,25 @@ import TrackedLink from "@/components/TrackedLink"
 import { featuredProject } from "@/lib/projects-data"
 
 /** The Lazy Z Bar mark, matching the reference files. */
+/**
+ * Label colour for a swatch, chosen from the swatch's own luminance.
+ *
+ * Every chip label used to be bone with a drop shadow, which works on the dark end
+ * of a palette and fails on the light end: against this artwork's "sun" the label
+ * was 1.31:1 and amber 2.25:1. Picking per chip puts the worst case at 4.90:1.
+ *
+ * Relative luminance per WCAG; 0.18 is where dark type overtakes light.
+ */
+function labelOn(hex: string): { color: string; shadow: string } {
+  const c = [0, 2, 4]
+    .map((i) => parseInt(hex.slice(1 + i, 3 + i), 16) / 255)
+    .map((v) => (v <= 0.03928 ? v / 12.92 : Math.pow((v + 0.055) / 1.055, 2.4)))
+  const l = 0.2126 * c[0] + 0.7152 * c[1] + 0.0722 * c[2]
+  return l > 0.18
+    ? { color: "#15100C", shadow: "0 1px 2px rgba(255,255,255,0.45)" }
+    : { color: "#F7F1E4", shadow: "0 1px 3px rgba(0,0,0,0.7)" }
+}
+
 function Mark({ color = "#EDE4D0", size = 20 }: { color?: string; size?: number }) {
   return (
     <svg viewBox="0 0 100 100" width={size} height={size} aria-hidden="true" className="block">
@@ -121,17 +140,25 @@ export default function FieldSection() {
           assayed from this artwork — the claim office
         </p>
         <div className="flex">
-          {project.palette.map((s) => (
-            <div
-              key={s.hex}
-              className="relative flex-1 sm:flex-none sm:w-[76px] min-h-[44px] border-l border-[var(--ink)]/40 first:border-l-0 sm:first:border-l"
-              style={{ background: s.hex }}
-            >
-              <span className="absolute bottom-1 left-1.5 font-[family-name:var(--font-typewriter)] text-[8px] tracking-[0.1em] uppercase text-[#EDE4D0] [text-shadow:0_1px_3px_rgba(0,0,0,0.7)]">
-                {s.name}
-              </span>
-            </div>
-          ))}
+          {project.palette.map((s) => {
+            const label = labelOn(s.hex)
+            return (
+              <div
+                key={s.hex}
+                className="relative flex-1 sm:flex-none sm:w-[76px] min-h-[44px] border-l border-[var(--rule)] first:border-l-0 sm:first:border-l"
+                style={{ background: s.hex }}
+              >
+                {/* 9px and bold rather than 8px regular: at this size the weight is
+                    doing as much of the legibility work as the colour. */}
+                <span
+                  className="absolute bottom-1 left-1.5 font-[family-name:var(--font-typewriter)] font-bold text-[9px] tracking-[0.1em] uppercase"
+                  style={{ color: label.color, textShadow: label.shadow }}
+                >
+                  {s.name}
+                </span>
+              </div>
+            )
+          })}
         </div>
       </div>
 
