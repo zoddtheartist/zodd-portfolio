@@ -61,6 +61,21 @@ const TREATMENT: Record<string, SketchTreatment> = {
 const DEFAULT_TREATMENT: SketchTreatment = { b: 1, c: 1, polarity: "light" }
 
 /**
+ * Monochrome, but not poster material.
+ *
+ * These stay in MONO_FILES because the classification is correct and it is what keeps
+ * them out of the Claim Office — a palette pulled from line art is a row of greys.
+ * They are only excluded from the poster engine.
+ */
+const NOT_FOR_POSTERS = new Set([
+  // Zodd, 2026-10-01. Product renders rather than drawings: the eyewear pair are
+  // commissioned objects on a plain ground, so the ink treatments have nothing to
+  // bite on and they read as a catalogue shot dropped into a poster frame.
+  "tyson-sunglasses-1.webp",
+  "astroboy-sunglasses-1.webp",
+])
+
+/**
  * The monochrome pieces, measured rather than inferred from the `ink` category.
  *
  * Mean per-pixel saturation across a 160px sample, ignoring near-black pixels where
@@ -111,7 +126,7 @@ function toSource(img: PortfolioImage): LabSource {
  */
 export function posterSources(): LabSource[] {
   return images
-    .filter(isMono)
+    .filter((i) => isMono(i) && !NOT_FOR_POSTERS.has(i.file))
     .map((i) => ({ ...toSource(i), treatment: TREATMENT[i.file] ?? DEFAULT_TREATMENT }))
     .sort((a, b) => a.title.localeCompare(b.title))
 }
