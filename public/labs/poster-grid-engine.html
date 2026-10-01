@@ -47,7 +47,17 @@
     background-size: 140px 140px, 4px 4px;
   }
   .p-img { grid-area: img; display: flex; align-items: center; justify-content: center; min-height: 0; overflow: hidden; position: relative; }
-  .p-img img { max-width: 100%; max-height: 100%; width: calc(100% * var(--iscale)); object-fit: contain; display: block; }
+  /* Scale both axes and drop the max-* caps. max-width:100% beat width, so every
+     --iscale above 1 was silently clamped and the top half of the slider did nothing
+     in four of the five grids. .p-img already clips, so overflow is the intent. */
+  .p-img img {
+    width: calc(100% * var(--iscale));
+    height: calc(100% * var(--iscale));
+    max-width: none;
+    max-height: none;
+    object-fit: contain;
+    display: block;
+  }
   /* Ink logic, in order: flatten to grey, stretch levels so the scan's ink point is
      black and its paper point white, then invert if the source is the wrong way round
      for this preset, then the user's contrast on top.
@@ -81,7 +91,8 @@
   .poster[data-grid="split"] .p-title { align-self: start; }
   .poster[data-grid="asym"] { grid-template-rows: minmax(0, 1fr) auto auto auto; grid-template-areas: "title" "sub" "line" "foot"; }
   .poster[data-grid="asym"] .p-img { position: absolute; top: 5%; right: -7%; width: calc(74% * var(--iscale)); height: 62%; z-index: 0; }
-  .poster[data-grid="asym"] .p-img img { width: 100%; }
+  /* Asymmetric scales its container instead, so the image must not scale again. */
+  .poster[data-grid="asym"] .p-img img { width: 100%; height: 100%; }
   .poster[data-grid="asym"] .p-title, .poster[data-grid="asym"] .p-sub, .poster[data-grid="asym"] .p-line, .poster[data-grid="asym"] .p-foot { position: relative; z-index: 1; }
   .poster[data-grid="ledger"] { gap: 0; grid-template-rows: auto minmax(0, 1fr) auto auto auto; grid-template-areas: "title" "img" "sub" "line" "foot"; }
   .poster[data-grid="ledger"] > .p-el { border-top: 1.5px solid currentColor; padding-top: calc(9px * var(--den)); padding-bottom: calc(9px * var(--den)); }
@@ -240,6 +251,57 @@
       });
   }
   var FONT = { gothic: 'var(--gothic)', stencil: 'var(--stencil)', serif: 'var(--serifP)' };
+
+  /**
+   * Authored grid definitions for the exporter.
+   *
+   * These mirror the .poster[data-grid=...] rules in the stylesheet and must be kept
+   * in step with them. They cannot be read back from getComputedStyle: the computed
+   * value of grid-template-rows resolves fr and auto to pixels, which is useless in
+   * an export meant to be portable. grid-template-areas does survive computation, but
+   * taking half the definition from one source and half from another would be worse
+   * than keeping the pair together here.
+   *
+   * `extra` carries the rules that make a grid what it is rather than merely where
+   * its boxes sit — the ledger's rules between rows, the specimen's frame.
+   */
+  var GRIDS = {
+    stacked: {
+      rows: 'minmax(0, 1.15fr) auto auto auto auto',
+      areas: '"img" "title" "sub" "line" "foot"',
+      extra: ''
+    },
+    split: {
+      cols: '1.05fr 1fr',
+      rows: 'auto auto minmax(0, 1fr) auto',
+      areas: '"img title" "img sub" "img line" "img foot"',
+      extra: '.poster .p-title { align-self: start; }'
+    },
+    asym: {
+      rows: 'minmax(0, 1fr) auto auto auto',
+      areas: '"title" "sub" "line" "foot"',
+      extra:
+        '.poster .p-img { position: absolute; top: 5%; right: -7%; width: calc(74% * var(--iscale)); height: 62%; z-index: 0; }\n' +
+        '.poster .p-img img { width: 100%; height: 100%; }\n' +
+        '.poster .p-title, .poster .p-sub, .poster .p-line, .poster .p-foot { position: relative; z-index: 1; }'
+    },
+    ledger: {
+      rows: 'auto minmax(0, 1fr) auto auto auto',
+      areas: '"title" "img" "sub" "line" "foot"',
+      gap: '0',
+      extra:
+        '.poster > .p-el { border-top: 1.5px solid currentColor; padding-top: calc(9px * var(--den)); padding-bottom: calc(9px * var(--den)); }\n' +
+        '.poster > .p-title { border-top: none; align-self: start; }'
+    },
+    specimen: {
+      rows: 'auto minmax(0, 1fr) auto auto auto',
+      areas: '"line" "img" "title" "sub" "foot"',
+      extra:
+        '.poster .p-img { border: 1.5px solid currentColor; padding: calc(12px * var(--den)); }\n' +
+        '.poster .p-line { align-self: start; }\n' +
+        '.poster .p-foot { border-top: 1.5px solid currentColor; padding-top: calc(8px * var(--den)); }'
+    }
+  };
   var PRESETS = {
     frontier: { label:'Frontier Brutal', bg:'#0E0C0A', ink:'#EDE4D0', acc:'#7A2018', tfont:'gothic', tweight:900, tcase:'upper', mode:'negative', tex:0.14, ts:1 },
     field:    { label:'Field Guide',     bg:'#EFE7D6', ink:'#2B2018', acc:'#7A2018', tfont:'serif',  tweight:600, tcase:'none',  mode:'positive', tex:0.10, ts:0.8 },
@@ -311,12 +373,57 @@
 
   $('bCss').addEventListener('click', function(){
     var P = PRESETS[state.preset];
-    var mode = state.ink === 'auto' ? P.mode : state.ink;
-    var blend = mode === 'negative'
-      ? '.poster img { filter: grayscale(1) invert(1) contrast(' + state.con + '); mix-blend-mode: screen; }'
-      : '.poster img { filter: grayscale(1) sepia(0.18) contrast(' + state.con + '); mix-blend-mode: multiply; }';
-    var css = '.poster {\n  --pbg: ' + P.bg + ';\n  --pink: ' + P.ink + ';\n  --pacc: ' + P.acc + ';\n  --den: ' + state.den + ';\n  --iscale: ' + state.isc + ';\n  --tsize: ' + (P.ts * state.tsc).toFixed(3) + ';\n  background: var(--pbg);\n  color: var(--pink);\n  aspect-ratio: 4 / 5;\n  display: grid;\n  padding: calc(26px * var(--den));\n  gap: calc(12px * var(--den));\n}\n' + blend;
-    copyText(css, this, 'Copied');
+    var G = GRIDS[state.grid] || GRIDS.stacked;
+
+    // Read the filter and blend back off the live element rather than rebuilding them
+    // from state. The old exporter rebuilt them and fell behind: it dropped the
+    // per-sketch levels entirely and hardcoded invert(1), so for a light-on-dark scan
+    // like Moon Cat the exported CSS inverted a poster the preview had left alone.
+    // Every one of the twelve sketches exported a filter that differed from what was
+    // on screen. Taking the computed value means the export cannot drift again.
+    var cs = getComputedStyle(img);
+    var filter = cs.filter && cs.filter !== 'none' ? cs.filter : 'none';
+    var blend = cs.mixBlendMode || 'normal';
+
+    var lines = [
+      '/* ' + P.label + ' / ' + state.grid + ' — exported from the Poster Grid Engine */',
+      '.poster {',
+      '  --pbg: ' + P.bg + ';',
+      '  --pink: ' + P.ink + ';',
+      '  --pacc: ' + P.acc + ';',
+      '  --den: ' + state.den + ';',
+      '  --iscale: ' + state.isc + ';',
+      '  --tsize: ' + (P.ts * state.tsc).toFixed(3) + ';',
+      '  position: relative;',
+      '  overflow: hidden;',
+      '  background: var(--pbg);',
+      '  color: var(--pink);',
+      '  aspect-ratio: 4 / 5;',
+      '  display: grid;',
+      '  padding: calc(26px * var(--den));',
+      // A fixed gap goes out as-is. Wrapping it produced "gap: calc(0)", which is a
+      // number rather than a length and is simply rejected by the parser.
+      '  gap: ' + (G.gap != null ? G.gap : 'calc(12px * var(--den))') + ';',
+      '  grid-template-rows: ' + G.rows + ';'
+    ];
+    if (G.cols) lines.push('  grid-template-columns: ' + G.cols + ';');
+    lines.push('  grid-template-areas: ' + G.areas + ';');
+    lines.push('}');
+    lines.push('.poster .p-img { grid-area: img; min-height: 0; overflow: hidden; }');
+    lines.push('.poster .p-title { grid-area: title; }');
+    lines.push('.poster .p-sub { grid-area: sub; }');
+    lines.push('.poster .p-line { grid-area: line; color: var(--pacc); }');
+    lines.push('.poster .p-foot { grid-area: foot; }');
+    lines.push('.poster img {');
+    lines.push('  width: calc(100% * var(--iscale));');
+    lines.push('  height: calc(100% * var(--iscale));');
+    lines.push('  object-fit: contain;');
+    lines.push('  filter: ' + filter + ';');
+    lines.push('  mix-blend-mode: ' + blend + ';');
+    lines.push('}');
+    if (G.extra) lines.push(G.extra);
+
+    copyText(lines.join('\n'), this, 'Copied');
   });
   $('bCfg').addEventListener('click', function(){
     copyText(JSON.stringify(state, null, 2), this, 'Copied');
