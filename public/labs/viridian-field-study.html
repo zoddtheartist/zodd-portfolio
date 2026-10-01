@@ -1,0 +1,462 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Zodd / Lab — Viridian, Field Studies 01–02</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Big+Shoulders+Display:wght@800;900&family=Big+Shoulders+Stencil+Display:wght@800&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --gothic: "Big Shoulders Display", "Arial Narrow", sans-serif;
+    --stencil: "Big Shoulders Stencil Display", "Big Shoulders Display", sans-serif;
+    --mono: "Courier New", Courier, monospace;
+    /* Replaces Migra Extrabold, which was embedded here as a licensed desktop TTF.
+       This is the same serif stack the rest of zodd.gallery uses. */
+    --serif: "Iowan Old Style", "Palatino Linotype", Palatino, Georgia, serif;
+    --ink: #14110C; --bone: #EDE4D0; --ox: #7A2018;
+    --glacier: #90C0C0; --olive: #606000; --walnut: #483000; --brass: #907800;
+    --grn-d: #262F17; --grn-m: #485430; --grn-l: #B5C49B;
+    --au-d: #363001; --au-m: #767702; --au-l: #B99F06;
+    --gor-d: #6D272E; --gor-m: #B43137; --gor-l: #D87368;
+    --spr-m: #3A6129; --spr-l: #A1BC74;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { background: #14110C; color: var(--bone); font-family: var(--mono); }
+  .mono { font-size: 11px; letter-spacing: 0.22em; text-transform: uppercase; }
+  .rail { max-width: 1160px; margin: 0 auto; padding: 16px 22px 12px; display: flex; justify-content: space-between; gap: 12px; border-bottom: 1px solid rgba(237,228,208,0.22); }
+  .backlink { color: var(--brass); text-decoration: none; border-bottom: 1px solid transparent; }
+  .backlink:hover, .backlink:focus-visible { color: var(--bone); border-bottom-color: currentColor; outline: none; }
+  .wrap { max-width: 1160px; margin: 0 auto; padding: 26px 22px 70px; }
+
+  .ambient { display: flex; justify-content: space-between; align-items: flex-end; gap: 24px; padding: 8px 2px 18px; }
+  .ambient .brandcol { display: flex; flex-direction: column; justify-content: flex-end; padding-bottom: 18px; min-width: 0; }
+  .ambient .alabel { font-size: 10px; letter-spacing: 0.26em; text-transform: uppercase; color: var(--glacier); margin-bottom: 8px; }
+  .wordmark {
+    font-family: var(--serif); font-weight: 800; line-height: 0.95;
+    font-size: clamp(38px, 7.2vw, 88px); letter-spacing: -0.005em;
+    background: linear-gradient(100deg, #2F7D6B 0%, #5E9AA8 28%, #C4AE72 48%, #B43137 76%, #483000 100%);
+    -webkit-background-clip: text; background-clip: text; color: transparent;
+  }
+  .abird { position: relative; width: 190px; flex: 0 0 auto; }
+  .abird canvas { display: block; width: 100%; height: auto; mix-blend-mode: screen; filter: brightness(0.95) sepia(0.18); }
+  .abird .tag { position: absolute; left: -8px; bottom: 2px; font-size: 8.5px; letter-spacing: 0.2em; text-transform: uppercase; color: rgba(237,228,208,0.55); white-space: nowrap; }
+  .windkey { background: none; border: none; color: rgba(237,228,208,0.55); font-family: var(--mono); font-size: 8.5px; letter-spacing: 0.2em; text-transform: uppercase; cursor: pointer; padding: 0; }
+  .windkey:hover { color: var(--glacier); }
+
+  .sect { margin: 36px 0 10px; display: flex; justify-content: space-between; font-size: 11px; letter-spacing: 0.26em; text-transform: uppercase; color: var(--glacier); }
+  .sect:first-of-type { margin-top: 8px; }
+
+  .frame { position: relative; overflow: hidden; border: 1.5px solid rgba(237,228,208,0.3); }
+  .frame img.photo { display: block; width: 100%; height: auto; cursor: zoom-in; }
+  .eyebrow { position: absolute; top: 4.5%; left: 3%; z-index: 2; font-size: 11px; letter-spacing: 0.3em; text-transform: uppercase; color: var(--walnut); font-weight: 700; }
+  .eyebrow b { font-weight: 700; color: var(--ink); }
+  .headline { position: absolute; z-index: 2; left: 2.6%; top: 13%; font-family: var(--gothic); font-weight: 900; text-transform: uppercase; font-size: clamp(40px, 7.4vw, 92px); line-height: 0.86; letter-spacing: 0.01em; color: var(--bone); }
+  .headline .tint { color: #3E7A8C; }
+  .subline {
+    position: absolute; z-index: 2; left: 3%; top: 8.2%;
+    font-size: clamp(10px, 1.2vw, 14px); letter-spacing: 0.3em; text-transform: uppercase; font-weight: 400; font-style: italic;
+    background: linear-gradient(90deg, var(--ink) 0%, #2E2410 55%, var(--walnut) 100%);
+    -webkit-background-clip: text; background-clip: text; color: transparent;
+  }
+  .stamp { position: absolute; z-index: 2; right: 2.6%; top: 4.5%; font-family: var(--stencil); font-weight: 800; text-transform: uppercase; font-size: clamp(13px, 1.92vw, 24px); letter-spacing: 0.18em; color: #92A6CC; border: 2px solid #92A6CC; padding: 3px 13px 2px; transform: rotate(-4deg); opacity: 0.8; }
+  .stamp.s2 { color: var(--walnut); border-color: var(--walnut); }
+
+  .f2-block { position: absolute; z-index: 2; right: 3%; top: 13%; text-align: right; max-width: 46%; }
+  .f2-head { font-family: var(--gothic); font-weight: 900; text-transform: uppercase; font-size: clamp(40px, 7.4vw, 92px); line-height: 0.86; letter-spacing: 0.01em; color: var(--ink); }
+  .f2-head .ruby { color: var(--gor-m); }
+  .f2-sub {
+    margin-top: 10px; font-size: clamp(10px, 1.2vw, 14px); letter-spacing: 0.3em; text-transform: uppercase; font-style: italic;
+    background: linear-gradient(90deg, var(--walnut) 0%, #2E2410 45%, var(--ink) 100%);
+    -webkit-background-clip: text; background-clip: text; color: transparent;
+  }
+  .f2-rows { display: inline-block; margin-top: 16px; min-width: 250px; }
+  .frow { display: flex; justify-content: space-between; gap: 26px; border-top: 1px solid rgba(20,17,12,0.45); padding: 7px 2px; font-size: 10.5px; letter-spacing: 0.16em; text-transform: uppercase; }
+  .frow .k { color: var(--spr-m); }
+  .frow .v { color: var(--ink); }
+
+  .exif { position: absolute; left: 0; right: 0; bottom: 0; z-index: 3; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 8px; padding: 9px 16px; background: rgba(20,17,12,0.78); border-top: 1.5px solid rgba(237,228,208,0.3); }
+  .exif .grp { display: flex; gap: 18px; flex-wrap: wrap; }
+  .exif span { font-size: 10.5px; letter-spacing: 0.16em; text-transform: uppercase; }
+  .exif .k { color: var(--brass); margin-right: 5px; filter: brightness(1.5); }
+  .mark svg { display: block; width: 20px; height: 20px; }
+
+  .claims { display: flex; align-items: stretch; border: 1.5px solid rgba(237,228,208,0.3); border-top: none; }
+  .claims .lbl { padding: 10px 14px; font-size: 10px; letter-spacing: 0.22em; text-transform: uppercase; opacity: 0.75; flex: 1; }
+  .claims .chip { width: 66px; border-left: 1px solid rgba(237,228,208,0.3); position: relative; }
+  .claims .chip span { position: absolute; bottom: 3px; left: 5px; font-size: 8px; letter-spacing: 0.12em; text-transform: uppercase; color: rgba(237,228,208,0.9); text-shadow: 0 1px 3px rgba(0,0,0,0.7); }
+
+  .chip.irid {
+    width: 150px; overflow: hidden;
+    background: linear-gradient(110deg,
+      var(--grn-d) 0%, var(--au-d) 16%, var(--grn-m) 30%,
+      var(--au-m) 42%, var(--au-l) 50%, var(--grn-l) 57%,
+      var(--au-m) 68%, var(--grn-m) 82%, var(--grn-d) 100%);
+    background-size: 260% 100%;
+    animation: shim 3.4s ease-in-out infinite;
+  }
+  .chip.irid2 {
+    width: 150px; overflow: hidden;
+    background: linear-gradient(110deg,
+      var(--gor-d) 0%, var(--spr-m) 15%, var(--gor-m) 30%,
+      var(--gor-l) 46%, var(--spr-l) 55%, var(--gor-m) 68%,
+      var(--spr-m) 84%, var(--gor-d) 100%);
+    background-size: 260% 100%;
+    animation: shim 3.4s ease-in-out infinite;
+  }
+  .chip.irid::after, .chip.irid2::after {
+    content: ""; position: absolute; inset: 0;
+    background: linear-gradient(110deg, transparent 42%, rgba(255,255,240,0.5) 50%, transparent 58%);
+    background-size: 300% 100%;
+    animation: glint 3.4s ease-in-out infinite;
+    mix-blend-mode: overlay;
+  }
+  @keyframes shim { 0% { background-position: 100% 0; } 50% { background-position: 0% 0; } 100% { background-position: 100% 0; } }
+  @keyframes glint { 0% { background-position: 140% 0; } 50% { background-position: -40% 0; } 100% { background-position: 140% 0; } }
+
+  /* --- science panels --- */
+  .sci { border: 1.5px solid rgba(237,228,208,0.3); border-top: none; }
+  .sci-head { display: flex; justify-content: space-between; gap: 12px; padding: 9px 14px; border-bottom: 1.5px solid rgba(237,228,208,0.3); }
+  .sci-head .l { color: var(--glacier); font-size: 10px; letter-spacing: 0.24em; text-transform: uppercase; }
+  .sci-head .r { color: rgba(237,228,208,0.5); font-size: 10px; letter-spacing: 0.24em; text-transform: uppercase; }
+  .sci-body { display: grid; grid-template-columns: minmax(0,1fr) minmax(0,1.1fr); }
+  .sci-fig { border-right: 1.5px solid rgba(237,228,208,0.3); padding: 18px; display: flex; align-items: center; justify-content: center; }
+  .sci-fig svg { display: block; width: 100%; height: auto; max-width: 380px; }
+  .sci-side { padding: 18px; display: flex; flex-direction: column; }
+  .bignum { font-family: var(--gothic); font-weight: 900; text-transform: uppercase; line-height: 0.82; font-size: clamp(44px, 6.5vw, 86px); color: var(--bone); }
+  .bignum .u { color: var(--glacier); }
+  .bigsub { font-size: 10.5px; letter-spacing: 0.24em; text-transform: uppercase; color: var(--brass); filter: brightness(1.5); margin-top: 8px; }
+  .sci-rows { margin-top: 16px; }
+  .srow { display: flex; justify-content: space-between; gap: 20px; border-top: 1px solid rgba(237,228,208,0.18); padding: 7px 1px; font-size: 10.5px; letter-spacing: 0.14em; text-transform: uppercase; }
+  .srow .k { color: rgba(237,228,208,0.55); }
+  .srow .v { color: var(--bone); text-align: right; }
+  .cite { margin-top: auto; padding-top: 14px; font-size: 9px; letter-spacing: 0.1em; line-height: 1.8; color: rgba(237,228,208,0.42); text-transform: uppercase; }
+  .cite a { color: rgba(237,228,208,0.6); }
+
+  /* yaw arc sweep */
+  .yaw-sweep { stroke-dasharray: 300; stroke-dashoffset: 300; animation: sweep 6s ease-in-out infinite; }
+  .yaw-head { animation: headmove 6s ease-in-out infinite; transform-origin: 100px 108px; }
+  @keyframes sweep { 0%,8% { stroke-dashoffset: 300; } 45%,72% { stroke-dashoffset: 232; } 100% { stroke-dashoffset: 300; } }
+  @keyframes headmove { 0%,8% { transform: rotate(0deg); } 45%,72% { transform: rotate(82deg); } 100% { transform: rotate(0deg); } }
+  .beat { opacity: 0.25; }
+  .beat.on { animation: beaton 6s ease-in-out infinite; }
+  .beat.b1.on { animation-delay: 0.5s; } .beat.b2.on { animation-delay: 0.9s; } .beat.b3.on { animation-delay: 1.3s; }
+  .beat.b4.on { animation-delay: 1.7s; } .beat.b5.on { animation-delay: 2.1s; } .beat.b6.on { animation-delay: 2.5s; }
+  @keyframes beaton { 0%,4% { opacity: 0.25; } 8%,60% { opacity: 1; } 100% { opacity: 0.25; } }
+
+  /* dive: gorget flash red -> black at nadir */
+
+    50% { fill: #B43137; r: 7; }
+    56% { fill: #1A1410; r: 5; }
+    64%, 100% { fill: #2A2018; r: 4; }
+  }
+  .sync-bar i { display: block; height: 100%; background: var(--gor-m); animation: syncgrow 7s ease-in-out infinite; }
+  @keyframes syncgrow { 0%,40% { width: 0; } 52% { width: 100%; } 68% { width: 100%; } 72%,100% { width: 0; } }
+
+  @media (max-width: 780px) { .sci-body { grid-template-columns: 1fr; } .sci-fig { border-right: none; border-bottom: 1.5px solid rgba(237,228,208,0.3); } }
+  @media (prefers-reduced-motion: reduce) {
+    .yaw-sweep { animation: none; stroke-dashoffset: 232; }
+    .yaw-head { animation: none; transform: rotate(82deg); }
+    .beat.on { animation: none; opacity: 1; }
+    .gorget-dot, .sync-bar i { animation: none; }
+    .gorget-dot { display: none; }
+    .sync-bar i { width: 100%; }
+    .nadir-static { display: block !important; }
+  }
+
+  .note { margin-top: 18px; font-size: 11px; opacity: 0.55; line-height: 1.7; max-width: 72ch; }
+
+  #lightbox { position: fixed; inset: 0; z-index: 100; background: rgba(13,11,9,0.94); display: flex; align-items: center; justify-content: center; padding: 4vh 4vw; }
+  #lightbox[hidden] { display: none; }
+  #lightbox img { max-width: 100%; max-height: 100%; border: 1.5px solid rgba(237,228,208,0.3); cursor: zoom-out; }
+  #lbClose { position: fixed; top: 16px; right: 20px; z-index: 101; background: none; border: 1.5px solid var(--bone); color: var(--bone); font-family: var(--mono); font-size: 13px; letter-spacing: 0.2em; padding: 7px 13px; cursor: pointer; }
+  #lbClose:hover { border-color: var(--glacier); color: var(--glacier); }
+  #lbTag { position: fixed; bottom: 16px; left: 20px; z-index: 101; font-size: 10px; letter-spacing: 0.22em; text-transform: uppercase; color: rgba(237,228,208,0.6); }
+
+  @media (max-width: 780px) {
+    .subline, .f2-sub, .f2-rows { display: none; }
+    .claims .chip { width: 44px; }
+    .claims .chip.irid, .claims .chip.irid2 { width: 100px; }
+    .abird { width: 140px; }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .chip.irid, .chip.irid::after, .chip.irid2, .chip.irid2::after { animation: none; }
+  }
+</style>
+</head>
+<body>
+
+<div class="rail">
+  <!-- Standalone HTML gets no site nav; without this a visitor arriving from /labs
+       has only the browser back button. -->
+  <a class="mono backlink" href="/labs">&larr;&nbsp; The Lab</a>
+  <span class="mono">field studies 01&#8211;02 / MMXXVI</span>
+</div>
+
+<div class="wrap">
+
+  <div class="ambient">
+    <div class="brandcol">
+      <div class="alabel">the hummingbird field studies &#8212; observed</div>
+      <h1 class="wordmark">VIRIDIAN</h1>
+    </div>
+    <div class="abird">
+      <canvas id="hum" width="280" height="212" role="img" aria-label="Small hand-drawn line animation of a hummingbird beating its wings"></canvas>
+      <div class="tag">specimen &#8212; &#8776;50 beats/sec &#183; <button class="windkey" id="wind" type="button">rest</button></div>
+    </div>
+  </div>
+
+  <div class="sect"><h2>study 01 &#8212; in flight</h2><span>the female</span></div>
+
+  <div class="frame">
+    <img class="photo" src="/labs/viridian/study-01-in-flight.jpg" alt="A hummingbird in flight against a soft blue-grey sky, photographed with a shallow depth of field">
+    <div class="eyebrow">the hummingbird field studies &#8212; <b>colorado</b></div>
+    <div class="headline">FLY<span class="tint">GHT</span></div>
+    <div class="subline">structural color &#183; observed</div>
+    <div class="stamp">Observed</div>
+    <div class="exif">
+      <div class="grp">
+        <span><span class="k">species</span>selasphorus platycercus</span>
+        <span><span class="k">state</span>in flight</span>
+        <span><span class="k">field</span>front range</span>
+      </div>
+      <div class="mark" aria-hidden="true">
+        <svg viewBox="0 0 100 100"><g stroke="#EDE4D0" fill="none" stroke-width="7" stroke-linecap="round"><text x="50" y="46" text-anchor="middle" dominant-baseline="central" font-family="Georgia, serif" font-size="54" font-weight="700" fill="#EDE4D0" stroke="none" transform="rotate(90 50 50)">Z</text><line x1="26" y1="82" x2="74" y2="82"/></g></svg>
+      </div>
+    </div>
+  </div>
+
+  <div class="claims" aria-label="Colors assayed from the first photograph">
+    <div class="lbl">assayed from this photograph &#8212; the claim office</div>
+    <div class="chip irid" role="img" aria-label="Iridescence: an animated shimmer running through the female's green and gold feather range"><span>iridescence &#8212; live</span></div>
+    <div class="chip" style="background:#5E9AA8"><span>glacier</span></div>
+    <div class="chip" style="background:#907800"><span>brass</span></div>
+    <div class="chip" style="background:#606000"><span>olive</span></div>
+    <div class="chip" style="background:#483000"><span>walnut</span></div>
+    <div class="chip" style="background:#181800"><span>ink</span></div>
+  </div>
+
+  <div class="sci">
+    <div class="sci-head">
+      <h3 class="l">flight dynamics &#8212; the turn</h3>
+      <span class="r">comparative &#183; calliope, a cousin</span>
+    </div>
+    <div class="sci-body">
+      <div class="sci-fig">
+        <svg viewBox="0 0 200 200" role="img" aria-label="Diagram of an 82 degree yaw turn completed in 113 milliseconds over six wingbeats">
+          <circle cx="100" cy="108" r="68" fill="none" stroke="#EDE4D0" stroke-width="0.6" opacity="0.18"/>
+          <circle cx="100" cy="108" r="52" fill="none" stroke="#EDE4D0" stroke-width="0.5" opacity="0.1" stroke-dasharray="2 4"/>
+          <path class="yaw-sweep" d="M 100 40 A 68 68 0 0 1 167 96" fill="none" stroke="#7A2018" stroke-width="9" opacity="0.85"/>
+          <g class="yaw-head">
+            <line x1="100" y1="108" x2="100" y2="46" stroke="#90C0C0" stroke-width="1.6"/>
+            <path d="M100 40 L96 50 L100 47 L104 50 Z" fill="#90C0C0"/>
+          </g>
+          <circle cx="100" cy="108" r="3" fill="#EDE4D0"/>
+          <text x="100" y="192" text-anchor="middle" font-family="Courier New, monospace" font-size="8" letter-spacing="2" fill="#B5892F">SIX WINGBEATS</text>
+          <g>
+            <rect class="beat b1 on" x="52" y="172" width="12" height="8" fill="#EDE4D0"/>
+            <rect class="beat b2 on" x="68" y="172" width="12" height="8" fill="#EDE4D0"/>
+            <rect class="beat b3 on" x="84" y="172" width="12" height="8" fill="#EDE4D0"/>
+            <rect class="beat b4 on" x="100" y="172" width="12" height="8" fill="#EDE4D0"/>
+            <rect class="beat b5 on" x="116" y="172" width="12" height="8" fill="#EDE4D0"/>
+            <rect class="beat b6 on" x="132" y="172" width="12" height="8" fill="#EDE4D0"/>
+          </g>
+          <text x="172" y="70" font-family="Courier New, monospace" font-size="9" fill="#7A2018">82&#176;</text>
+        </svg>
+      </div>
+      <div class="sci-side">
+        <div class="bignum">113<span class="u">MS</span></div>
+        <div class="bigsub">to turn 82&#176; &#8212; start, turn, stop</div>
+        <div class="sci-rows">
+          <div class="srow"><span class="k">turn rate</span><span class="v">2.01 Hz</span></div>
+          <div class="srow"><span class="k">wingbeats used</span><span class="v">six</span></div>
+          <div class="srow"><span class="k">inner wing drag</span><span class="v">+16% over outer</span></div>
+          <div class="srow"><span class="k">leading-edge vortex</span><span class="v">+59% stronger, inner</span></div>
+          <div class="srow"><span class="k">lift, downstroke</span><span class="v">65% of total</span></div>
+          <div class="srow"><span class="k">body mass</span><span class="v">2.6 g</span></div>
+          <div class="srow"><span class="k">reynolds no.</span><span class="v">3,640</span></div>
+        </div>
+        <div class="cite">
+          the office did not measure this. Menzer, Ren, Guo, Tobalske &amp; Dong, <em>Biomimetics</em> 7(3):115, 2022 &#8212; CFD of a free yaw maneuver in a calliope hummingbird. Filed here as comparative data: a cousin of hers, not her.
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="sect"><h2>study 02 &#8212; perched</h2><span>the male</span></div>
+
+  <div class="frame">
+    <img class="photo" src="/labs/viridian/study-02-perched.jpg" alt="A male hummingbird with an iridescent rose-red throat perched on the tip of a spruce branch against a pale blue-white sky">
+    <div class="eyebrow">the hummingbird field studies &#8212; <b>colorado</b></div>
+    <div class="stamp s2">Observed</div>
+    <div class="f2-block">
+      <div class="f2-head">GOR<span class="ruby">GET</span></div>
+      <div class="f2-sub">rose-red &#183; worn by the male only</div>
+      <div class="f2-rows">
+        <div class="frow"><span class="k">sex</span><span class="v">male</span></div>
+        <div class="frow"><span class="k">signal</span><span class="v">flashed at rivals</span></div>
+        <div class="frow"><span class="k">hers</span><span class="v">none &#8212; see study 01</span></div>
+      </div>
+    </div>
+    <div class="exif">
+      <div class="grp">
+        <span><span class="k">species</span>selasphorus platycercus</span>
+        <span><span class="k">state</span>perched</span>
+        <span><span class="k">field</span>foothills</span>
+      </div>
+      <div class="mark" aria-hidden="true">
+        <svg viewBox="0 0 100 100"><g stroke="#EDE4D0" fill="none" stroke-width="7" stroke-linecap="round"><text x="50" y="46" text-anchor="middle" dominant-baseline="central" font-family="Georgia, serif" font-size="54" font-weight="700" fill="#EDE4D0" stroke="none" transform="rotate(90 50 50)">Z</text><line x1="26" y1="82" x2="74" y2="82"/></g></svg>
+      </div>
+    </div>
+  </div>
+
+  <div class="claims" aria-label="Colors assayed from the second photograph">
+    <div class="lbl">assayed from this photograph &#8212; the claim office</div>
+    <div class="chip irid2" role="img" aria-label="Iridescence: an animated shimmer running between the male's gorget red and spruce green"><span>iridescence &#8212; live</span></div>
+    <div class="chip" style="background:#8FB6C4"><span>glacier pale</span></div>
+    <div class="chip" style="background:#B43137"><span>gorget</span></div>
+    <div class="chip" style="background:#3C643C"><span>spruce</span></div>
+    <div class="chip" style="background:#A08C64"><span>buckskin</span></div>
+    <div class="chip" style="background:#3C2828"><span>timber</span></div>
+  </div>
+
+  <div class="sci">
+    <div class="sci-head">
+      <span class="l">the dive &#8212; what the gorget is for</span>
+      <span class="r">his species &#183; his state</span>
+    </div>
+    <div class="sci-body">
+      <div class="sci-fig">
+        <svg viewBox="0 0 240 200" role="img" aria-label="Diagram of a U-shaped courtship dive: the male climbs 30 metres, dives, and his gorget flashes red then black at the lowest point">
+          <line x1="14" y1="176" x2="226" y2="176" stroke="#EDE4D0" stroke-width="0.6" opacity="0.25"/>
+          <text x="14" y="190" font-family="Courier New, monospace" font-size="7" letter-spacing="1.5" fill="#EDE4D0" opacity="0.45">GROUND</text>
+          <line x1="30" y1="24" x2="30" y2="176" stroke="#EDE4D0" stroke-width="0.5" opacity="0.15" stroke-dasharray="3 4"/>
+          <text x="34" y="28" font-family="Courier New, monospace" font-size="7" letter-spacing="1.5" fill="#B5892F">~30 M</text>
+          <path id="divepath" d="M 40 26 C 66 26 78 96 120 148 C 162 96 174 26 200 26" fill="none" stroke="#EDE4D0" stroke-width="1" opacity="0.35" stroke-dasharray="3 4"/>
+          <circle class="gorget-dot" r="4" fill="#2A2018" stroke="#EDE4D0" stroke-width="1">
+            <animateMotion dur="7s" repeatCount="indefinite" keyPoints="0;0;1;1" keyTimes="0;0.08;0.72;1" calcMode="spline" keySplines="0 0 1 1;0.4 0 0.2 1;0 0 1 1">
+              <mpath href="#divepath"/>
+            </animateMotion>
+            <animate attributeName="fill" dur="7s" repeatCount="indefinite"
+                     keyTimes="0;0.34;0.40;0.44;0.50;0.62;1"
+                     values="#2A2018;#2A2018;#D87368;#B43137;#1A1410;#2A2018;#2A2018"/>
+            <animate attributeName="r" dur="7s" repeatCount="indefinite"
+                     keyTimes="0;0.34;0.44;0.50;0.62;1"
+                     values="4;4;6.5;7;5;4"/>
+          </circle>
+          <g opacity="0.9">
+            <circle cx="120" cy="166" r="3" fill="none" stroke="#90C0C0" stroke-width="1.2"/>
+            <text x="127" y="169" font-family="Courier New, monospace" font-size="7" letter-spacing="1.2" fill="#90C0C0">SHE WATCHES</text>
+          </g>
+          <circle class="nadir-static" cx="120" cy="148" r="6" fill="#B43137" stroke="#EDE4D0" stroke-width="1" style="display:none;"/>
+          <text x="120" y="140" text-anchor="middle" font-family="Courier New, monospace" font-size="7" letter-spacing="1.5" fill="#B43137">NADIR</text>
+        </svg>
+      </div>
+      <div class="sci-side">
+        <div class="bignum">300<span class="u">MS</span></div>
+        <div class="bigsub">speed, sound &amp; color &#8212; one blink</div>
+        <div class="sci-rows">
+          <div class="srow"><span class="k">dive speed</span><span class="v">23.25 m/s</span></div>
+          <div class="srow"><span class="k">climb before dive</span><span class="v">~30 m</span></div>
+          <div class="srow"><span class="k">gorget visible for</span><span class="v">123 ms only</span></div>
+          <div class="srow"><span class="k">visible between</span><span class="v">&#8722;80&#176; and +60&#176;</span></div>
+          <div class="srow"><span class="k">her view of it</span><span class="v">red &#8594; black</span></div>
+          <div class="srow"><span class="k">doppler, approaching</span><span class="v">+6.5%</span></div>
+          <div class="srow"><span class="k">doppler, departing</span><span class="v">&#8722;4%</span></div>
+        </div>
+        <div style="margin-top:14px;">
+          <div style="font-size:9px; letter-spacing:0.2em; text-transform:uppercase; color:rgba(237,228,208,0.5); margin-bottom:5px;">the 300 ms window</div>
+          <div class="sync-bar" style="height:10px; border:1px solid rgba(237,228,208,0.35);"><i></i></div>
+        </div>
+        <div class="cite">
+          Hogan &amp; Stoddard, <em>Nature Communications</em> 9:5260, 2018 &#8212; 48 dives of wild broad-tailed hummingbirds recorded at Gothic, Colorado. His species. His state. The office claims no credit and offers no argument.
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <p class="note">Species is filed as broad-tailed on my best Colorado information &#8212; if she is traveling under another name, amend the register and bill the office. The male in study 02 filed nothing and flashed the gorget instead, which the office has accepted as a signature.</p>
+
+</div>
+
+<div id="lightbox" hidden role="dialog" aria-modal="true" aria-label="Full size photograph">
+  <button id="lbClose" type="button" aria-label="Close full size view">&#10005;&nbsp; close</button>
+  <img id="lbImg" src="" alt="">
+  <div id="lbTag">viridian &#8212; full plate</div>
+</div>
+
+<script>
+(function(){
+  var FRAMES = 61, COLS = 10, FW = 280, FH = 212, FPS = 12;
+  var cv = document.getElementById('hum');
+  var ctx = cv.getContext('2d');
+  var btn = document.getElementById('wind');
+  var reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  var sheet = new Image();
+  var frame = 0, running = false, rafId = null, lastTick = 0;
+  var interval = 1000 / FPS;
+  function draw(){
+    var col = frame % COLS, row = Math.floor(frame / COLS);
+    ctx.drawImage(sheet, col*FW, row*FH, FW, FH, 0, 0, FW, FH);
+  }
+  function loop(t){
+    if (!running) return;
+    if (t - lastTick >= interval) {
+      lastTick = t - ((t - lastTick) % interval);
+      frame = (frame + 1) % FRAMES;
+      draw();
+    }
+    rafId = requestAnimationFrame(loop);
+  }
+  function setRunning(r){
+    running = r;
+    btn.textContent = r ? 'rest' : 'fly';
+    if (r) { lastTick = performance.now(); rafId = requestAnimationFrame(loop); }
+    else if (rafId) { cancelAnimationFrame(rafId); rafId = null; }
+  }
+  btn.addEventListener('click', function(){ setRunning(!running); });
+  sheet.onload = function(){
+    draw();
+    if (!reduce) setRunning(true);
+    else btn.textContent = 'fly';
+  };
+  sheet.src = '/labs/viridian/wingbeat-sprite.webp';
+})();
+
+(function(){
+  var photos = document.querySelectorAll('.frame img.photo');
+  var lb = document.getElementById('lightbox');
+  var lbImg = document.getElementById('lbImg');
+  var closeBtn = document.getElementById('lbClose');
+  var lastFocus = null;
+
+  function open(photo){
+    lbImg.src = photo.src;
+    lbImg.alt = photo.alt + ' — full plate with no overlays';
+    lb.hidden = false;
+    document.body.style.overflow = 'hidden';
+    lastFocus = document.activeElement;
+    closeBtn.focus();
+  }
+  function close(){
+    lb.hidden = true;
+    document.body.style.overflow = '';
+    if (lastFocus) lastFocus.focus();
+  }
+
+  photos.forEach(function(photo){
+    photo.addEventListener('click', function(){ open(photo); });
+    photo.setAttribute('tabindex', '0');
+    photo.setAttribute('role', 'button');
+    photo.setAttribute('aria-label', 'Open full size photograph');
+    photo.addEventListener('keydown', function(e){ if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); open(photo); } });
+  });
+
+  closeBtn.addEventListener('click', close);
+  lb.addEventListener('click', function(e){ if (e.target === lb || e.target === lbImg) close(); });
+  document.addEventListener('keydown', function(e){ if (e.key === 'Escape' && !lb.hidden) close(); });
+})();
+</script>
+</body>
+</html>

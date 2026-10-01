@@ -60,11 +60,12 @@ export const items: LabItem[] = [
     no: 2,
     title: "Viridian Field Study",
     kind: "entry",
-    status: "draft",
-    date: "2026-08-03",
+    status: "live",
+    date: "2026-10-01",
     blurb:
-      "A field-study presentation of one colour, carrying real cited research alongside the work. The format that entries about a single piece should follow.",
-    tags: ["colour", "research", "format"],
+      "Two hummingbirds, observed in Colorado and filed against the published science: a calliope's yaw turn and a broad-tailed male's courtship dive. The colour is assayed from the photographs; the aerodynamics are cited, not claimed.",
+    tags: ["colour", "research", "ornithology"],
+    href: "/labs/viridian-field-study.html",
   },
   {
     slug: "claim-office",
