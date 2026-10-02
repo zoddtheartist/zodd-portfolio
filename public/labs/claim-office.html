@@ -74,6 +74,16 @@
   .verdict.pass { color: #6f8f5a; border-color: #6f8f5a; }
   .verdict.fail { color: var(--ox); border-color: var(--ox); }
 
+  .explain { position: relative; }
+  .explain > summary { cursor: pointer; list-style: none; color: rgba(237,228,208,0.6); transition: color .15s; }
+  .explain > summary::-webkit-details-marker { display: none; }
+  .explain > summary:hover, .explain > summary:focus-visible { color: var(--brass); outline: none; }
+  .explain > summary span { display: inline-flex; align-items: center; justify-content: center; width: 14px; height: 14px; border: 1px solid currentColor; border-radius: 50%; font-size: 9px; }
+  .explain[open] > summary { color: var(--brass); }
+  .explain-body { position: absolute; right: 0; top: calc(100% + 8px); z-index: 20; width: min(330px, 76vw); border: 1.5px solid var(--line); background: #171310; padding: 12px 13px; font-size: 11.5px; line-height: 1.65; text-transform: none; letter-spacing: 0; color: rgba(237,228,208,0.85); }
+  .explain-body p + p { margin-top: 9px; }
+  .explain-body b { color: var(--ink); }
+
   .deed { border: 1.5px solid #2B2018; background: #EFE7D6; color: #2B2018; margin-top: 26px; }
   .deed-head { display: flex; justify-content: space-between; padding: 9px 14px; border-bottom: 1.5px solid #2B2018; font-family: var(--monoP); font-size: 11px; letter-spacing: 0.2em; text-transform: uppercase; }
   .deed-title { padding: 16px 14px 10px; }
@@ -169,7 +179,26 @@
 
     <section>
       <div class="panel">
-        <div class="panel-head"><span class="mono">purity test — contrast</span><span class="mono">WCAG ratio</span></div>
+        <div class="panel-head">
+          <span class="mono">purity test &mdash; contrast</span>
+          <!-- A <details> rather than a hover tooltip: hover does not exist on a phone
+               and is awkward from a keyboard. This opens on click or Enter, needs no
+               script, and carries no ARIA because summary already announces itself. -->
+          <details class="explain">
+            <summary class="mono" title="What is this?">WCAG ratio&nbsp;<span aria-hidden="true">?</span></summary>
+            <div class="explain-body">
+              <p>A contrast ratio is how far apart two colours are in lightness. Identical
+              colours are 1:1. Black on white is 21:1, the furthest you can get.</p>
+              <p>WCAG is the accessibility standard most of the web is held to. It asks for
+              <b>4.5:1</b> behind normal text and <b>3:1</b> for large text, icons and
+              borders. Those are the numbers this panel checks.</p>
+              <p>It matters away from a good monitor: low vision, a phone in sunlight, a
+              cheap screen, tired eyes. A pairing that looks fine here can be unreadable
+              there. That is what <i>bears weight</i> means &mdash; it will hold text.
+              <i>Decorative only</i> means use it, just not under words.</p>
+            </div>
+          </details>
+        </div>
         <div class="purity" id="purity"></div>
       </div>
     </section>
@@ -359,6 +388,58 @@
 
   var state = { pixels: [], claims: [], locked: [], excluded: [] };
 
+  /* ---------------------------------------------------------------------------
+     Keeping a palette across a refresh.
+
+     Only what can be rebuilt is stored: which catalogue piece was open, the mined
+     claims, which are locked, and the roles. The pixel sample is left out because it
+     is reconstructed from the image anyway, and an uploaded image is left out on
+     purpose — a photograph as a data URL runs to megabytes, localStorage is a few,
+     and filling it would throw on the next write and lose everything. Reopening after
+     an upload falls back to the catalogue, which is the honest outcome rather than a
+     half-restored state.
+     --------------------------------------------------------------------------- */
+  var SAVE_KEY = 'claim-office/v1';
+
+  function saveState(){
+    try {
+      if (!state.claims.length) return;
+      // An uploaded source is a data URL. Saving the palette without the image it
+      // came from would restore swatches attached to the wrong picture.
+      if (!current.src || current.src.indexOf('data:') === 0) return;
+      localStorage.setItem(SAVE_KEY, JSON.stringify({
+        src: current.src,
+        label: current.label,
+        count: parseInt(document.getElementById('count').value, 10) || 5,
+        claims: state.claims,
+        locked: state.locked,
+        roles: state.roles
+      }));
+    } catch (e) {
+      // Private mode, blocked storage, or a full quota. The tool still works for this
+      // visit; it just will not remember.
+    }
+  }
+
+  function loadState(){
+    try {
+      var raw = localStorage.getItem(SAVE_KEY);
+      if (!raw) return null;
+      var v = JSON.parse(raw);
+      if (!v || !Array.isArray(v.claims) || !v.claims.length) return null;
+      // Guard the shape: a stored claim has to be three numbers, or render() will
+      // throw on something that is not a colour.
+      var ok = v.claims.every(function(c){
+        return Array.isArray(c) && c.length === 3 && c.every(function(n){
+          return typeof n === 'number' && n >= 0 && n <= 255;
+        });
+      });
+      return ok ? v : null;
+    } catch (e) {
+      return null;
+    }
+  }
+
   var img = document.getElementById('srcImg');
   var cv = document.getElementById('cv');       // 120px downscale, for frequency mining
   var cvFull = document.getElementById('cvFull'); // native size, for manual pixel picks
@@ -498,10 +579,10 @@
     });
 
     claimsEl.querySelectorAll('.lockbtn').forEach(function(b){
-      b.addEventListener('click', function(){ var i=+b.dataset.i; state.locked[i]=!state.locked[i]; render(); });
+      b.addEventListener('click', function(){ var i=+b.dataset.i; state.locked[i]=!state.locked[i]; render(); saveState(); });
     });
     claimsEl.querySelectorAll('.roleSel').forEach(function(s){
-      s.addEventListener('change', function(){ var i=+s.dataset.i; state.roles[i]=s.value; render(); });
+      s.addEventListener('change', function(){ var i=+s.dataset.i; state.roles[i]=s.value; render(); saveState(); });
     });
 
     var veinsEl = document.getElementById('veins');
@@ -562,6 +643,7 @@
     state.roles = suggestRoles(state.claims);
     state.excluded = state.claims.slice();
     render();
+    saveState();
   }
 
   document.getElementById('mine').addEventListener('click', doMine);
@@ -585,6 +667,7 @@
     state.excluded = fresh.slice();
     state.roles = suggestRoles(state.claims);
     render();
+    saveState();
   });
   document.getElementById('count').addEventListener('input', function(e){
     document.getElementById('oCount').textContent = e.target.value;
@@ -631,6 +714,7 @@
   }
 
   function loadCatalogue(){
+    var saved = loadState();
     var note = document.getElementById('pickNote');
     return fetch('/labs/catalogue')
       .then(function(r){ if(!r.ok) throw new Error('catalogue ' + r.status); return r.json(); })
@@ -639,6 +723,27 @@
         if (!CATALOGUE.length) throw new Error('catalogue held no colour pieces');
         buildGrid(CATALOGUE);
         note.textContent = CATALOGUE.length + ' pieces — pick one, or upload your own instead';
+
+        // Restore the last palette if the piece it came from is still in the
+        // catalogue. The image still has to load, so the claims are put back after
+        // it arrives rather than before, or doMine would overwrite them.
+        var restore = saved && CATALOGUE.filter(function(i){ return i.src === saved.src; })[0];
+        if (restore) {
+          var countEl = document.getElementById('count');
+          if (saved.count) { countEl.value = saved.count; document.getElementById('oCount').textContent = saved.count; }
+          current = { label: saved.label || restore.title, src: restore.src };
+          document.getElementById('srcName').textContent = current.label;
+          loadImage(restore.src, function(){
+            state.claims = saved.claims;
+            state.locked = Array.isArray(saved.locked) && saved.locked.length === saved.claims.length
+              ? saved.locked : saved.claims.map(function(){ return false; });
+            state.roles = Array.isArray(saved.roles) && saved.roles.length === saved.claims.length
+              ? saved.roles : suggestRoles(saved.claims);
+            state.excluded = saved.claims.slice();
+            render();
+          });
+          return;
+        }
         setSource(CATALOGUE[0].title, CATALOGUE[0].src);
       })
       .catch(function(err){
@@ -678,6 +783,7 @@
     if (slot === -1) slot = state.claims.length - 1;
     state.claims[slot] = c;
     render();
+    saveState();
   });
 
   function copyText(txt, btn){
