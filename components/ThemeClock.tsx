@@ -102,25 +102,7 @@ export default function ThemeClock() {
   }
 
   return (
-    <div className="flex items-center gap-2.5">
-      {/* The clock face. A disc that fills as the day turns: empty at night, full at
-          midday, so it reads at a glance without needing the label. */}
-      <span
-        aria-hidden="true"
-        className="relative inline-flex items-center justify-center w-[18px] h-[18px] rounded-full border border-current transition-colors duration-500"
-        style={{ color: shown === "dark" ? "var(--brass)" : "var(--oxblood)" }}
-      >
-        <span
-          className="absolute inset-[3px] rounded-full transition-all duration-500"
-          style={{
-            background: "currentColor",
-            clipPath: shown === "dark" ? "inset(0 0 0 50%)" : "inset(0)",
-            opacity: shown === "dark" ? 0.55 : 1,
-          }}
-        />
-      </span>
-
-      <button
+    <button
         type="button"
         onClick={() => choose(auto ? (shown === "dark" ? "light" : "dark") : "auto")}
         // The label says what pressing it does, not what state it is in.
@@ -130,8 +112,25 @@ export default function ThemeClock() {
             : `Pinned to ${mode}. Press to follow your clock again.`
         }
         title={auto ? "Following your clock — press to pin" : "Pinned — press to follow your clock"}
-        className="group flex items-baseline gap-2 py-2 font-[family-name:var(--font-typewriter)] text-[13.5px] tracking-[0.18em] uppercase text-[var(--ink)]/55 transition-colors duration-200 hover:text-[var(--oxblood)]"
+        className="group flex items-center gap-2.5 py-2 font-[family-name:var(--font-typewriter)] text-[13.5px] tracking-[0.18em] uppercase text-[var(--ink)]/55 transition-colors duration-200 hover:text-[var(--oxblood)]"
       >
+        {/* The clock face, inside the button rather than beside it. The disc is the
+            thing that looks like a control, so it is the thing people reach for, and
+            it was decoration. It takes currentColor now so the whole control lights
+            together on hover instead of the face staying behind. */}
+        <span
+          aria-hidden="true"
+          className="relative inline-flex items-center justify-center w-[18px] h-[18px] shrink-0 rounded-full border border-current transition-colors duration-500"
+        >
+          <span
+            className="absolute inset-[3px] rounded-full transition-all duration-500"
+            style={{
+              background: "currentColor",
+              clipPath: shown === "dark" ? "inset(0 0 0 50%)" : "inset(0)",
+              opacity: shown === "dark" ? 0.55 : 1,
+            }}
+          />
+        </span>
         <span className="tabular-nums">{formatClock(now)}</span>
         <span
           className={`text-[9.5px] tracking-[0.22em] transition-opacity duration-200 ${
@@ -140,7 +139,6 @@ export default function ThemeClock() {
         >
           {auto ? "auto" : shown === "dark" ? "night" : "day"}
         </span>
-      </button>
-    </div>
+    </button>
   )
 }

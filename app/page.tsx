@@ -64,7 +64,15 @@ export default function Home() {
                 priority
               />
             </div>
-            <p className="font-[family-name:var(--font-typewriter)] text-[13px] tracking-[0.28em] uppercase text-[var(--ink)]/75">
+            {/* Sits on the photograph, so in both themes it is the same colour as the
+                print underneath it and vanishes wherever the image is busy. Full
+                strength now, with a halo in the ground colour: --paper swaps with the
+                theme, so the glow is paper by day and night by night and the line
+                separates from whatever is behind it either way. */}
+            <p
+              className="font-[family-name:var(--font-typewriter)] text-[13px] tracking-[0.28em] uppercase text-[var(--ink)]"
+              style={{ textShadow: "0 0 10px var(--paper), 0 1px 3px var(--paper)" }}
+            >
               Art &amp; Illustration
             </p>
             <div className="flex flex-wrap justify-center gap-4 mt-1">
