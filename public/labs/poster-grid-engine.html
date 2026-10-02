@@ -129,6 +129,23 @@
   :focus-visible { outline: 2px solid var(--ox); outline-offset: 2px; }
   .hint { margin-top: 16px; font-size: 11px; letter-spacing: 0.06em; opacity: 0.55; line-height: 1.7; }
 
+  /* ---- Phone: the top rail ------------------------------------------------
+     A two-up row of long mono strings. At 390px it wrapped into a ragged 2x2 block
+     and "The Lab" broke away from its arrow. Both halves keep to a single line; the
+     type gives up tracking to make room. The side gutter is 22px on every Lab page
+     at every width, so only the vertical padding is touched here.
+     ------------------------------------------------------------------------- */
+  @media (max-width: 560px) {
+    .rail { padding: 12px 22px 10px; gap: 10px; align-items: baseline; }
+    .rail .backlink { white-space: nowrap; }
+    .rail .mono, .rail .mono-label { font-size: 10px; letter-spacing: 0.13em; }
+    header.head { padding: 20px 22px 18px; }
+    .app { padding: 8px 22px 60px; }
+  }
+  @media (max-width: 400px) {
+    .rail .mono, .rail .mono-label { font-size: 9px; letter-spacing: 0.08em; }
+  }
+
   @media (max-width: 900px) { .app { grid-template-columns: 1fr; } .pwrap { width: 100%; } }
   @media (prefers-reduced-motion: reduce) { .btn { transition: none; } }
 </style>
@@ -139,7 +156,7 @@
   <!-- These tools are standalone HTML, so they get no site nav. Without this a visitor
        who clicks in from /labs has only the browser back button. -->
   <a class="mono-label backlink" href="/labs">&larr;&nbsp; The Lab</a>
-  <span class="mono-label">entry 002 / MMXXVI</span>
+  <span class="mono-label">entry 001 / MMXXVI</span>
 </div>
 
 <header class="head">

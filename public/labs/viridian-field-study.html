@@ -197,6 +197,19 @@
      scroll. The colour strip was one flex row of fixed-width chips whose labels were
      cut off mid-word: "glacier pale" read "glaci".
      --------------------------------------------------------------------------- */
+  /* The top rail is a two-up row of long mono strings. At 390px it wrapped into a
+     ragged 2x2 block and "The Lab" broke away from its arrow. Both halves stay on
+     their own single line; the type gives up tracking to make room. */
+  @media (max-width: 560px) {
+    .rail { padding: 12px 22px 10px; gap: 10px; align-items: baseline; }
+    .rail .backlink { white-space: nowrap; }
+    .rail .mono, .rail .mono-label { font-size: 10px; letter-spacing: 0.13em; }
+    .wrap { padding: 20px 22px 60px; }
+  }
+  @media (max-width: 400px) {
+    .rail .mono, .rail .mono-label { font-size: 9px; letter-spacing: 0.08em; }
+  }
+
   @media (max-width: 780px) {
     .subline, .f2-sub, .f2-rows { display: none; }
 
@@ -204,10 +217,15 @@
        as clutter in front of it on a phone, so it drops below the type. */
     .ambient { flex-direction: column; align-items: stretch; gap: 14px; padding-bottom: 14px; }
     .ambient .brandcol { padding-bottom: 0; }
-    .abird { width: 150px; align-self: flex-end; margin-right: 6px; }
 
-    /* This was the sideways scroll: absolute, hanging 8px off the left, never wrapping. */
-    .tag { position: static; white-space: normal; left: auto; bottom: auto; margin-top: 6px; text-align: right; }
+    /* This was the sideways scroll: absolute, hanging 8px off the left, never wrapping.
+       Taking it out of absolute flow fixed the overflow but left it wrapping onto two
+       cramped lines inside the 150px bird column. So the column itself goes full
+       width and only the canvas stays 150px; the caption then has the whole row and
+       sits on one line under the bird. */
+    .abird { width: auto; align-self: stretch; display: flex; flex-direction: column; align-items: flex-end; margin-right: 0; }
+    .abird canvas { width: 150px; }
+    .abird .tag { position: static; left: auto; bottom: auto; margin-top: 7px; text-align: right; white-space: nowrap; font-size: 8px; letter-spacing: 0.13em; }
 
     /* Allowed to shrink past the desktop floor, and to break rather than overflow. */
     .wordmark { font-size: clamp(30px, 11vw, 56px); overflow-wrap: anywhere; }
@@ -215,17 +233,40 @@
     /* Label over the swatches, swatches wrap, each chip sized to its own name. */
     .claims { flex-wrap: wrap; }
     .claims .lbl { flex: 1 0 100%; border-right: none; border-bottom: 1px solid rgba(237,228,208,0.3); }
-    .claims .chip { width: auto; flex: 1 1 auto; min-width: 84px; min-height: 58px; display: flex; flex-direction: column; justify-content: flex-end; }
-    .claims .chip.irid, .claims .chip.irid2 { flex: 1 0 100%; min-height: 54px; }
+    /* `flex: 1 1 auto; min-width: 84px` fitted four of the five colour chips on the
+       first row and left the fifth growing across the full width on its own. A 30%
+       basis forces 3 + 2 instead, and the pair on the second row grow to half each.
+       Fixed height too: these are swatches, and a stretched line of them was reading
+       as 130px-tall blocks. */
+    .claims { align-content: flex-start; }
+    .claims .chip { width: auto; flex: 1 1 30%; min-width: 0; height: 58px; display: flex; flex-direction: column; justify-content: flex-end; }
+    .claims .chip.irid, .claims .chip.irid2 { flex: 1 0 100%; height: 54px; }
     .chip span { position: static; left: auto; bottom: auto; padding: 4px 6px; }
 
     /* The two-up header rows read as collisions at this width. */
     .sci-head { flex-direction: column; gap: 3px; }
+    /* Same shape, one level up: "study 01 — in flight" was wrapping onto two lines
+       while "the female" floated off the top right of it. */
+    .sect { flex-direction: column; align-items: flex-start; gap: 2px; margin: 28px 0 8px; }
 
-    /* The display word and the stamp both sit over the photograph and met in the
-       middle once the frame got narrow. */
+    /* Three things were stacked in the top band of each photograph: this eyebrow on
+       the left, the Observed stamp on the right, and the display word just under
+       them. The eyebrow is the one that is pure repetition — it says the same
+       sentence over both frames and the .sect header above already names the study —
+       so it goes and the stamp gets the band to itself. */
+    .eyebrow { display: none; }
+
+    /* The display word's clamp floor was 40px, which is a desktop floor. Let it come
+       down so it sits on the photograph instead of covering it. */
+    .headline, .f2-head { font-size: clamp(28px, 9.5vw, 54px); }
+
     .f2-block { max-width: 62%; top: 16%; }
     .stamp { font-size: clamp(10px, 3.2vw, 14px); }
+    /* The second frame puts its display word on the right, and on a short phone-width
+       frame the Observed stamp landed on top of the G in GORGET. The eyebrow that used
+       to hold the top left is hidden now, so the stamp moves into that space: frame one
+       reads word-left / stamp-right, frame two reads stamp-left / word-right. */
+    .stamp.s2 { left: 2.6%; right: auto; }
   }
   @media (prefers-reduced-motion: reduce) {
     .chip.irid, .chip.irid::after, .chip.irid2, .chip.irid2::after { animation: none; }

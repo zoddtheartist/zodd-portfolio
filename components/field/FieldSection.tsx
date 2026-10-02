@@ -22,6 +22,20 @@ function labelOn(hex: string): { color: string; shadow: string } {
     : { color: "#F7F1E4", shadow: "0 1px 3px rgba(0,0,0,0.7)" }
 }
 
+/**
+ * Columns for the phone palette strip.
+ *
+ * A flat 33% basis leaves a single chip stretched across the whole width whenever
+ * the palette length is 1 mod 3 — a 7-colour palette gave rows of 3/3/1 and "ink"
+ * sat alone as a full-width bar. Walk 3, 4, 2 and take the first that does not end
+ * on a lone chip. At 390px even 4 columns give ~95px, and the widest name
+ * ("oxblood", 9px bold) needs about 58px.
+ */
+function chipColumns(n: number): number {
+  for (const c of [3, 4, 2]) if (n <= c || n % c !== 1) return c
+  return 3
+}
+
 function Mark({ color = "#EDE4D0", size = 20 }: { color?: string; size?: number }) {
   return (
     <svg viewBox="0 0 100 100" width={size} height={size} aria-hidden="true" className="block">
@@ -55,6 +69,7 @@ export default function FieldSection() {
   const project = featuredProject()
   if (!project) return null
 
+  const chipCols = chipColumns(project.palette.length)
   const artwork = project.plates.find((p) => p.kind === "artwork")
   const inSitu = project.plates.find((p) => p.kind === "in-situ")
 
@@ -139,16 +154,20 @@ export default function FieldSection() {
         <p className="sm:flex-1 px-4 py-2.5 border-b sm:border-b-0 border-[var(--ink)]/40 font-[family-name:var(--font-typewriter)] text-[10px] tracking-[0.22em] uppercase text-[var(--ink)]/70">
           assayed from this artwork — the claim office
         </p>
-        <div className="flex flex-wrap sm:flex-nowrap">
+        {/* Phone: a fixed-height wrapped grid. `chipCols` is picked so the last
+            row is never a single chip stretched across the full width, which is what
+            a flat 33% basis did to a 7-colour palette (3/3/1). Desktop keeps the
+            single nowrap row of 76px cells, untouched. */}
+        <div
+          className="flex flex-wrap content-start sm:content-normal sm:flex-nowrap"
+          style={{ ["--chip-cols" as string]: chipCols }}
+        >
           {project.palette.map((s) => {
             const label = labelOn(s.hex)
             return (
               <div
                 key={s.hex}
-                // Seven chips sharing a 390px row leaves about 50px each, and
-                // "oxblood" needs 55. On a phone they wrap to a grid with room for
-                // the name instead of clipping it mid-word.
-                className="relative basis-[33.333%] grow sm:basis-auto sm:flex-none sm:w-[76px] min-h-[52px] sm:min-h-[44px] border-l border-t sm:border-t-0 border-[var(--rule)] sm:first:border-l"
+                className="relative basis-[calc(100%/var(--chip-cols))] grow h-[58px] sm:basis-auto sm:grow-0 sm:flex-none sm:w-[76px] sm:h-auto sm:min-h-[44px] border-l border-t sm:border-t-0 border-[var(--rule)] sm:first:border-l"
                 style={{ background: s.hex }}
               >
                 {/* 9px and bold rather than 8px regular: at this size the weight is

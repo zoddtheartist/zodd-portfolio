@@ -312,3 +312,50 @@ body {
     transition: none;
   }
 }
+
+/* ---- Nav ground -------------------------------------------------------- */
+/*
+ * Two grounds, one per side of the site, and two behaviours by width.
+ *
+ * Desktop keeps the long gradient: the bar sits over a tall hero and the fade is
+ * what stops it reading as a band. On a phone there is no room for a 64px fade
+ * before it lands on live text, and display type at 60px+ ghosted straight through
+ * it. Under the `sm` breakpoint the bar is opaque with a hairline under it, which
+ * is also what the rest of the site does with a rule. The breakpoint is 639.98px
+ * so it lines up exactly with Tailwind's `sm:` and the hamburger swap.
+ */
+.nav-scrim {
+  background: linear-gradient(
+    to bottom,
+    var(--paper) 0%,
+    var(--paper) 62%,
+    rgb(var(--ground-rgb) / 0.92) 82%,
+    rgb(var(--ground-rgb) / 0.55) 93%,
+    transparent 100%
+  );
+}
+
+.nav-scrim-night {
+  background: linear-gradient(
+    to bottom,
+    var(--night) 0%,
+    var(--night) 62%,
+    rgba(13, 12, 10, 0.92) 82%,
+    rgba(13, 12, 10, 0.55) 93%,
+    transparent 100%
+  );
+}
+
+@media (max-width: 639.98px) {
+  .nav-scrim {
+    background: var(--paper);
+    /* A full-weight hairline on purpose: it is the same rule the rest of the
+       page draws under a header, and --rule follows the theme. */
+    box-shadow: inset 0 -1px 0 var(--rule);
+  }
+
+  .nav-scrim-night {
+    background: var(--night);
+    box-shadow: inset 0 -1px 0 rgba(237, 228, 208, 0.16);
+  }
+}

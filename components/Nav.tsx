@@ -24,15 +24,10 @@ export default function Nav() {
   // the theme, so the nav inverts with the page instead of being told to.
   const paper = path !== "/kings"
 
-  // Paper needs a heavier scrim than the dark ground did: dark content scrolling
-  // under a light, mostly transparent bar stays legible and collides with the links.
-  // The fade used to reach 0.7 at 80%, which is thin enough that small uppercase type
-  // scrolling under it reads as a second ghosted line rather than as something passing
-  // behind. It bites worst on a phone, where the bar is short and the whole fade sits
-  // over live text. Held opaque longer, with the fall packed into the last tenth.
-  const scrim = paper
-    ? "linear-gradient(to bottom, var(--paper) 0%, var(--paper) 62%, rgb(var(--ground-rgb) / 0.92) 82%, rgb(var(--ground-rgb) / 0.55) 93%, transparent 100%)"
-    : "linear-gradient(to bottom, var(--night) 0%, var(--night) 62%, rgba(13,12,10,0.92) 82%, rgba(13,12,10,0.55) 93%, transparent 100%)"
+  // The ground lives in globals.css (`.nav-scrim` / `.nav-scrim-night`) because it
+  // needs to differ by width, which an inline style cannot express: desktop keeps
+  // the long fade, phones get an opaque bar with a hairline. See the note there.
+  const scrim = paper ? "nav-scrim" : "nav-scrim-night"
 
   // Colour only. The underline lives on the inner span so the enlarged tap
   // target does not drag it away from the text.
@@ -54,8 +49,7 @@ export default function Nav() {
   return (
     <>
       <nav
-        className="fixed top-0 left-0 right-0 z-50 flex items-center justify-between px-5 py-4"
-        style={{ background: scrim }}
+        className={`fixed top-0 left-0 right-0 z-50 flex items-center justify-between px-6 py-4 sm:px-5 ${scrim}`}
       >
         <Link href="/" onClick={() => setOpen(false)} className="flex items-center py-1.5">
           {paper ? (
@@ -117,7 +111,7 @@ export default function Nav() {
 
         {/* Mobile hamburger */}
         <button
-          className="sm:hidden flex flex-col items-center justify-center gap-1.5 w-11 h-11 -mr-2"
+          className="sm:hidden flex flex-col items-center justify-center gap-1.5 w-11 h-11 -mr-2.5"
           onClick={() => setOpen(!open)}
           aria-label="Menu"
           aria-expanded={open}

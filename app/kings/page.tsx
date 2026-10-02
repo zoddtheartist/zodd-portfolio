@@ -18,7 +18,7 @@ export default function KingsPage() {
       {/* The one route deliberately left on the night ground. */}
       <style>{"body{background:var(--night);color:var(--bone)}"}</style>
 
-      <div className="night-grain bg-[var(--night)] text-[var(--bone)] pt-16 pb-24">
+      <div className="night-grain bg-[var(--night)] text-[var(--bone)] pt-28 sm:pt-16 pb-24">
         <section className="w-full bg-black border-y-[1.5px] border-[var(--bone)]/25">
           <KingsVideo />
         </section>

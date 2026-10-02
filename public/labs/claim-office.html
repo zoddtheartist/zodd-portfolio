@@ -104,6 +104,32 @@
   .backlink { color: var(--brass); text-decoration: none; border-bottom: 1px solid transparent; }
   .backlink:hover, .backlink:focus-visible { color: var(--ink); border-bottom-color: currentColor; outline: none; }
 
+  /* ---- Phone: the top rail ------------------------------------------------
+     A two-up row of long mono strings. At 390px it wrapped into a ragged 2x2 block
+     and "The Lab" broke away from its arrow. Both halves keep to a single line; the
+     type gives up tracking to make room. The side gutter is 22px on every Lab page
+     at every width, so only the vertical padding is touched here.
+     ------------------------------------------------------------------------- */
+  @media (max-width: 560px) {
+    .rail { padding: 12px 22px 10px; gap: 10px; align-items: baseline; }
+    .rail .backlink { white-space: nowrap; }
+    .rail .mono, .rail .mono-label { font-size: 10px; letter-spacing: 0.13em; }
+    header.head { padding: 20px 22px 18px; }
+    .wrap { padding: 20px 22px 60px; }
+  }
+  @media (max-width: 400px) {
+    .rail .mono, .rail .mono-label { font-size: 9px; letter-spacing: 0.08em; }
+  }
+
+  /* Two-up header rows. Each is a long label on the left and a long one on the
+     right; at 390px both wrap and the two interleave into a block you cannot read
+     as two separate things. They stack instead. .src-head is short enough to stay
+     a row, but it carries an uploaded filename, so it is allowed to wrap. */
+  @media (max-width: 560px) {
+    .panel-head, .deed-head, .deed-foot { flex-direction: column; align-items: flex-start; gap: 3px; }
+    .src-head { flex-wrap: wrap; gap: 4px; }
+  }
+
   @media (max-width: 880px) { .wrap { grid-template-columns: 1fr; } }
 
   /* Portfolio picker. A plain overlay rather than <dialog>, to match the rest of
