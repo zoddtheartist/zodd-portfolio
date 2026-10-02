@@ -115,7 +115,7 @@ export default function FieldSection() {
       {/* Header */}
       <div className="flex flex-wrap items-end justify-between gap-4 pt-6 pb-6">
         <div>
-          <p className="font-[family-name:var(--font-typewriter)] text-[11px] tracking-[0.24em] uppercase text-[var(--ink)]/60">
+          <p className="font-[family-name:var(--font-typewriter)] text-[11px] tracking-[0.24em] uppercase text-[var(--ink)]/60 text-balance sm:text-wrap">
             {project.eyebrow}
           </p>
           <h2
@@ -268,7 +268,7 @@ export default function FieldSection() {
         <p className="font-[family-name:var(--font-typewriter)] text-[10px] tracking-[0.24em] uppercase text-[var(--oxblood)] mb-3">
           What I put into it
         </p>
-        <blockquote className="font-[family-name:var(--font-serif)] text-[17px] leading-8 text-[var(--ink)]/85 max-w-3xl">
+        <blockquote className="font-[family-name:var(--font-serif)] text-[17px] leading-8 text-[var(--ink)]/85 max-w-3xl text-pretty sm:text-wrap">
           {project.note}
         </blockquote>
         <p className="mt-4 font-[family-name:var(--font-typewriter)] text-[9.5px] tracking-[0.14em] uppercase text-[var(--ink)]/45 text-balance sm:text-wrap">

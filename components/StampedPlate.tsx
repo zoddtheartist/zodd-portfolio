@@ -47,7 +47,7 @@ export default function StampedPlate({
         <h3 className="font-[family-name:var(--font-gothic)] text-[clamp(34px,5vw,52px)] font-black uppercase leading-[0.88] tracking-wide text-[var(--ink)]">
           {title}
         </h3>
-        <p className="mt-3 font-[family-name:var(--font-serif)] text-[15px] leading-relaxed text-[var(--ink)]/75">
+        <p className="mt-3 font-[family-name:var(--font-serif)] text-[15px] leading-relaxed text-[var(--ink)]/75 text-pretty sm:text-wrap">
           {blurb}
         </p>
       </div>

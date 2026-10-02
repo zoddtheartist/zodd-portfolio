@@ -34,7 +34,7 @@ export default function ContactPage() {
             Contact
           </h1>
 
-          <p className="font-[family-name:var(--font-serif)] text-[17px] leading-8 text-[var(--ink)]/85 max-w-xl mt-5">
+          <p className="font-[family-name:var(--font-serif)] text-[17px] leading-8 text-[var(--ink)]/85 max-w-xl mt-5 text-pretty sm:text-wrap">
             Currently taking public work: murals, environmental graphics and painted or printed work
             at architectural scale, alongside commissions, brand projects and original work.
           </p>

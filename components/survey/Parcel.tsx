@@ -151,10 +151,10 @@ const Parcel = forwardRef<HTMLDivElement, ParcelProps>(function Parcel(
           <span aria-hidden="true" className="text-[var(--brass)]">
             &#8599;
           </span>
-          <span className="text-left">
+          <span className="text-left text-balance sm:text-wrap">
             {leads[0].bond.label} &middot; {leads[0].title}
-            {leads[0].abbr ? ` (${leads[0].abbr})` : ""}
-            {leads.length > 1 ? ` +${leads.length - 1}` : ""}
+            {leads[0].abbr ? `\u00A0(${leads[0].abbr})` : ""}
+            {leads.length > 1 ? `\u00A0+${leads.length - 1}` : ""}
           </span>
         </button>
       ) : null}

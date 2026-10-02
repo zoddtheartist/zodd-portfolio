@@ -55,7 +55,7 @@ function ToolCard({ item }: { item: LabItem }) {
       <h3 className="font-[family-name:var(--font-gothic)] font-black uppercase text-[26px] leading-none mt-4 text-[var(--bone)]">
         {item.title}
       </h3>
-      <p className="font-[family-name:var(--font-serif)] text-[15px] leading-7 text-[var(--bone)]/80 mt-3">
+      <p className="font-[family-name:var(--font-serif)] text-[15px] leading-7 text-[var(--bone)]/80 mt-3 text-pretty sm:text-wrap">
         {item.blurb}
       </p>
       <Tags tags={item.tags} muted="text-[var(--bone)]/45" />
@@ -112,7 +112,7 @@ function EntryRow({ item }: { item: LabItem }) {
             </Meta>
           ) : null}
         </div>
-        <p className="font-[family-name:var(--font-serif)] text-[16px] leading-8 text-[var(--ink)]/85 mt-2 max-w-2xl">
+        <p className="font-[family-name:var(--font-serif)] text-[16px] leading-8 text-[var(--ink)]/85 mt-2 max-w-2xl text-pretty sm:text-wrap">
           {item.blurb}
         </p>
         <Tags tags={item.tags} muted="text-[var(--ink)]/50" />
@@ -165,7 +165,7 @@ export default function LabPage() {
           <h1 className="font-[family-name:var(--font-gothic)] font-black uppercase leading-[0.88] mt-8 text-[clamp(44px,9vw,92px)]">
             The Lab
           </h1>
-          <p className="font-[family-name:var(--font-serif)] text-[17px] leading-8 text-[var(--ink)]/85 max-w-2xl mt-5">
+          <p className="font-[family-name:var(--font-serif)] text-[17px] leading-8 text-[var(--ink)]/85 max-w-2xl mt-5 text-pretty sm:text-wrap">
             Sketches, studies and work in progress. There are also two tools in here
             you can use: one pulls a colour palette out of a painting, mine or yours,
             and the other turns a drawing into a poster.

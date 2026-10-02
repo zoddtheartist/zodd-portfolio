@@ -105,7 +105,7 @@ export default function Home() {
             </span>
           </div>
 
-          <div className="font-[family-name:var(--font-serif)] text-[17px] leading-9 text-[var(--ink)]/85 space-y-7">
+          <div className="font-[family-name:var(--font-serif)] text-[17px] leading-9 text-[var(--ink)]/85 space-y-7 text-pretty sm:text-wrap">
             <p>
               ZODD is an artist of 1000 styles: a multidisciplinary artist, creative director, and
               visual strategist creating work across murals, illustration, character design, digital
