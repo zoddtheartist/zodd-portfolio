@@ -3,7 +3,7 @@ import { itemsOfKind, serial, filedOn, type LabItem } from "@/lib/lab-data"
 export const metadata = {
   title: "The Lab — Zodd",
   description:
-    "Things I'm working on, and a couple of tools I built because I needed them. Sketches, studies and experiments that sit outside the main portfolio.",
+    "Sketches, studies and work in progress, plus two tools you can use: a colour palette picker and a poster builder.",
 }
 
 /**
@@ -166,9 +166,9 @@ export default function LabPage() {
             The Lab
           </h1>
           <p className="font-[family-name:var(--font-serif)] text-[17px] leading-8 text-[var(--ink)]/85 max-w-2xl mt-5">
-            Things I&rsquo;m working on, and a couple of tools I built because I needed
-            them and they didn&rsquo;t exist. Sketches, studies, work in progress. None of
-            it has to be finished to go here.
+            Sketches, studies and work in progress. There are also two tools in here
+            you can use: one pulls a colour palette out of a painting, mine or yours,
+            and the other turns a drawing into a poster.
           </p>
         </section>
 

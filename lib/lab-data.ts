@@ -75,7 +75,7 @@ export const items: LabItem[] = [
     status: "live",
     date: "2026-09-29",
     blurb:
-      "Pulls a palette out of any image, names the colours, and hands them back as CSS, Tailwind or JSON. It keeps room for the saturated colours so an accent doesn't get buried under a big flat background.",
+      "Pull a colour palette out of any of my pieces, or upload your own image. It names every colour, checks the contrast between them, and gives you CSS, Tailwind or JSON.",
     tags: ["colour", "palette", "accessibility"],
     href: "/labs/claim-office.html",
   },
