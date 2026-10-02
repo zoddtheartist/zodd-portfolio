@@ -139,13 +139,16 @@ export default function FieldSection() {
         <p className="sm:flex-1 px-4 py-2.5 border-b sm:border-b-0 border-[var(--ink)]/40 font-[family-name:var(--font-typewriter)] text-[10px] tracking-[0.22em] uppercase text-[var(--ink)]/70">
           assayed from this artwork — the claim office
         </p>
-        <div className="flex">
+        <div className="flex flex-wrap sm:flex-nowrap">
           {project.palette.map((s) => {
             const label = labelOn(s.hex)
             return (
               <div
                 key={s.hex}
-                className="relative flex-1 sm:flex-none sm:w-[76px] min-h-[44px] border-l border-[var(--rule)] first:border-l-0 sm:first:border-l"
+                // Seven chips sharing a 390px row leaves about 50px each, and
+                // "oxblood" needs 55. On a phone they wrap to a grid with room for
+                // the name instead of clipping it mid-word.
+                className="relative basis-[33.333%] grow sm:basis-auto sm:flex-none sm:w-[76px] min-h-[52px] sm:min-h-[44px] border-l border-t sm:border-t-0 border-[var(--rule)] sm:first:border-l"
                 style={{ background: s.hex }}
               >
                 {/* 9px and bold rather than 8px regular: at this size the weight is

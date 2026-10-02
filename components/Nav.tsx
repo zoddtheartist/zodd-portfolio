@@ -26,9 +26,13 @@ export default function Nav() {
 
   // Paper needs a heavier scrim than the dark ground did: dark content scrolling
   // under a light, mostly transparent bar stays legible and collides with the links.
+  // The fade used to reach 0.7 at 80%, which is thin enough that small uppercase type
+  // scrolling under it reads as a second ghosted line rather than as something passing
+  // behind. It bites worst on a phone, where the bar is short and the whole fade sits
+  // over live text. Held opaque longer, with the fall packed into the last tenth.
   const scrim = paper
-    ? "linear-gradient(to bottom, var(--paper) 0%, rgb(var(--ground-rgb) / 0.97) 55%, rgb(var(--ground-rgb) / 0.7) 80%, transparent 100%)"
-    : "linear-gradient(to bottom, var(--night) 0%, rgba(13,12,10,0.97) 55%, rgba(13,12,10,0.7) 80%, transparent 100%)"
+    ? "linear-gradient(to bottom, var(--paper) 0%, var(--paper) 62%, rgb(var(--ground-rgb) / 0.92) 82%, rgb(var(--ground-rgb) / 0.55) 93%, transparent 100%)"
+    : "linear-gradient(to bottom, var(--night) 0%, var(--night) 62%, rgba(13,12,10,0.92) 82%, rgba(13,12,10,0.55) 93%, transparent 100%)"
 
   // Colour only. The underline lives on the inner span so the enlarged tap
   // target does not drag it away from the text.

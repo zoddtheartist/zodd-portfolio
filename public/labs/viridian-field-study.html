@@ -37,6 +37,10 @@
   .rail { max-width: 1160px; margin: 0 auto; padding: 16px 22px 12px; display: flex; justify-content: space-between; gap: 12px; border-bottom: 1px solid rgba(237,228,208,0.22); }
   .backlink { color: var(--brass); text-decoration: none; border-bottom: 1px solid transparent; }
   .backlink:hover, .backlink:focus-visible { color: var(--bone); border-bottom-color: currentColor; outline: none; }
+  /* A page that scrolls sideways on a phone is broken, and one stray absolutely
+     positioned child is enough to cause it. The causes are fixed in the phone block
+     below; this is the backstop so the next one cannot reach the viewport. */
+  html, body { overflow-x: hidden; }
   .wrap { max-width: 1160px; margin: 0 auto; padding: 26px 22px 70px; }
 
   .ambient { display: flex; justify-content: space-between; align-items: flex-end; gap: 24px; padding: 8px 2px 18px; }
@@ -183,11 +187,45 @@
   #lbClose:hover { border-color: var(--glacier); color: var(--glacier); }
   #lbTag { position: fixed; bottom: 16px; left: 20px; z-index: 101; font-size: 10px; letter-spacing: 0.22em; text-transform: uppercase; color: rgba(237,228,208,0.6); }
 
+  /* ---------------------------------------------------------------------------
+     Phone layout.
+
+     Everything here was one row too many for a 390px screen. The header kept the
+     wordmark and the bird side by side, leaving the text about 180px wide and pushing
+     the mark off the edge. The specimen caption was absolutely positioned and set
+     never to wrap, so it ran past the viewport and gave the whole page a sideways
+     scroll. The colour strip was one flex row of fixed-width chips whose labels were
+     cut off mid-word: "glacier pale" read "glaci".
+     --------------------------------------------------------------------------- */
   @media (max-width: 780px) {
     .subline, .f2-sub, .f2-rows { display: none; }
-    .claims .chip { width: 44px; }
-    .claims .chip.irid, .claims .chip.irid2 { width: 100px; }
-    .abird { width: 140px; }
+
+    /* Header stacks. The bird reads as a specimen beside the title on a desktop and
+       as clutter in front of it on a phone, so it drops below the type. */
+    .ambient { flex-direction: column; align-items: stretch; gap: 14px; padding-bottom: 14px; }
+    .ambient .brandcol { padding-bottom: 0; }
+    .abird { width: 150px; align-self: flex-end; margin-right: 6px; }
+
+    /* This was the sideways scroll: absolute, hanging 8px off the left, never wrapping. */
+    .tag { position: static; white-space: normal; left: auto; bottom: auto; margin-top: 6px; text-align: right; }
+
+    /* Allowed to shrink past the desktop floor, and to break rather than overflow. */
+    .wordmark { font-size: clamp(30px, 11vw, 56px); overflow-wrap: anywhere; }
+
+    /* Label over the swatches, swatches wrap, each chip sized to its own name. */
+    .claims { flex-wrap: wrap; }
+    .claims .lbl { flex: 1 0 100%; border-right: none; border-bottom: 1px solid rgba(237,228,208,0.3); }
+    .claims .chip { width: auto; flex: 1 1 auto; min-width: 84px; min-height: 58px; display: flex; flex-direction: column; justify-content: flex-end; }
+    .claims .chip.irid, .claims .chip.irid2 { flex: 1 0 100%; min-height: 54px; }
+    .chip span { position: static; left: auto; bottom: auto; padding: 4px 6px; }
+
+    /* The two-up header rows read as collisions at this width. */
+    .sci-head { flex-direction: column; gap: 3px; }
+
+    /* The display word and the stamp both sit over the photograph and met in the
+       middle once the frame got narrow. */
+    .f2-block { max-width: 62%; top: 16%; }
+    .stamp { font-size: clamp(10px, 3.2vw, 14px); }
   }
   @media (prefers-reduced-motion: reduce) {
     .chip.irid, .chip.irid::after, .chip.irid2, .chip.irid2::after { animation: none; }
