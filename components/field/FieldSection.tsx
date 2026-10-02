@@ -36,6 +36,33 @@ function chipColumns(n: number): number {
   return 3
 }
 
+/**
+ * A dot-separated label, with each segment held together on a phone.
+ *
+ * These strings read "panoramic mural · 3m vinyl · jack daniel's terrace, coors
+ * field · denver". At 390px they broke mid-phrase, splitting "Jack" off
+ * "Daniel's Terrace" and "Coors" off "Field". Each segment plus its trailing dot
+ * becomes one unbreakable run, so the only places a line can end are the
+ * separators. `sm:whitespace-normal` hands the decision back to the browser above
+ * the breakpoint, where the desktop measure already breaks these correctly.
+ */
+function DotSegments({ text }: { text: string }) {
+  const parts = text.split(" · ")
+  return (
+    <>
+      {parts.map((seg, i) => (
+        <span key={seg}>
+          <span className="whitespace-nowrap sm:whitespace-normal">
+            {seg}
+            {i < parts.length - 1 ? " ·" : ""}
+          </span>
+          {i < parts.length - 1 ? " " : ""}
+        </span>
+      ))}
+    </>
+  )
+}
+
 function Mark({ color = "#EDE4D0", size = 20 }: { color?: string; size?: number }) {
   return (
     <svg viewBox="0 0 100 100" width={size} height={size} aria-hidden="true" className="block">
@@ -98,8 +125,8 @@ export default function FieldSection() {
             {project.title}
           </h2>
         </div>
-        <p className="font-[family-name:var(--font-typewriter)] text-[10.5px] tracking-[0.2em] uppercase leading-relaxed text-[var(--ink)]/60 max-w-xs">
-          {project.descriptor}
+        <p className="font-[family-name:var(--font-typewriter)] text-[10.5px] tracking-[0.14em] sm:tracking-[0.2em] uppercase leading-relaxed text-[var(--ink)]/60 max-w-none sm:max-w-xs text-balance sm:text-wrap">
+          <DotSegments text={project.descriptor} />
         </p>
       </div>
 
@@ -151,7 +178,7 @@ export default function FieldSection() {
         className="flex flex-col sm:flex-row items-stretch border-x-[1.5px] border-b-[1.5px] border-[var(--ink)]"
         aria-label="Colours assayed from the artwork"
       >
-        <p className="sm:flex-1 px-4 py-2.5 border-b sm:border-b-0 border-[var(--ink)]/40 font-[family-name:var(--font-typewriter)] text-[10px] tracking-[0.22em] uppercase text-[var(--ink)]/70">
+        <p className="sm:flex-1 px-4 py-2 sm:py-2.5 border-b sm:border-b-0 border-[var(--ink)]/40 font-[family-name:var(--font-typewriter)] text-[10px] tracking-[0.22em] uppercase text-[var(--ink)]/70 text-balance sm:text-wrap">
           assayed from this artwork — the claim office
         </p>
         {/* Phone: a fixed-height wrapped grid. `chipCols` is picked so the last
@@ -167,7 +194,7 @@ export default function FieldSection() {
             return (
               <div
                 key={s.hex}
-                className="relative basis-[calc(100%/var(--chip-cols))] grow h-[58px] sm:basis-auto sm:grow-0 sm:flex-none sm:w-[76px] sm:h-auto sm:min-h-[44px] border-l border-t sm:border-t-0 border-[var(--rule)] sm:first:border-l"
+                className="relative basis-[calc(100%/var(--chip-cols))] grow h-[42px] sm:basis-auto sm:grow-0 sm:flex-none sm:w-[76px] sm:h-auto sm:min-h-[44px] border-l border-t sm:border-t-0 border-[var(--rule)] sm:first:border-l"
                 style={{ background: s.hex }}
               >
                 {/* 9px and bold rather than 8px regular: at this size the weight is
@@ -225,10 +252,10 @@ export default function FieldSection() {
               {project.rows.map((r) => (
                 <div
                   key={r.key}
-                  className="flex justify-between gap-5 border-t border-[var(--ink)]/20 py-1.5 font-[family-name:var(--font-typewriter)] text-[10.5px] tracking-[0.12em] uppercase"
+                  className="flex flex-col sm:flex-row sm:justify-between gap-0.5 sm:gap-5 border-t border-[var(--ink)]/20 py-1.5 font-[family-name:var(--font-typewriter)] text-[10.5px] tracking-[0.12em] uppercase"
                 >
                   <dt className="text-[var(--ink)]/55">{r.key}</dt>
-                  <dd className="text-right text-[var(--ink)]">{r.value}</dd>
+                  <dd className="text-left sm:text-right text-[var(--ink)]">{r.value}</dd>
                 </div>
               ))}
             </dl>
@@ -244,8 +271,8 @@ export default function FieldSection() {
         <blockquote className="font-[family-name:var(--font-serif)] text-[17px] leading-8 text-[var(--ink)]/85 max-w-3xl">
           {project.note}
         </blockquote>
-        <p className="mt-4 font-[family-name:var(--font-typewriter)] text-[9.5px] tracking-[0.14em] uppercase text-[var(--ink)]/45">
-          {project.callFacts}
+        <p className="mt-4 font-[family-name:var(--font-typewriter)] text-[9.5px] tracking-[0.14em] uppercase text-[var(--ink)]/45 text-balance sm:text-wrap">
+          <DotSegments text={project.callFacts} />
         </p>
       </div>
 

@@ -94,7 +94,7 @@ export default function ContactPage() {
             </span>
           </TrackedLink>
 
-          <p className="font-[family-name:var(--font-typewriter)] text-[10px] tracking-[0.2em] uppercase text-[var(--ink)]/45 mt-4">
+          <p className="font-[family-name:var(--font-typewriter)] text-[10px] tracking-[0.2em] uppercase text-[var(--ink)]/45 mt-4 text-balance sm:text-wrap">
             Based in Edmonton · working anywhere the wall is
           </p>
         </section>

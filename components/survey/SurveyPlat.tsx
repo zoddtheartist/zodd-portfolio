@@ -253,7 +253,7 @@ export default function SurveyPlat() {
   }, [])
 
   return (
-    <section className="max-w-screen-xl mx-auto px-6 py-20" aria-labelledby="plat-heading">
+    <section className="max-w-screen-xl mx-auto px-6 py-12 sm:py-20" aria-labelledby="plat-heading">
       <div className="flex flex-wrap items-end justify-between gap-4 border-b-[1.5px] border-[var(--ink)] pb-3 mb-6">
         <div>
           <p className="font-[family-name:var(--font-typewriter)] text-[10px] tracking-[0.26em] uppercase text-[var(--oxblood)]">
@@ -266,7 +266,7 @@ export default function SurveyPlat() {
             Selected Works
           </h2>
         </div>
-        <p className="font-[family-name:var(--font-typewriter)] text-[10px] tracking-[0.22em] uppercase text-[var(--ink)]/55 max-w-xs">
+        <p className="font-[family-name:var(--font-typewriter)] text-[10px] tracking-[0.22em] uppercase text-[var(--ink)]/55 max-w-none sm:max-w-xs text-balance sm:text-wrap">
           Lines are claims, not decoration: a shared series, a recurring subject, one
           place returned to. Arrows lead to bonded work filed in another register.
         </p>

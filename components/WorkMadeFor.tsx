@@ -10,7 +10,7 @@ import { workMadeFor } from "@/lib/projects-data"
  */
 export default function WorkMadeFor() {
   return (
-    <section className="max-w-screen-xl mx-auto px-6 pb-16" aria-labelledby="made-for">
+    <section className="max-w-screen-xl mx-auto px-6 pb-10 sm:pb-16" aria-labelledby="made-for">
       <div className="border-[1.5px] border-[var(--ink)]">
         <div className="flex flex-wrap items-baseline justify-between gap-x-3 gap-y-1 border-b-[1.5px] border-[var(--ink)] px-4 py-2.5">
           <h2
@@ -36,7 +36,7 @@ export default function WorkMadeFor() {
               >
                 {String(i + 1).padStart(2, "0")}
               </span>
-              <span className="font-[family-name:var(--font-gothic)] text-[clamp(15px,1.7vw,20px)] font-extrabold uppercase leading-tight tracking-wide text-[var(--ink)]">
+              <span className="font-[family-name:var(--font-gothic)] text-[clamp(15px,1.7vw,20px)] font-extrabold uppercase leading-tight tracking-wide text-[var(--ink)] text-balance sm:text-wrap">
                 {name}
               </span>
             </li>

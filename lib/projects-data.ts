@@ -53,7 +53,7 @@ export const projects: Project[] = [
     stamp: "Installed",
     figure: "215",
     figureUnit: "SQ FT",
-    figureCaption: "printed, panelled and hung — one wall",
+    figureCaption: "printed, panelled and hung — one\u00A0wall",
     plates: [
       {
         file: "jack-on-the-rockies.jpg",
@@ -64,7 +64,7 @@ export const projects: Project[] = [
       },
       {
         file: "jack-on-the-rockies-insitu.jpg",
-        label: "In situ — Jack Daniel's Terrace, Coors Field",
+        label: "In situ — Jack\u00A0Daniel's\u00A0Terrace,\u00A0Coors\u00A0Field",
         kind: "in-situ",
         w: 1134,
         h: 774,
@@ -82,17 +82,17 @@ export const projects: Project[] = [
     ],
     rows: [
       { key: "dimensions", value: "235 × 132 in" },
-      { key: "installed size", value: "19′ 7″ × 11′ 0″" },
+      { key: "installed size", value: "19′\u00A07″ × 11′\u00A00″" },
       { key: "aspect", value: "1.78 : 1" },
-      { key: "medium", value: "digital illustration" },
-      { key: "output", value: "3M vinyl, panoramic" },
-      { key: "venue", value: "Jack Daniel's Terrace, Coors Field" },
+      { key: "medium", value: "digital\u00A0illustration" },
+      { key: "output", value: "3M\u00A0vinyl, panoramic" },
+      { key: "venue", value: "Jack\u00A0Daniel's\u00A0Terrace,\u00A0Coors\u00A0Field" },
       { key: "city", value: "Denver, Colorado" },
-      { key: "owned by", value: "Jack Daniel's × Colorado Rockies Baseball" },
-      { key: "selection", value: "open call, limited entries" },
+      { key: "owned by", value: "Jack\u00A0Daniel's × Colorado\u00A0Rockies\u00A0Baseball" },
+      { key: "selection", value: "open\u00A0call, limited\u00A0entries" },
       { key: "year", value: "2026" },
     ],
-    callFacts: "Open call for artists · 1–3 concepts · limited entries · selected",
+    callFacts: "Open call for artists · 1\u2060–\u20603 concepts · limited entries · selected",
     note:
       "I've spent countless hours staring at the sun set over the Colorado Rockies. I knew that both the purple of the Rockies baseball team and the golden amber of Jack Daniel's were already reflected in those sunsets. The rivers and crowds act to balance and reflect each other, and to me, reflect the overall Colorado experience.",
     featured: true,

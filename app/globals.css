@@ -171,15 +171,31 @@ body {
 }
 
 /* The interactive version. Day fills with oxblood; night keeps the outline and
-   lifts it, so the highlight glows up rather than flooding. */
-.plate-action:hover,
+   lifts it, so the highlight glows up rather than flooding.
+   `:hover` is gated on a device that actually has one. iOS leaves :hover latched on
+   whatever you tapped last, so on a phone the fill was staying on after a tap
+   instead of reading as a press. :active still fires on touch, so the press itself
+   is unchanged on every device. */
+@media (hover: hover) {
+  .plate-action:hover {
+    background: var(--oxblood);
+    border-color: var(--oxblood);
+    color: var(--paper);
+  }
+
+  :root[data-theme="dark"] .plate-action:hover {
+    background: rgb(204 105 80 / 0.12);
+    border-color: var(--oxblood);
+    color: var(--oxblood);
+  }
+}
+
 .plate-action:active {
   background: var(--oxblood);
   border-color: var(--oxblood);
   color: var(--paper);
 }
 
-:root[data-theme="dark"] .plate-action:hover,
 :root[data-theme="dark"] .plate-action:active {
   background: rgb(204 105 80 / 0.12);
   border-color: var(--oxblood);

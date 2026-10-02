@@ -239,8 +239,16 @@
        Fixed height too: these are swatches, and a stretched line of them was reading
        as 130px-tall blocks. */
     .claims { align-content: flex-start; }
-    .claims .chip { width: auto; flex: 1 1 30%; min-width: 0; height: 58px; display: flex; flex-direction: column; justify-content: flex-end; }
-    .claims .chip.irid, .claims .chip.irid2 { flex: 1 0 100%; height: 54px; }
+    .claims .chip { width: auto; flex: 1 1 30%; min-width: 0; height: 44px; display: flex; flex-direction: column; justify-content: flex-end; }
+    .claims .chip.irid, .claims .chip.irid2 { flex: 1 0 100%; height: 40px; }
+    /* The strip was running about 200px of swatch under a 160px photograph. */
+    .claims .lbl { padding: 7px 14px; }
+
+    /* Short mono labels orphan their last word at this width. Balanced, they split
+       evenly instead: "assayed from this artwork" / "— the claim office" rather than
+       a full line and then the word "office" on its own. */
+    .sect, .sect h2, .sci-head, .claims .lbl, .alabel, .exif span { text-wrap: balance; }
+    .opening, .note { text-wrap: pretty; }
     .chip span { position: static; left: auto; bottom: auto; padding: 4px 6px; }
 
     /* The two-up header rows read as collisions at this width. */

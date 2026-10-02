@@ -29,7 +29,7 @@ export default function PortfolioPage() {
             <h1 className="font-[family-name:var(--font-gothic)] text-[clamp(40px,7vw,78px)] font-black uppercase leading-[0.88] tracking-wide text-[var(--ink)]">
               Portfolio
             </h1>
-            <p className="font-[family-name:var(--font-typewriter)] text-[10.5px] tracking-[0.2em] uppercase leading-relaxed text-[var(--ink)]/60 max-w-sm">
+            <p className="font-[family-name:var(--font-typewriter)] text-[10.5px] tracking-[0.2em] uppercase leading-relaxed text-[var(--ink)]/60 max-w-sm text-balance sm:text-wrap">
               Commissions, designs, products, projects, studies and original works.{" "}
               <span className="hidden [@media(hover:hover)]:inline">
                 Hover a parcel to light the works it is chained to.
