@@ -177,7 +177,7 @@
     <section>
       <div class="btnrow">
         <button class="btn" id="bCss" type="button">Copy CSS vars</button>
-        <button class="btn ghost" id="bTw" type="button">Copy Tailwind config</button>
+        <button class="btn ghost" id="bTw" type="button">Copy Tailwind theme</button>
         <button class="btn ghost" id="bJson" type="button">Copy JSON</button>
       </div>
     </section>
@@ -402,14 +402,36 @@
     return best;
   }
 
+  /**
+   * Suggest which claim is the ground, which is the mark, and which is the accent.
+   *
+   * The three used to be chosen independently and could land on the same claim, with
+   * the last assignment quietly overwriting the one before it. On a palette of three
+   * near-identical greys, or any palette of two, "paper" disappeared — and since the
+   * contrast panel needs paper and ink to have something to compare, the tool's own
+   * accessibility check stopped running without saying so.
+   *
+   * Each role now takes from what is left, so the three are always distinct. Fewer
+   * than three claims degrades in the order that keeps the contrast test alive:
+   * paper, then ink, then accent.
+   */
   function suggestRoles(claims){
-    var byL = claims.map(function(c,i){ return {i:i, l: rgb2hsl(c[0],c[1],c[2]).l, s: rgb2hsl(c[0],c[1],c[2]).s}; });
-    var paperIdx = byL.slice().sort(function(a,b){ return b.l-a.l; })[0].i;
-    var inkIdx = byL.slice().sort(function(a,b){ return a.l-b.l; })[0].i;
-    var accentIdx = byL.filter(function(x){ return x.i!==paperIdx && x.i!==inkIdx; }).sort(function(a,b){ return b.s-a.s; })[0];
-    accentIdx = accentIdx ? accentIdx.i : (byL[2] ? byL[2].i : paperIdx);
     var roles = claims.map(function(){ return 'none'; });
-    roles[paperIdx]='paper'; roles[inkIdx]='ink'; roles[accentIdx]='accent';
+    var free = claims.map(function(c,i){
+      var h = rgb2hsl(c[0],c[1],c[2]);
+      return { i:i, l:h.l, s:h.s };
+    });
+    function take(sorter){
+      if (!free.length) return null;
+      free.sort(sorter);
+      return free.shift();
+    }
+    var paper  = take(function(a,b){ return b.l - a.l; });  // lightest
+    var ink    = take(function(a,b){ return a.l - b.l; });  // darkest of the rest
+    var accent = take(function(a,b){ return b.s - a.s; });  // most saturated of the rest
+    if (paper)  roles[paper.i]  = 'paper';
+    if (ink)    roles[ink.i]    = 'ink';
+    if (accent) roles[accent.i] = 'accent';
     return roles;
   }
 
@@ -436,7 +458,7 @@
         '<div class="swatch" style="background:'+hex+'"></div>' +
         '<div class="nm">'+nm+'</div>' +
         '<div class="hex">'+hex+'</div>' +
-        '<div class="rolewrap"><select data-i="'+idx+'" class="roleSel">'+
+        '<div class="rolewrap"><select data-i="'+idx+'" class="roleSel" aria-label="Role for '+nm+'">'+
           ['none','paper','ink','accent'].map(function(r){ return '<option value="'+r+'"'+(state.roles[idx]===r?' selected':'')+'>'+r+'</option>'; }).join('') +
         '</select></div>';
       claimsEl.appendChild(div);
@@ -641,9 +663,17 @@
     copyText(':root {\n' + lines.join('\n') + '\n}', this);
   });
   document.getElementById('bTw').addEventListener('click', function(){
-    var obj = {};
-    state.claims.forEach(function(c,i){ obj[state.names[i].replace(/\s+/g,'-')] = toHex(c[0],c[1],c[2]); });
-    copyText('module.exports = {\n  theme: {\n    extend: {\n      colors: ' + JSON.stringify(obj, null, 8).replace(/\n/g,'\n      ') + '\n    }\n  }\n}', this);
+    // Tailwind v4, which is what this site runs. The old export emitted a v3
+    // module.exports config with theme.extend.colors, so pasting it into zodd.gallery
+    // did precisely nothing: v4 has no JS config to extend, it reads @theme from CSS.
+    // The --color- prefix is what makes Tailwind generate bg-, text- and border-
+    // utilities from each name.
+    var rows = state.claims.map(function(c,i){
+      var nm = state.names[i].replace(/\s+/g,'-');
+      var role = state.roles[i] && state.roles[i] !== 'none' ? ('  /* ' + state.roles[i] + ' */') : '';
+      return '  --color-' + nm + ': ' + toHex(c[0],c[1],c[2]) + ';' + role;
+    });
+    copyText('@theme {\n' + rows.join('\n') + '\n}', this);
   });
   document.getElementById('bJson').addEventListener('click', function(){
     var out = state.claims.map(function(c,i){ return { name: state.names[i], hex: toHex(c[0],c[1],c[2]), rgb:c, role: state.roles[i] }; });
