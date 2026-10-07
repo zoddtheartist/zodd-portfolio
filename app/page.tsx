@@ -107,22 +107,27 @@ export default function Home() {
 
           <div className="font-[family-name:var(--font-serif)] text-[17px] leading-9 text-[var(--ink)]/85 space-y-7 text-pretty sm:text-wrap">
             <p>
-              I&rsquo;m an artist in Edmonton. I came up through tattooing and graffiti, and I work
-              now across murals, painting, illustration and commercial design.
+              I got my start in graffiti and tattooing, which eventually led me into school,
+              concept art, design, and the broader mix of work I do now: murals, commissions,
+              illustration, character work, environmental graphics and commercial projects.
             </p>
             <p>
-              The range is deliberate. Moving between mediums is most of what I get hired for.
+              What keeps me passionate is the problem in front of me. A wall, a product, a
+              community, a staircase and a digital screen all ask for a different approach. I like
+              figuring out what the opportunity is first. Then I pull from different styles,
+              materials and inspirations to make the best thing I can. That might mean painting
+              directly on a wall. Sometimes it means wrapping an image, building a character,
+              designing an object, or creating artwork that ends up on a product. I like work that
+              changes how something feels when you encounter it.
             </p>
             <p>
-              Recent work has been large and public. I painted a 215 square foot mural for Jack
-              Daniel&rsquo;s and the Colorado Rockies at Coors Field, and a wall I did in Amsterdam
-              led to a commission back home in Edmonton. I&rsquo;ve made campaign and product work
-              for Live Nation, Foot Locker, Universal Music Group Canada and Indigo, and visuals for
-              musicians, cultural projects and mayoral races.
+              I&rsquo;ve made work for Jack Daniel&rsquo;s and the Colorado Rockies at Coors Field,
+              Live Nation, Foot Locker, Universal Music Group Canada, Indigo and Ticketmaster, with
+              murals and projects in Denver, Amsterdam, Lisbon, Miami, Nashville and beyond.
             </p>
             <p>
-              What I like most is the problem of scale. An image has to read from across a parking
-              lot and still hold up when you&rsquo;re standing underneath it.
+              Everything starts with drawing for me. From there, the format is open. I work across
+              physical and digital media, at whatever scale makes sense for the idea.
             </p>
           </div>
         </section>
