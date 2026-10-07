@@ -144,6 +144,29 @@
   .pick:hover, .pick:focus-visible { background: #161310; outline: none; border-color: var(--brass); }
   .pick img { display: block; width: 100%; height: 118px; object-fit: cover; border: 1px solid var(--line); background: #161310; }
   .pick .pt { font-family: var(--serifP); font-size: 14px; margin-top: 7px; }
+  /* The rail was pushed to 9-10px in the wrap fixes, which solved the wrapping and
+     made it almost unreadable. Measured live: both halves fit one line at 12px/0.15em
+     down to about 387px, and at 11px/0.045em down to 320px. */
+  @media (max-width: 560px) {
+    .rail .mono, .rail .mono-label { font-size: 12px; letter-spacing: 0.15em; }
+  }
+  @media (max-width: 386px) {
+    .rail .mono, .rail .mono-label { font-size: 11px; letter-spacing: 0.045em; }
+  }
+
+  /* ---- Phone: the label type floor ------------------------------------------
+     Same trade as the app (see globals.css): about 10% more glyph, paid for out
+     of letter-spacing, so the width per character barely moves and nothing
+     reflows. Phone only; the desktop sizes above are untouched.
+     -------------------------------------------------------------------------- */
+  @media (max-width: 639.98px) {
+    .imgbox .hint2 { font-size: 11px; letter-spacing: 0.086em; }
+    .claim select { font-size: 11px; }
+    .verdict { font-size: 11px; letter-spacing: 0.068em; }
+    .explain > summary span { font-size: 10.5px; }
+    .deed-claim .dh { font-size: 11px; }
+    .deed-claim .dr { font-size: 10.5px; letter-spacing: 0.047em; }
+  }
 </style>
 </head>
 <body>

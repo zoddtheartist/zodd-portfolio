@@ -375,3 +375,122 @@ body {
     box-shadow: inset 0 -1px 0 rgba(237, 228, 208, 0.16);
   }
 }
+
+/* ---- Phone: the label type floor --------------------------------------------
+ *
+ * Nearly half of every character on this site is set under 12px. On a desktop
+ * those labels sit in a thin band beside a large image and read as annotation.
+ * Stacked on a phone they stop being marginalia and become the body text, which
+ * is why the type read as both small and overbearing at once.
+ *
+ * So each label gets about 10% more glyph, and gives back the width out of its
+ * letter-spacing. Tracking costs roughly as much width as point size does, so
+ * the trade is close to even: every pair below was measured in Courier Prime
+ * against real strings from the site, and the worst case is 1.9% wider. Nothing
+ * reflows, which is the point — the wrapping was fixed in 0b24775..5568e54 and
+ * this must not undo it.
+ *
+ * Each rule names a size AND a tracking so it can only hit the label it was
+ * computed for. The stencil stamps (OPEN, FILED, INSTALLED) share some tracking
+ * values but sit at 13-14px, so they are out of range by construction.
+ *
+ * Two-class selectors, so they beat Tailwind's single-class utilities regardless
+ * of source order. To revert the whole change, delete this block.
+ *
+ * Regenerate: the solver lives in the session notes; it walks the target size
+ * down until the widest acceptable tracking fits a 2% width budget, with
+ * letter-spacing floored at 0.06em so the labels keep their letterpress set.
+ * ----------------------------------------------------------------------------- */
+@media (max-width: 639.98px) {
+  .text-\[10px\].tracking-\[0\.26em\] {
+    font-size: 11px;
+    letter-spacing: 0.195em;
+  }
+
+  .text-\[10px\].tracking-\[0\.18em\] {
+    font-size: 11px;
+    letter-spacing: 0.12em;
+  }
+
+  .text-\[10px\].tracking-\[0\.24em\] {
+    font-size: 11px;
+    letter-spacing: 0.175em;
+  }
+
+  .text-\[10px\].tracking-\[0\.16em\] {
+    font-size: 11px;
+    letter-spacing: 0.1em;
+  }
+
+  .text-\[10px\].tracking-\[0\.22em\] {
+    font-size: 11px;
+    letter-spacing: 0.16em;
+  }
+
+  .text-\[10\.5px\].tracking-\[0\.14em\] {
+    font-size: 12px;
+    letter-spacing: 0.06em;
+  }
+
+  .text-\[9\.5px\].tracking-\[0\.16em\] {
+    font-size: 11px;
+    letter-spacing: 0.065em;
+  }
+
+  .text-\[10px\].tracking-\[0\.3em\] {
+    font-size: 11px;
+    letter-spacing: 0.23em;
+  }
+
+  .text-\[11px\].tracking-\[0\.22em\] {
+    font-size: 12px;
+    letter-spacing: 0.165em;
+  }
+
+  /* Palette swatch names. Short strings in a wide cell, so this one is not width
+     bound the way the running labels are and can take the full step. */
+  .text-\[9px\].tracking-\[0\.1em\] {
+    font-size: 11px;
+    letter-spacing: 0.06em;
+  }
+
+  .text-\[9\.5px\].tracking-\[0\.14em\] {
+    font-size: 10.5px;
+    letter-spacing: 0.08em;
+  }
+
+  .text-\[9\.5px\].tracking-\[0\.18em\] {
+    font-size: 11px;
+    letter-spacing: 0.085em;
+  }
+
+  .text-\[9\.5px\].tracking-\[0\.22em\] {
+    font-size: 11px;
+    letter-spacing: 0.12em;
+  }
+
+  .text-\[10px\].tracking-\[0\.12em\] {
+    font-size: 11px;
+    letter-spacing: 0.065em;
+  }
+
+  .text-\[10px\].tracking-\[0\.2em\] {
+    font-size: 11px;
+    letter-spacing: 0.14em;
+  }
+
+  .text-\[10\.5px\].tracking-\[0\.12em\] {
+    font-size: 11.5px;
+    letter-spacing: 0.07em;
+  }
+
+  .text-\[10\.5px\].tracking-\[0\.2em\] {
+    font-size: 12px;
+    letter-spacing: 0.11em;
+  }
+
+  .text-\[11px\].tracking-\[0\.24em\] {
+    font-size: 12px;
+    letter-spacing: 0.185em;
+  }
+}

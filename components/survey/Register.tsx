@@ -9,23 +9,23 @@ type RegisterProps = {
 }
 
 const ROWS: { id: ShowcaseView; label: string; abbr: string }[] = [
-  { id: "all", label: "All Filed", abbr: "ALL" },
+  { id: "all", label: "Everything", abbr: "ALL" },
   ...CATEGORIES.map((c) => ({ id: c.id as ShowcaseView, label: c.label, abbr: c.abbr })),
 ]
 
 /**
- * The land-office register. Doubles as the gallery filter: selecting a row
- * re-surveys the plat from the full archive rather than hiding tiles.
+ * The medium filter. Selecting a row redraws the grid from the full archive
+ * rather than hiding tiles, so the connecting lines are always re-computed.
  */
 export default function Register({ view, counts, onSelect }: RegisterProps) {
   return (
     <div className="border-[1.5px] border-[var(--ink)]">
       <div className="flex flex-wrap items-baseline justify-between gap-x-3 gap-y-1 border-b-[1.5px] border-[var(--ink)] px-3 py-2">
         <span className="font-[family-name:var(--font-typewriter)] text-[10px] tracking-[0.24em] uppercase text-[var(--oxblood)]">
-          The register — surveyed parcels
+          The work — by medium
         </span>
         <span className="font-[family-name:var(--font-typewriter)] text-[10px] tracking-[0.24em] uppercase text-[var(--ink)]/50">
-          select to re-survey
+          choose one
         </span>
       </div>
 
@@ -34,7 +34,7 @@ export default function Register({ view, counts, onSelect }: RegisterProps) {
       <div
         className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-5 gap-px bg-[var(--rule)]"
         role="group"
-        aria-label="Filter the plat by category"
+        aria-label="Filter the work by medium"
       >
         {ROWS.map((row, i) => {
           const active = view === row.id

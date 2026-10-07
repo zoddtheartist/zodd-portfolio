@@ -179,7 +179,7 @@ export default function FieldSection() {
         aria-label="Colours assayed from the artwork"
       >
         <p className="sm:flex-1 px-4 py-2 sm:py-2.5 border-b sm:border-b-0 border-[var(--ink)]/40 font-[family-name:var(--font-typewriter)] text-[10px] tracking-[0.22em] uppercase text-[var(--ink)]/70 text-balance sm:text-wrap">
-          assayed from this artwork — the claim office
+          colours pulled straight out of this artwork
         </p>
         {/* Phone: a fixed-height wrapped grid. `chipCols` is picked so the last
             row is never a single chip stretched across the full width, which is what

@@ -257,7 +257,7 @@ export default function SurveyPlat() {
       <div className="flex flex-wrap items-end justify-between gap-4 border-b-[1.5px] border-[var(--ink)] pb-3 mb-6">
         <div>
           <p className="font-[family-name:var(--font-typewriter)] text-[10px] tracking-[0.26em] uppercase text-[var(--oxblood)]">
-            Plat of the works — township 4 NW
+            Selected work / MMXXVI
           </p>
           <h2
             id="plat-heading"
@@ -267,8 +267,8 @@ export default function SurveyPlat() {
           </h2>
         </div>
         <p className="font-[family-name:var(--font-typewriter)] text-[10px] tracking-[0.22em] uppercase text-[var(--ink)]/55 max-w-none sm:max-w-xs text-balance sm:text-wrap">
-          Lines are claims, not decoration: a shared series, a recurring subject, one
-          place returned to. Arrows lead to bonded work filed in another register.
+          Some of these are connected. A line means two pieces share a series, a subject
+          or a place. An arrow means the piece it points to sits under a different medium.
         </p>
       </div>
 

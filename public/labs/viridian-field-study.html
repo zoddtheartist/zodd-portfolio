@@ -279,6 +279,37 @@
   @media (prefers-reduced-motion: reduce) {
     .chip.irid, .chip.irid::after, .chip.irid2, .chip.irid2::after { animation: none; }
   }
+  /* The rail was pushed to 9-10px in the wrap fixes, which solved the wrapping and
+     made it almost unreadable. Measured live: both halves fit one line at 12px/0.15em
+     down to about 387px, and at 11px/0.045em down to 320px. */
+  @media (max-width: 560px) {
+    .rail .mono, .rail .mono-label { font-size: 12px; letter-spacing: 0.15em; }
+  }
+  @media (max-width: 386px) {
+    .rail .mono, .rail .mono-label { font-size: 11px; letter-spacing: 0.045em; }
+  }
+
+  /* ---- Phone: the label type floor ------------------------------------------
+     Same trade as the app (see globals.css): about 10% more glyph, paid for out
+     of letter-spacing, so the width per character barely moves and nothing
+     reflows. Phone only; the desktop sizes above are untouched.
+     -------------------------------------------------------------------------- */
+  @media (max-width: 639.98px) {
+    .olabel { font-size: 11px; letter-spacing: 0.197em; }
+    .ambient .alabel { font-size: 11px; letter-spacing: 0.197em; }
+    .abird .tag { font-size: 9.5px; letter-spacing: 0.13em; }
+    .windkey { font-size: 9.5px; letter-spacing: 0.13em; }
+    .frow { font-size: 11.5px; letter-spacing: 0.108em; }
+    .exif span { font-size: 11.5px; letter-spacing: 0.108em; }
+    .claims .lbl { font-size: 11px; letter-spacing: 0.16em; }
+    .claims .chip span { font-size: 11px; letter-spacing: 0.04em; }
+    .sci-head .l { font-size: 11px; letter-spacing: 0.179em; }
+    .sci-head .r { font-size: 11px; letter-spacing: 0.179em; }
+    .bigsub { font-size: 11.5px; letter-spacing: 0.182em; }
+    .srow { font-size: 11.5px; letter-spacing: 0.089em; }
+    .cite { font-size: 10.5px; letter-spacing: 0.04em; }
+    #lbTag { font-size: 11px; letter-spacing: 0.16em; }
+  }
 </style>
 </head>
 <body>

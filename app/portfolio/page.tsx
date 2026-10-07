@@ -18,7 +18,7 @@ export default function PortfolioPage() {
         <section className="max-w-screen-2xl mx-auto px-6">
           <div className="flex flex-wrap items-baseline justify-between gap-x-4 gap-y-1 border-b-[1.5px] border-[var(--ink)] pb-2">
             <span className="font-[family-name:var(--font-typewriter)] text-[10px] tracking-[0.26em] uppercase text-[var(--oxblood)]">
-              The full register — all parcels filed
+              Everything, in full
             </span>
             <span className="font-[family-name:var(--font-typewriter)] text-[10px] tracking-[0.26em] uppercase text-[var(--ink)]/50">
               {images.length} works / MMXXVI
@@ -32,7 +32,7 @@ export default function PortfolioPage() {
             <p className="font-[family-name:var(--font-typewriter)] text-[10.5px] tracking-[0.2em] uppercase leading-relaxed text-[var(--ink)]/60 max-w-sm text-balance sm:text-wrap">
               Commissions, designs, products, projects, studies and original works.{" "}
               <span className="hidden [@media(hover:hover)]:inline">
-                Hover a parcel to light the works it is chained to.
+                Hover a piece to light the work it connects to.
               </span>
             </p>
           </div>

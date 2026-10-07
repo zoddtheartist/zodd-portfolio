@@ -44,6 +44,16 @@ export type Bond = {
   members: string[]
 }
 
+  // Every bond below carries something Zodd actually said about the work. That is the
+  // whole bar, and it is a factual one rather than a stylistic one: a note is printed
+  // to visitors as a claim about his practice, so an inferred one is a lie in his voice.
+  //
+  // Three inferred bonds lived here until 2026-10-06 (the-creatures, high-country,
+  // the-seasons). They were assembled from filenames and subject matter, never
+  // confirmed, and they read as invented because they were. Removed rather than
+  // rewritten: better prose would only have hidden the problem.
+  //
+  // To add one, get the sentence from him first, then the member list.
 export const BONDS: Bond[] = [
   // Declared first on purpose. primaryBond takes the earliest match, and
   // buildTraverse only chains pieces that agree on it — with the place bond ahead of
@@ -94,39 +104,6 @@ export const BONDS: Bond[] = [
     label: "Illustrated maps",
     note: "Two commissions that solve the same problem: a place drawn flat.",
     members: ["mfyc.webp", "wedding.webp"],
-  },
-
-  // --- proposed, not yet confirmed by Zodd -------------------------------------
-  // These are inferred from titles and subject, not stated. They are the cheapest
-  // part of this file to change: reorder, split or delete the lists.
-  {
-    id: "the-creatures",
-    kind: "subject",
-    label: "The creatures",
-    note: "Animals drawn across every medium, years apart.",
-    members: [
-      "eagle.webp",
-      "eagle-coloured.webp",
-      "big-cat.webp",
-      "moon-cat.webp",
-      "goblin-and-cat.webp",
-      "ice-wolf.webp",
-      "imagination-fish.webp",
-    ],
-  },
-  {
-    id: "high-country",
-    kind: "subject",
-    label: "High country",
-    note: "Landscape without a figure in it. Mountains, valleys, weather.",
-    members: ["chisel-peak.webp", "the-valley.webp", "snowy-craque.webp"],
-  },
-  {
-    id: "the-seasons",
-    kind: "series",
-    label: "The seasons",
-    note: "Painted as a set, one for each turn of the year.",
-    members: ["spring.webp", "fall.webp", "yule.webp"],
   },
 ]
 

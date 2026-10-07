@@ -101,32 +101,28 @@ export default function Home() {
               About
             </h2>
             <span className="font-[family-name:var(--font-typewriter)] text-[10px] tracking-[0.26em] uppercase text-[var(--oxblood)]">
-              The proprietor
+              Who I am
             </span>
           </div>
 
           <div className="font-[family-name:var(--font-serif)] text-[17px] leading-9 text-[var(--ink)]/85 space-y-7 text-pretty sm:text-wrap">
             <p>
-              ZODD is an artist of 1000 styles: a multidisciplinary artist, creative director, and
-              visual strategist creating work across murals, illustration, character design, digital
-              art, and brand/world development.
+              I&rsquo;m an artist in Edmonton. I came up through tattooing and graffiti, and I work
+              now across murals, painting, illustration and commercial design.
             </p>
             <p>
-              He has spent years studying image-making through
-              every medium he could reach: tattooing, graffiti, painting, murals, digital
-              illustration, and commercial design. His work has supported visual campaigns for major
-              musical artists, cultural projects, and mayoral races.
+              The range is deliberate. Moving between mediums is most of what I get hired for.
             </p>
             <p>
-              His skills are broad and cover a diverse range of styles, but they are built from
-              discipline, study, and a deep respect for visual lineage. He draws from art history, street culture, design
-              systems, and character-driven storytelling with equal fluency, moving between styles
-              while keeping the work grounded in craft, atmosphere, and intent.
+              Recent work has been large and public. I painted a 215 square foot mural for Jack
+              Daniel&rsquo;s and the Colorado Rockies at Coors Field, and a wall I did in Amsterdam
+              led to a commission back home in Edmonton. I&rsquo;ve made campaign and product work
+              for Live Nation, Foot Locker, Universal Music Group Canada and Indigo, and visuals for
+              musicians, cultural projects and mayoral races.
             </p>
             <p>
-              His current practice focuses on creating custom visual environments for brands,
-              communities, products, and cultural spaces, building imagery that can live on walls,
-              packaging, campaigns, events, public spaces, and collectible worlds.
+              What I like most is the problem of scale. An image has to read from across a parking
+              lot and still hold up when you&rsquo;re standing underneath it.
             </p>
           </div>
         </section>
@@ -141,7 +137,7 @@ export default function Home() {
               event="section_portfolio_click"
               label="Works"
               title="Portfolio"
-              blurb="Commissions and original works, filed in full."
+              blurb="Commissions and original work, all of it."
               cta="View work"
               stamp="Filed"
             />

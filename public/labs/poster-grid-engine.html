@@ -148,6 +148,24 @@
 
   @media (max-width: 900px) { .app { grid-template-columns: 1fr; } .pwrap { width: 100%; } }
   @media (prefers-reduced-motion: reduce) { .btn { transition: none; } }
+  /* The rail was pushed to 9-10px in the wrap fixes, which solved the wrapping and
+     made it almost unreadable. Measured live: both halves fit one line at 12px/0.15em
+     down to about 387px, and at 11px/0.045em down to 320px. */
+  @media (max-width: 560px) {
+    .rail .mono, .rail .mono-label { font-size: 12px; letter-spacing: 0.15em; }
+  }
+  @media (max-width: 386px) {
+    .rail .mono, .rail .mono-label { font-size: 11px; letter-spacing: 0.045em; }
+  }
+
+  /* ---- Phone: the label type floor ------------------------------------------
+     Same trade as the app (see globals.css): about 10% more glyph, paid for out
+     of letter-spacing, so the width per character barely moves and nothing
+     reflows. Phone only; the desktop sizes above are untouched.
+     -------------------------------------------------------------------------- */
+  @media (max-width: 639.98px) {
+    .panel label { font-size: 11px; letter-spacing: 0.142em; }
+  }
 </style>
 </head>
 <body>

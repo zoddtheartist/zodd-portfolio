@@ -23,7 +23,7 @@ export default function ContactPage() {
         <section className="max-w-3xl mx-auto px-6">
           <div className="flex flex-wrap items-baseline justify-between gap-x-4 gap-y-1 border-b-[1.5px] border-[var(--ink)] pb-2">
             <span className="font-[family-name:var(--font-typewriter)] text-[10px] tracking-[0.26em] uppercase text-[var(--oxblood)]">
-              The land office — enquiries
+              Enquiries
             </span>
             <span className="font-[family-name:var(--font-typewriter)] text-[10px] tracking-[0.26em] uppercase text-[var(--ink)]/50">
               open / MMXXVI
@@ -39,11 +39,11 @@ export default function ContactPage() {
             at architectural scale, alongside commissions, brand projects and original work.
           </p>
 
-          {/* What the office files. The gap is the rule between cells. */}
+          {/* What I take on. The gap is the rule between cells. */}
           <div className="border-[1.5px] border-[var(--ink)] mt-10">
             <div className="flex flex-wrap items-baseline justify-between gap-x-3 gap-y-1 border-b-[1.5px] border-[var(--ink)] px-4 py-2.5">
               <span className="font-[family-name:var(--font-typewriter)] text-[10px] tracking-[0.24em] uppercase text-[var(--oxblood)]">
-                What the office files
+                What I take on
               </span>
               <span className="font-[family-name:var(--font-typewriter)] text-[10px] tracking-[0.24em] uppercase text-[var(--ink)]/50">
                 all welcome
@@ -80,7 +80,7 @@ export default function ContactPage() {
           >
             <span>
               <span className="block font-[family-name:var(--font-typewriter)] text-[10px] tracking-[0.3em] uppercase text-[var(--brass)] mb-2">
-                Write to the office
+                Get in touch
               </span>
               <span className="font-[family-name:var(--font-gothic)] text-[clamp(24px,4.5vw,40px)] font-black uppercase leading-none tracking-wide break-all">
                 contact@zodd.gallery
