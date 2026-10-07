@@ -1,5 +1,6 @@
 import Image from "next/image"
 import TrackedLink from "@/components/TrackedLink"
+import { PlateViewerProvider, PlateTrigger } from "./PlateViewer"
 import { featuredProject } from "@/lib/projects-data"
 
 /** The Lazy Z Bar mark, matching the reference files. */
@@ -97,10 +98,13 @@ export default function FieldSection() {
   if (!project) return null
 
   const chipCols = chipColumns(project.palette.length)
+  // Index within project.plates, so the viewer's arrows follow the declared order.
+  const indexOf = (p: typeof artwork) => (p ? project.plates.indexOf(p) : 0)
   const artwork = project.plates.find((p) => p.kind === "artwork")
   const inSitu = project.plates.find((p) => p.kind === "in-situ")
 
   return (
+    <PlateViewerProvider plates={project.plates} title={project.title}>
     <section className="max-w-screen-xl mx-auto px-6 pt-8 pb-20" aria-labelledby="field-heading">
       {/* Rail */}
       <div className="flex flex-wrap items-baseline justify-between gap-x-4 gap-y-1 border-b-[1.5px] border-[var(--ink)] pb-2">
@@ -133,19 +137,21 @@ export default function FieldSection() {
       {/* The plate */}
       {artwork && (
         <figure className="relative border-[1.5px] border-[var(--ink)] overflow-hidden bg-[var(--window)]">
-          <Image
-            src={`/projects/${artwork.file}`}
-            alt={`${project.title} — the delivered artwork`}
-            width={artwork.w}
-            height={artwork.h}
-            sizes="(max-width: 1280px) 100vw, 1200px"
-            className="block w-full h-auto"
-            priority={false}
-          />
+          <PlateTrigger index={indexOf(artwork)} label={artwork.label}>
+            <Image
+              src={`/projects/${artwork.file}`}
+              alt={`${project.title} — the delivered artwork`}
+              width={artwork.w}
+              height={artwork.h}
+              sizes="(max-width: 1280px) 100vw, 1200px"
+              className="block w-full h-auto"
+              priority={false}
+            />
+          </PlateTrigger>
 
           <span
             aria-hidden="true"
-            className="absolute right-[2.4%] top-[5%] font-[family-name:var(--font-stencil)] text-[clamp(12px,1.7vw,21px)] font-extrabold uppercase tracking-[0.18em] text-[#EDE4D0] border-2 border-[#EDE4D0] px-3 py-0.5 -rotate-6 opacity-80"
+            className="pointer-events-none absolute right-[2.4%] top-[5%] font-[family-name:var(--font-stencil)] text-[clamp(12px,1.7vw,21px)] font-extrabold uppercase tracking-[0.18em] text-[#EDE4D0] border-2 border-[#EDE4D0] px-3 py-0.5 -rotate-6 opacity-80"
           >
             {project.stamp}
           </span>
@@ -225,14 +231,16 @@ export default function FieldSection() {
         <div className="grid md:grid-cols-[minmax(0,1fr)_minmax(0,1.05fr)]">
           {inSitu && (
             <figure className="p-5 md:border-r-[1.5px] border-[var(--ink)] flex flex-col gap-3">
-              <Image
-                src={`/projects/${inSitu.file}`}
-                alt={`${project.title} installed at Jack Daniel's Terrace, Coors Field`}
-                width={inSitu.w}
-                height={inSitu.h}
-                sizes="(max-width: 768px) 90vw, 480px"
-                className="block w-full h-auto border-[1.5px] border-[var(--ink)]"
-              />
+              <PlateTrigger index={indexOf(inSitu)} label={inSitu.label}>
+                <Image
+                  src={`/projects/${inSitu.file}`}
+                  alt={`${project.title} installed at Jack Daniel's Terrace, Coors Field`}
+                  width={inSitu.w}
+                  height={inSitu.h}
+                  sizes="(max-width: 768px) 90vw, 480px"
+                  className="block w-full h-auto border-[1.5px] border-[var(--ink)]"
+                />
+              </PlateTrigger>
               <figcaption className="font-[family-name:var(--font-typewriter)] text-[10px] tracking-[0.16em] uppercase text-[var(--ink)]/60">
                 {inSitu.label}
               </figcaption>
@@ -290,5 +298,6 @@ export default function FieldSection() {
         </span>
       </TrackedLink>
     </section>
+    </PlateViewerProvider>
   )
 }
