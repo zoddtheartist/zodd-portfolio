@@ -49,7 +49,7 @@ export default function KingsVideo() {
               }}
             />
           </div>
-          <p className="mt-5 font-[family-name:var(--font-typewriter)] text-[10px] tracking-[0.3em] uppercase text-[var(--bone)]/50 group-hover:text-[var(--brass)] transition-colors duration-300">
+          <p className="mt-5 font-[family-name:var(--font-typewriter)] font-bold text-[10px] tracking-[0.3em] uppercase text-[var(--bone)]/50 group-hover:text-[var(--brass)] transition-colors duration-300">
             Play the reel
           </p>
         </div>

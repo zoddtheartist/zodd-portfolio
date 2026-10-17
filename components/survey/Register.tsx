@@ -21,10 +21,10 @@ export default function Register({ view, counts, onSelect }: RegisterProps) {
   return (
     <div className="border-[1.5px] border-[var(--ink)]">
       <div className="flex flex-wrap items-baseline justify-between gap-x-3 gap-y-1 border-b-[1.5px] border-[var(--ink)] px-3 py-2">
-        <span className="font-[family-name:var(--font-typewriter)] text-[10px] tracking-[0.24em] uppercase text-[var(--oxblood)]">
+        <span className="font-[family-name:var(--font-typewriter)] font-bold text-[10px] tracking-[0.24em] uppercase text-[var(--oxblood)]">
           The work — by medium
         </span>
-        <span className="font-[family-name:var(--font-typewriter)] text-[10px] tracking-[0.24em] uppercase text-[var(--ink)]/50">
+        <span className="font-[family-name:var(--font-typewriter)] font-bold text-[10px] tracking-[0.24em] uppercase text-[var(--ink)]/50">
           choose one
         </span>
       </div>
@@ -67,7 +67,7 @@ export default function Register({ view, counts, onSelect }: RegisterProps) {
                 </span>
               </span>
               <span
-                className={`font-[family-name:var(--font-typewriter)] text-[11px] tabular-nums ${
+                className={`font-[family-name:var(--font-typewriter)] font-bold text-[11px] tabular-nums ${
                   active ? "opacity-80" : "text-[var(--ink)]/50"
                 }`}
               >

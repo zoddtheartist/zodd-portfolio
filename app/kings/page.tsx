@@ -25,10 +25,10 @@ export default function KingsPage() {
 
         <section className="max-w-4xl mx-auto px-6 pt-14">
           <div className="flex flex-wrap items-baseline justify-between gap-x-4 gap-y-1 border-b-[1.5px] border-[var(--bone)]/40 pb-2">
-            <span className="font-[family-name:var(--font-typewriter)] text-[10px] tracking-[0.26em] uppercase text-[var(--brass)]">
+            <span className="font-[family-name:var(--font-typewriter)] font-bold text-[10px] tracking-[0.26em] uppercase text-[var(--brass)]">
               The registry — livestock &amp; marks
             </span>
-            <span className="font-[family-name:var(--font-typewriter)] text-[10px] tracking-[0.26em] uppercase text-[var(--bone)]/45">
+            <span className="font-[family-name:var(--font-typewriter)] font-bold text-[10px] tracking-[0.26em] uppercase text-[var(--bone)]/45">
               {kings.length} sealed / MMXXVI
             </span>
           </div>
@@ -46,7 +46,7 @@ export default function KingsPage() {
             artefacts, each King belongs, in every sense, to its holder.
           </p>
 
-          <p className="font-[family-name:var(--font-typewriter)] text-[10px] tracking-[0.18em] uppercase leading-relaxed text-[var(--bone)]/40 mt-6 border-t border-[var(--bone)]/20 pt-4">
+          <p className="font-[family-name:var(--font-typewriter)] font-bold text-[10px] tracking-[0.18em] uppercase leading-relaxed text-[var(--bone)]/40 mt-6 border-t border-[var(--bone)]/20 pt-4">
             Original pieces connected to Zodd&apos;s practice have appeared through Christie&apos;s
             and Sotheby&apos;s.
           </p>

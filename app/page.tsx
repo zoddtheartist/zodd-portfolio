@@ -70,7 +70,7 @@ export default function Home() {
                 theme, so the glow is paper by day and night by night and the line
                 separates from whatever is behind it either way. */}
             <p
-              className="font-[family-name:var(--font-typewriter)] text-[13px] tracking-[0.28em] uppercase text-[var(--ink)]"
+              className="font-[family-name:var(--font-typewriter)] font-bold text-[13px] tracking-[0.28em] uppercase text-[var(--ink)]"
               style={{ textShadow: "0 0 10px var(--paper), 0 1px 3px var(--paper)" }}
             >
               Art &amp; Illustration
@@ -86,11 +86,11 @@ export default function Home() {
             </div>
           </div>
 
-          <div className="absolute bottom-8 left-1/2 -translate-x-1/2 z-10 flex flex-col items-center gap-2 opacity-45">
-            <span className="font-[family-name:var(--font-typewriter)] text-[10px] tracking-[0.24em] uppercase text-[var(--ink)]">
+          <div className="absolute bottom-8 left-1/2 -translate-x-1/2 z-10 flex flex-col items-center gap-2 opacity-70">
+            <span className="font-[family-name:var(--font-typewriter)] font-bold text-[10px] tracking-[0.24em] uppercase text-[var(--ink)]">
               Scroll
             </span>
-            <div className="w-px h-10 bg-[var(--ink)]/60" />
+            <div className="w-px h-10 bg-[var(--ink)]/40" />
           </div>
         </section>
 
@@ -100,7 +100,7 @@ export default function Home() {
             <h2 className="font-[family-name:var(--font-gothic)] text-[clamp(30px,4.5vw,46px)] font-black uppercase leading-none tracking-wide text-[var(--ink)]">
               About
             </h2>
-            <span className="font-[family-name:var(--font-typewriter)] text-[10px] tracking-[0.26em] uppercase text-[var(--oxblood)]">
+            <span className="font-[family-name:var(--font-typewriter)] font-bold text-[10px] tracking-[0.26em] uppercase text-[var(--oxblood)]">
               Who I am
             </span>
           </div>

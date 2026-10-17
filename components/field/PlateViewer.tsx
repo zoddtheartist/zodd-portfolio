@@ -104,7 +104,7 @@ export function PlateViewerProvider({
               priority
               className="max-h-[76vh] sm:max-h-[80vh] max-w-[72vw] sm:max-w-[86vw] w-auto h-auto object-contain border-[1.5px] border-[var(--bone)]/25"
             />
-            <p className="font-[family-name:var(--font-typewriter)] text-[11px] tracking-[0.22em] uppercase text-[var(--bone)]/70 text-center">
+            <p className="font-[family-name:var(--font-typewriter)] font-bold text-[11px] tracking-[0.22em] uppercase text-[var(--bone)]/70 text-center">
               {active.label}
             </p>
           </div>
@@ -125,7 +125,7 @@ export function PlateViewerProvider({
 
           <button
             type="button"
-            className="absolute top-3 right-3 sm:top-5 sm:right-6 font-[family-name:var(--font-typewriter)] text-[11px] tracking-[0.2em] uppercase text-[var(--bone)]/60 hover:text-[var(--bone)] border border-[var(--bone)]/40 px-3 py-1.5 transition-colors"
+            className="absolute top-3 right-3 sm:top-5 sm:right-6 font-[family-name:var(--font-typewriter)] font-bold text-[11px] tracking-[0.2em] uppercase text-[var(--bone)]/60 hover:text-[var(--bone)] border border-[var(--bone)]/40 px-3 py-1.5 transition-colors"
             onClick={(e) => {
               e.stopPropagation()
               close()

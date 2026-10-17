@@ -22,10 +22,10 @@ export default function ContactPage() {
       <div className="paper-grain bg-[var(--paper)] text-[var(--ink)] pt-28 pb-24">
         <section className="max-w-3xl mx-auto px-6">
           <div className="flex flex-wrap items-baseline justify-between gap-x-4 gap-y-1 border-b-[1.5px] border-[var(--ink)] pb-2">
-            <span className="font-[family-name:var(--font-typewriter)] text-[10px] tracking-[0.26em] uppercase text-[var(--oxblood)]">
+            <span className="font-[family-name:var(--font-typewriter)] font-bold text-[10px] tracking-[0.26em] uppercase text-[var(--oxblood)]">
               Enquiries
             </span>
-            <span className="font-[family-name:var(--font-typewriter)] text-[10px] tracking-[0.26em] uppercase text-[var(--ink)]/50">
+            <span className="font-[family-name:var(--font-typewriter)] font-bold text-[10px] tracking-[0.26em] uppercase text-[var(--ink)]/50">
               open / MMXXVI
             </span>
           </div>
@@ -42,10 +42,10 @@ export default function ContactPage() {
           {/* What I take on. The gap is the rule between cells. */}
           <div className="border-[1.5px] border-[var(--ink)] mt-10">
             <div className="flex flex-wrap items-baseline justify-between gap-x-3 gap-y-1 border-b-[1.5px] border-[var(--ink)] px-4 py-2.5">
-              <span className="font-[family-name:var(--font-typewriter)] text-[10px] tracking-[0.24em] uppercase text-[var(--oxblood)]">
+              <span className="font-[family-name:var(--font-typewriter)] font-bold text-[10px] tracking-[0.24em] uppercase text-[var(--oxblood)]">
                 What I take on
               </span>
-              <span className="font-[family-name:var(--font-typewriter)] text-[10px] tracking-[0.24em] uppercase text-[var(--ink)]/50">
+              <span className="font-[family-name:var(--font-typewriter)] font-bold text-[10px] tracking-[0.24em] uppercase text-[var(--ink)]/50">
                 all welcome
               </span>
             </div>
@@ -79,7 +79,7 @@ export default function ContactPage() {
             className="plate plate-action group mt-6 flex flex-wrap items-center justify-between gap-4 px-6 py-6 transition-colors duration-300"
           >
             <span>
-              <span className="block font-[family-name:var(--font-typewriter)] text-[10px] tracking-[0.3em] uppercase text-[var(--brass)] mb-2">
+              <span className="block font-[family-name:var(--font-typewriter)] font-bold text-[10px] tracking-[0.3em] uppercase text-[var(--brass)] mb-2">
                 Get in touch
               </span>
               <span className="font-[family-name:var(--font-gothic)] text-[clamp(24px,4.5vw,40px)] font-black uppercase leading-none tracking-wide break-all">
@@ -94,7 +94,7 @@ export default function ContactPage() {
             </span>
           </TrackedLink>
 
-          <p className="font-[family-name:var(--font-typewriter)] text-[10px] tracking-[0.2em] uppercase text-[var(--ink)]/45 mt-4 text-balance sm:text-wrap">
+          <p className="font-[family-name:var(--font-typewriter)] font-bold text-[10px] tracking-[0.2em] uppercase text-[var(--ink)]/45 mt-4 text-balance sm:text-wrap">
             Based in Edmonton · working anywhere the wall is
           </p>
         </section>

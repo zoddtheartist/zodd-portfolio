@@ -32,7 +32,7 @@ export default function StampedPlate({
       className="group relative flex flex-col justify-between gap-8 border-[1.5px] border-[var(--ink)] bg-[var(--paper)] p-8 transition-colors duration-300 hover:bg-[var(--window)] active:bg-[var(--ink)] active:text-[var(--paper)] min-h-56"
     >
       <div className="flex items-start justify-between gap-4">
-        <span className="font-[family-name:var(--font-typewriter)] text-[10px] tracking-[0.26em] uppercase text-[var(--oxblood)]">
+        <span className="font-[family-name:var(--font-typewriter)] font-bold text-[10px] tracking-[0.26em] uppercase text-[var(--oxblood)]">
           {label}
         </span>
         <span
@@ -52,7 +52,7 @@ export default function StampedPlate({
         </p>
       </div>
 
-      <span className="flex items-center justify-between border-t-[1.5px] border-[var(--ink)] pt-3 font-[family-name:var(--font-typewriter)] text-[10px] tracking-[0.26em] uppercase text-[var(--ink)]/60 transition-colors group-hover:text-[var(--oxblood)]">
+      <span className="flex items-center justify-between border-t-[1.5px] border-[var(--ink)] pt-3 font-[family-name:var(--font-typewriter)] font-bold text-[10px] tracking-[0.26em] uppercase text-[var(--ink)]/60 transition-colors group-hover:text-[var(--oxblood)]">
         {cta}
         <span aria-hidden="true">&#8594;</span>
       </span>

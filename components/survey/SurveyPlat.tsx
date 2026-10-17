@@ -256,7 +256,7 @@ export default function SurveyPlat() {
     <section className="max-w-screen-xl mx-auto px-6 py-12 sm:py-20" aria-labelledby="plat-heading">
       <div className="flex flex-wrap items-end justify-between gap-4 border-b-[1.5px] border-[var(--ink)] pb-3 mb-6">
         <div>
-          <p className="font-[family-name:var(--font-typewriter)] text-[10px] tracking-[0.26em] uppercase text-[var(--oxblood)]">
+          <p className="font-[family-name:var(--font-typewriter)] font-bold text-[10px] tracking-[0.26em] uppercase text-[var(--oxblood)]">
             Selected work / MMXXVI
           </p>
           <h2
@@ -266,7 +266,7 @@ export default function SurveyPlat() {
             Selected Works
           </h2>
         </div>
-        <p className="font-[family-name:var(--font-typewriter)] text-[10px] tracking-[0.22em] uppercase text-[var(--ink)]/55 max-w-none sm:max-w-xs text-balance sm:text-wrap">
+        <p className="font-[family-name:var(--font-typewriter)] font-bold text-[10px] tracking-[0.22em] uppercase text-[var(--ink)]/55 max-w-none sm:max-w-xs text-balance sm:text-wrap">
           Some of these are connected. A line means two pieces share a series, a subject
           or a place. An arrow means the piece it points to sits under a different medium.
         </p>
@@ -342,7 +342,7 @@ export default function SurveyPlat() {
               // instead of on top of it.
               className="max-h-[76vh] sm:max-h-[80vh] max-w-[72vw] sm:max-w-[86vw] w-auto h-auto object-contain border-[1.5px] border-[var(--bone)]/25"
             />
-            <p className="font-[family-name:var(--font-typewriter)] text-[11px] tracking-[0.22em] uppercase text-[var(--bone)]/70">
+            <p className="font-[family-name:var(--font-typewriter)] font-bold text-[11px] tracking-[0.22em] uppercase text-[var(--bone)]/70">
               {active.title}
             </p>
           </div>

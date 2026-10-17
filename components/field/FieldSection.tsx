@@ -108,10 +108,10 @@ export default function FieldSection() {
     <section className="max-w-screen-xl mx-auto px-6 pt-8 pb-20" aria-labelledby="field-heading">
       {/* Rail */}
       <div className="flex flex-wrap items-baseline justify-between gap-x-4 gap-y-1 border-b-[1.5px] border-[var(--ink)] pb-2">
-        <span className="font-[family-name:var(--font-typewriter)] text-[10px] tracking-[0.26em] uppercase text-[var(--oxblood)]">
-          In the field — project {project.no}
+        <span className="font-[family-name:var(--font-typewriter)] font-bold text-[10px] tracking-[0.26em] uppercase text-[var(--oxblood)]">
+          In the field
         </span>
-        <span className="font-[family-name:var(--font-typewriter)] text-[10px] tracking-[0.26em] uppercase text-[var(--ink)]/50">
+        <span className="font-[family-name:var(--font-typewriter)] font-bold text-[10px] tracking-[0.26em] uppercase text-[var(--ink)]/50">
           recent commissions / MMXXVI
         </span>
       </div>
@@ -119,7 +119,7 @@ export default function FieldSection() {
       {/* Header */}
       <div className="flex flex-wrap items-end justify-between gap-4 pt-6 pb-6">
         <div>
-          <p className="font-[family-name:var(--font-typewriter)] text-[11px] tracking-[0.24em] uppercase text-[var(--ink)]/60 text-balance sm:text-wrap">
+          <p className="font-[family-name:var(--font-typewriter)] font-bold text-[11px] tracking-[0.24em] uppercase text-[var(--ink)]/60 text-balance sm:text-wrap">
             {project.eyebrow}
           </p>
           <h2
@@ -129,7 +129,7 @@ export default function FieldSection() {
             {project.title}
           </h2>
         </div>
-        <p className="font-[family-name:var(--font-typewriter)] text-[10.5px] tracking-[0.14em] sm:tracking-[0.2em] uppercase leading-relaxed text-[var(--ink)]/60 max-w-none sm:max-w-xs text-balance sm:text-wrap">
+        <p className="font-[family-name:var(--font-typewriter)] font-bold text-[10.5px] tracking-[0.14em] sm:tracking-[0.2em] uppercase leading-relaxed text-[var(--ink)]/60 max-w-none sm:max-w-xs text-balance sm:text-wrap">
           <DotSegments text={project.descriptor} />
         </p>
       </div>
@@ -163,7 +163,7 @@ export default function FieldSection() {
           its own lockup and legal line along the bottom, and covering those would
           both damage the composition and hide required copy. */}
       <div className="plate flex flex-wrap items-center justify-between gap-x-5 gap-y-2 px-4 py-2.5 border-x-[1.5px]">
-        <span className="flex flex-wrap gap-x-5 gap-y-1 font-[family-name:var(--font-typewriter)] text-[10px] tracking-[0.16em] uppercase">
+        <span className="flex flex-wrap gap-x-5 gap-y-1 font-[family-name:var(--font-typewriter)] font-bold text-[10px] tracking-[0.16em] uppercase">
           <span>
             <span className="text-[var(--brass)] mr-1.5">venue</span>Coors Field
           </span>
@@ -184,7 +184,7 @@ export default function FieldSection() {
         className="flex flex-col sm:flex-row items-stretch border-x-[1.5px] border-b-[1.5px] border-[var(--ink)]"
         aria-label="Colours assayed from the artwork"
       >
-        <p className="sm:flex-1 px-4 py-2 sm:py-2.5 border-b sm:border-b-0 border-[var(--ink)]/40 font-[family-name:var(--font-typewriter)] text-[10px] tracking-[0.22em] uppercase text-[var(--ink)]/70 text-balance sm:text-wrap">
+        <p className="sm:flex-1 px-4 py-2 sm:py-2.5 border-b sm:border-b-0 border-[var(--ink)]/40 font-[family-name:var(--font-typewriter)] font-bold text-[10px] tracking-[0.22em] uppercase text-[var(--ink)]/70 text-balance sm:text-wrap">
           colours pulled straight out of this artwork
         </p>
         {/* Phone: a fixed-height wrapped grid. `chipCols` is picked so the last
@@ -220,10 +220,10 @@ export default function FieldSection() {
       {/* Panel: the wall, and the numbers */}
       <div className="border-x-[1.5px] border-b-[1.5px] border-[var(--ink)]">
         <div className="flex flex-wrap items-baseline justify-between gap-3 px-4 py-2.5 border-b-[1.5px] border-[var(--ink)]">
-          <span className="font-[family-name:var(--font-typewriter)] text-[10px] tracking-[0.24em] uppercase text-[var(--oxblood)]">
+          <span className="font-[family-name:var(--font-typewriter)] font-bold text-[10px] tracking-[0.24em] uppercase text-[var(--oxblood)]">
             The wall — as built
           </span>
-          <span className="font-[family-name:var(--font-typewriter)] text-[10px] tracking-[0.24em] uppercase text-[var(--ink)]/50">
+          <span className="font-[family-name:var(--font-typewriter)] font-bold text-[10px] tracking-[0.24em] uppercase text-[var(--ink)]/50">
             documentation · not the artwork
           </span>
         </div>
@@ -241,7 +241,7 @@ export default function FieldSection() {
                   className="block w-full h-auto border-[1.5px] border-[var(--ink)]"
                 />
               </PlateTrigger>
-              <figcaption className="font-[family-name:var(--font-typewriter)] text-[10px] tracking-[0.16em] uppercase text-[var(--ink)]/60">
+              <figcaption className="font-[family-name:var(--font-typewriter)] font-bold text-[10px] tracking-[0.16em] uppercase text-[var(--ink)]/60">
                 {inSitu.label}
               </figcaption>
             </figure>
@@ -252,7 +252,7 @@ export default function FieldSection() {
               {project.figure}
               <span className="text-[var(--oxblood)] ml-3">{project.figureUnit}</span>
             </div>
-            <p className="mt-2 font-[family-name:var(--font-typewriter)] text-[10px] tracking-[0.22em] uppercase text-[var(--oxblood)]">
+            <p className="mt-2 font-[family-name:var(--font-typewriter)] font-bold text-[10px] tracking-[0.22em] uppercase text-[var(--oxblood)]">
               {project.figureCaption}
             </p>
 
@@ -260,7 +260,7 @@ export default function FieldSection() {
               {project.rows.map((r) => (
                 <div
                   key={r.key}
-                  className="flex flex-col sm:flex-row sm:justify-between gap-0.5 sm:gap-5 border-t border-[var(--ink)]/20 py-1.5 font-[family-name:var(--font-typewriter)] text-[10.5px] tracking-[0.12em] uppercase"
+                  className="flex flex-col sm:flex-row sm:justify-between gap-0.5 sm:gap-5 border-t border-[var(--ink)]/20 py-1.5 font-[family-name:var(--font-typewriter)] font-bold text-[10.5px] tracking-[0.12em] uppercase"
                 >
                   <dt className="text-[var(--ink)]/55">{r.key}</dt>
                   <dd className="text-left sm:text-right text-[var(--ink)]">{r.value}</dd>
@@ -273,7 +273,7 @@ export default function FieldSection() {
 
       {/* The artist's statement. The client's brief is deliberately not quoted. */}
       <div className="border-x-[1.5px] border-b-[1.5px] border-[var(--ink)] px-5 py-5">
-        <p className="font-[family-name:var(--font-typewriter)] text-[10px] tracking-[0.24em] uppercase text-[var(--oxblood)] mb-3">
+        <p className="font-[family-name:var(--font-typewriter)] font-bold text-[10px] tracking-[0.24em] uppercase text-[var(--oxblood)] mb-3">
           What I put into it
         </p>
         <blockquote className="font-[family-name:var(--font-serif)] text-[17px] leading-8 text-[var(--ink)]/85 max-w-3xl text-pretty sm:text-wrap">
@@ -293,7 +293,7 @@ export default function FieldSection() {
         <span className="font-[family-name:var(--font-gothic)] text-[clamp(22px,3vw,30px)] font-extrabold uppercase leading-none tracking-wide">
           Public work &amp; commissions
         </span>
-        <span className="font-[family-name:var(--font-typewriter)] text-[10px] tracking-[0.26em] uppercase opacity-75 group-hover:opacity-100">
+        <span className="font-[family-name:var(--font-typewriter)] font-bold text-[10px] tracking-[0.26em] uppercase opacity-75 group-hover:opacity-100">
           Enquire &#8594;
         </span>
       </TrackedLink>

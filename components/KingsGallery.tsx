@@ -82,17 +82,17 @@ export default function KingsGallery() {
 
               {/* Specimen tag, always shown. A register does not hide its entries. */}
               <div className="mt-2 flex items-baseline justify-between gap-2 border-t border-[var(--bone)]/25 pt-1.5">
-                <span className="font-[family-name:var(--font-typewriter)] text-[10px] tracking-[0.18em] uppercase text-[var(--brass)]">
+                <span className="font-[family-name:var(--font-typewriter)] font-bold text-[10px] tracking-[0.18em] uppercase text-[var(--brass)]">
                   Ed. {String(king.edition).padStart(3, "0")}
                 </span>
-                <span className="font-[family-name:var(--font-typewriter)] text-[10px] tracking-[0.18em] uppercase text-[var(--bone)]/40">
+                <span className="font-[family-name:var(--font-typewriter)] font-bold text-[10px] tracking-[0.18em] uppercase text-[var(--bone)]/40">
                   Sealed
                 </span>
               </div>
               <div className="font-[family-name:var(--font-gothic)] text-[16px] font-extrabold uppercase leading-tight tracking-wide text-[var(--bone)]">
                 {king.name}
               </div>
-              <div className="font-[family-name:var(--font-typewriter)] text-[10px] tracking-[0.12em] uppercase text-[var(--bone)]/45 leading-snug mt-0.5">
+              <div className="font-[family-name:var(--font-typewriter)] font-bold text-[10px] tracking-[0.12em] uppercase text-[var(--bone)]/45 leading-snug mt-0.5">
                 {king.title}
               </div>
             </button>
@@ -143,13 +143,13 @@ export default function KingsGallery() {
           </div>
 
           <div className="absolute bottom-5 left-0 right-0 flex flex-col items-center gap-1 px-6 text-center pointer-events-none">
-            <p className="font-[family-name:var(--font-typewriter)] text-[10px] tracking-[0.26em] uppercase text-[var(--brass)]">
+            <p className="font-[family-name:var(--font-typewriter)] font-bold text-[10px] tracking-[0.26em] uppercase text-[var(--brass)]">
               Ed. {String(active.edition).padStart(3, "0")}
             </p>
             <p className="font-[family-name:var(--font-gothic)] text-[22px] font-extrabold uppercase leading-none tracking-wide text-[var(--bone)]">
               {active.name}
             </p>
-            <p className="font-[family-name:var(--font-typewriter)] text-[10px] tracking-[0.16em] uppercase text-[var(--bone)]/55">
+            <p className="font-[family-name:var(--font-typewriter)] font-bold text-[10px] tracking-[0.16em] uppercase text-[var(--bone)]/55">
               {active.title}
             </p>
             <p className="font-[family-name:var(--font-serif)] italic text-[13px] text-[var(--bone)]/45 max-w-md mt-1">

@@ -246,10 +246,10 @@ export default function PortfolioPlat() {
                     ))}
 
                     <div className="mt-2 flex items-baseline justify-between gap-2 border-t border-[var(--rule)] pt-1.5">
-                      <span className="font-[family-name:var(--font-typewriter)] text-[10px] tracking-[0.18em] uppercase text-[var(--oxblood)]">
+                      <span className="font-[family-name:var(--font-typewriter)] font-bold text-[10px] tracking-[0.18em] uppercase text-[var(--oxblood)]">
                         {sectionLabel(item)}
                       </span>
-                      <span className="font-[family-name:var(--font-typewriter)] text-[10px] tracking-[0.18em] uppercase text-[var(--ink)]/55">
+                      <span className="font-[family-name:var(--font-typewriter)] font-bold text-[10px] tracking-[0.18em] uppercase text-[var(--ink)]/55">
                         {category?.abbr}
                       </span>
                     </div>
@@ -325,7 +325,7 @@ export default function PortfolioPlat() {
           </div>
 
           <div className="absolute bottom-5 left-0 right-0 flex flex-col items-center gap-1 pointer-events-none">
-            <p className="font-[family-name:var(--font-typewriter)] text-[11px] tracking-[0.22em] uppercase text-[var(--bone)]/75">
+            <p className="font-[family-name:var(--font-typewriter)] font-bold text-[11px] tracking-[0.22em] uppercase text-[var(--bone)]/75">
               {sectionLabel(active)} · {active.title}
             </p>
             <p className="font-[family-name:var(--font-typewriter)] text-[9.5px] tracking-[0.18em] uppercase text-[var(--bone)]/40">

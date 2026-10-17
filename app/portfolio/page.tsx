@@ -17,10 +17,10 @@ export default function PortfolioPage() {
       <div className="paper-grain bg-[var(--paper)] text-[var(--ink)] pt-28 sm:pt-24 pb-24">
         <section className="max-w-screen-2xl mx-auto px-6">
           <div className="flex flex-wrap items-baseline justify-between gap-x-4 gap-y-1 border-b-[1.5px] border-[var(--ink)] pb-2">
-            <span className="font-[family-name:var(--font-typewriter)] text-[10px] tracking-[0.26em] uppercase text-[var(--oxblood)]">
+            <span className="font-[family-name:var(--font-typewriter)] font-bold text-[10px] tracking-[0.26em] uppercase text-[var(--oxblood)]">
               Everything, in full
             </span>
-            <span className="font-[family-name:var(--font-typewriter)] text-[10px] tracking-[0.26em] uppercase text-[var(--ink)]/50">
+            <span className="font-[family-name:var(--font-typewriter)] font-bold text-[10px] tracking-[0.26em] uppercase text-[var(--ink)]/50">
               {images.length} works / MMXXVI
             </span>
           </div>
@@ -29,7 +29,7 @@ export default function PortfolioPage() {
             <h1 className="font-[family-name:var(--font-gothic)] text-[clamp(40px,7vw,78px)] font-black uppercase leading-[0.88] tracking-wide text-[var(--ink)]">
               Portfolio
             </h1>
-            <p className="font-[family-name:var(--font-typewriter)] text-[10.5px] tracking-[0.2em] uppercase leading-relaxed text-[var(--ink)]/60 max-w-sm text-balance sm:text-wrap">
+            <p className="font-[family-name:var(--font-typewriter)] font-bold text-[10.5px] tracking-[0.2em] uppercase leading-relaxed text-[var(--ink)]/60 max-w-sm text-balance sm:text-wrap">
               Commissions, designs, products, projects, studies and original works.{" "}
               <span className="hidden [@media(hover:hover)]:inline">
                 Hover a piece to light the work it connects to.

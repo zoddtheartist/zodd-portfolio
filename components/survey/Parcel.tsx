@@ -105,10 +105,10 @@ const Parcel = forwardRef<HTMLDivElement, ParcelProps>(function Parcel(
 
           {/* Specimen tag */}
           <div className="mt-2 flex items-baseline justify-between gap-2 border-t border-[var(--rule)] pt-1.5">
-            <span className="font-[family-name:var(--font-typewriter)] text-[10px] tracking-[0.18em] uppercase text-[var(--oxblood)]">
+            <span className="font-[family-name:var(--font-typewriter)] font-bold text-[10px] tracking-[0.18em] uppercase text-[var(--oxblood)]">
               {sectionLabel(img)}
             </span>
-            <span className="font-[family-name:var(--font-typewriter)] text-[10px] tracking-[0.18em] uppercase text-[var(--ink)]/55">
+            <span className="font-[family-name:var(--font-typewriter)] font-bold text-[10px] tracking-[0.18em] uppercase text-[var(--ink)]/55">
               {category?.abbr}
             </span>
           </div>

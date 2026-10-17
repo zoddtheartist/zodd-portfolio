@@ -15,7 +15,7 @@ export const metadata = {
 
 function Meta({ children }: { children: React.ReactNode }) {
   return (
-    <span className="font-[family-name:var(--font-typewriter)] text-[10px] tracking-[0.26em] uppercase">
+    <span className="font-[family-name:var(--font-typewriter)] font-bold text-[10px] tracking-[0.26em] uppercase">
       {children}
     </span>
   )
@@ -28,7 +28,7 @@ function Tags({ tags, muted }: { tags?: string[]; muted: string }) {
       {tags.map((t) => (
         <span
           key={t}
-          className={`font-[family-name:var(--font-typewriter)] text-[10px] tracking-[0.18em] uppercase ${muted}`}
+          className={`font-[family-name:var(--font-typewriter)] font-bold text-[10px] tracking-[0.18em] uppercase ${muted}`}
         >
           {t}
         </span>
