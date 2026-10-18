@@ -39,11 +39,11 @@ export default function ContactPage() {
             at architectural scale, alongside commissions, brand projects and original work.
           </p>
 
-          {/* What I take on. The gap is the rule between cells. */}
+          {/* Some of the work I do. The gap is the rule between cells. */}
           <div className="border-[1.5px] border-[var(--ink)] mt-10">
             <div className="flex flex-wrap items-baseline justify-between gap-x-3 gap-y-1 border-b-[1.5px] border-[var(--ink)] px-4 py-2.5">
               <span className="font-[family-name:var(--font-typewriter)] font-bold text-[10px] tracking-[0.24em] uppercase text-[var(--oxblood)]">
-                What I take on
+                Some of the work I do
               </span>
               <span className="font-[family-name:var(--font-typewriter)] font-bold text-[10px] tracking-[0.24em] uppercase text-[var(--ink)]/50">
                 all welcome
